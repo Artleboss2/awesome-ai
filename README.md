@@ -4949,6 +4949,5 @@ This document is a living knowledge base. The field of AI moves fast — new arc
 
 ---
 
-*Built with ❤️ in the spirit of the Awesome List community. PRs welcome.*
+*Built by Artleboss2.*
 
-*Total: ~8000+ lines of pure AI knowledge.*
