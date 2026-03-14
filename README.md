@@ -1986,3 +1986,622 @@ Xu et al. (2019). Provably most expressive GNN within the Weisfeiler-Leman frame
 -  [Spektral (Keras/TF)](https://github.com/danielegrattarola/spektral)
 
 ---
+
+---
+
+## Generative Adversarial Networks
+
+**GAN Framework**
+Two-player minimax game (Goodfellow et al., 2014):
+`min_G max_D E_{x~p_data}[log D(x)] + E_{z~p_z}[log(1 - D(G(z)))]`
+
+- **Generator G**: maps noise z → fake samples. Goal: fool the discriminator.
+- **Discriminator D**: distinguishes real from fake. Goal: correctly classify real vs. generated.
+- Nash equilibrium: G generates samples indistinguishable from real data.
+
+📄 [Original GAN Paper](https://arxiv.org/abs/1406.2661)
+
+**GAN Training Challenges**
+- **Mode collapse**: G produces a limited variety of outputs (collapses to subset of modes)
+- **Training instability**: loss oscillates; D and G must be balanced
+- **Vanishing gradient**: when D is too good, G receives near-zero gradients
+- **Checkerboard artifacts**: from transposed convolutions — use resize+conv instead
+
+**Non-Saturating Loss (Practical)**
+Instead of `log(1 - D(G(z)))`, minimize `-log(D(G(z)))`.
+Provides stronger gradients early in training when D is confident about rejecting fakes.
+
+**Key GAN Architectures**
+
+| Model | Year | Key Innovation |
+|---|---|---|
+| DCGAN | 2015 | Convolutional GAN, stable training guidelines |
+| Pix2Pix | 2017 | Conditional GAN for image-to-image translation |
+| CycleGAN | 2017 | Unpaired image-to-image translation (cycle consistency) |
+| ProGAN | 2018 | Progressive growing — start small, add layers |
+| StyleGAN | 2019 | Style-based generator, AdaIN, mapping network |
+| StyleGAN2/3 | 2020/21 | Fixes artifacts, alias-free generation |
+| BigGAN | 2019 | Large-scale class-conditional generation |
+| WGAN | 2017 | Wasserstein distance, more stable training |
+| WGAN-GP | 2017 | Gradient penalty instead of weight clipping |
+| SNGAN | 2018 | Spectral normalization for D stability |
+
+**WGAN (Wasserstein GAN)**
+Uses Earth Mover (Wasserstein-1) distance instead of JS divergence.
+`min_G max_{D∈1-Lip} E[D(x)] - E[D(G(z))]`
+D must be 1-Lipschitz (enforced by weight clipping in WGAN, gradient penalty in WGAN-GP). More stable training, meaningful loss curve (lower = better). 📄 [Paper](https://arxiv.org/abs/1701.07875)
+
+**StyleGAN / StyleGAN2**
+Mapping network f: z → w (intermediate latent space W). Synthesis network controlled by w via AdaIN (Adaptive Instance Normalization) at each layer. Per-channel noise for stochastic variation. Style mixing regularization.
+📄 [StyleGAN2 Paper](https://arxiv.org/abs/1912.04958) 🐙 [Repo](https://github.com/NVlabs/stylegan2-ada-pytorch)
+
+**Conditional GAN (cGAN)**
+Conditioning both G and D on additional information (class label, image, text):
+`G(z, c) → fake_x; D(x, c) → real/fake`
+Enables controllable generation. Foundation of Pix2Pix, text-to-image GANs.
+
+**GAN Evaluation Metrics**
+- **FID (Fréchet Inception Distance)**: compares distribution of real and generated images using Inception features. Lower is better. Standard metric for image generation.
+- **IS (Inception Score)**: measures quality (sharp predictions) and diversity. Higher is better. Less reliable than FID.
+- **Precision and Recall**: separate measures of sample quality and coverage.
+- **LPIPS**: perceptual similarity using VGG features.
+
+**GAN Repos**
+- 🐙 [StyleGAN2-ADA (NVIDIA)](https://github.com/NVlabs/stylegan2-ada-pytorch)
+- 🐙 [GAN Zoo](https://github.com/hindupuravinash/the-gan-zoo)
+- 🐙 [PyTorch-GAN](https://github.com/eriklindernoren/PyTorch-GAN)
+
+---
+
+## Variational Autoencoders
+
+**Motivation**
+Regular autoencoders learn a deterministic mapping to latent space. Latent space may have "holes" — sampling random points produces garbage. VAEs learn a structured, continuous latent space suitable for generation.
+
+**VAE Framework (Kingma & Welling, 2013)**
+- Encoder: `q_φ(z|x)` — approximates true posterior `p(z|x)`, outputs μ and σ (Gaussian)
+- Decoder: `p_θ(x|z)` — generates x from latent code z
+- Prior: `p(z) = N(0, I)`
+
+**ELBO (Training Objective)**
+`L = E_{q_φ(z|x)}[log p_θ(x|z)] - KL(q_φ(z|x) || p(z))`
+= **Reconstruction term** + **KL regularization term**
+
+The KL term forces the approximate posterior to stay close to the prior N(0,I), ensuring the latent space is smooth and well-structured.
+📄 [Original Paper](https://arxiv.org/abs/1312.6114)
+
+**Reparameterization Trick**
+Sampling `z ~ q_φ(z|x) = N(μ, σ²)` is not differentiable.
+Reparameterize: `z = μ + σ ⊙ ε` where `ε ~ N(0,I)`.
+Now gradient flows through μ and σ, enabling backpropagation through the sampling operation.
+
+**β-VAE**
+`L = E[log p(x|z)] - β × KL(q(z|x)||p(z))`
+β > 1 encourages more disentangled representations by imposing stronger independence constraint. Trade-off: higher β → better disentanglement, worse reconstruction quality.
+📄 [Paper: Higgins et al., 2017](https://openreview.net/forum?id=Sy2fchEll)
+
+**VQ-VAE (Vector Quantized VAE)**
+Discrete latent space: instead of continuous z, latent codes are vectors from a learned codebook.
+Encoder output is quantized to nearest codebook vector. Trained with straight-through estimator.
+Foundation of DALL-E (v1), AudioCodec, and many modern video/image tokenizers.
+📄 [Paper: van den Oord et al., 2017](https://arxiv.org/abs/1711.00937)
+
+**VAE Applications**
+- Image generation with interpolation
+- Drug/molecule design (molecular VAEs)
+- Anomaly detection (high reconstruction error + KL)
+- Latent space arithmetic: encode two faces, interpolate z → smooth transition
+- Disentangled representation learning
+
+---
+
+## Diffusion Models
+
+**Core Idea**
+Learn to reverse a gradual noising process. Training: add Gaussian noise to data in T steps. Inference: start from pure noise and denoise step-by-step to generate samples.
+
+**Forward Process (Fixed)**
+`q(x_t | x_{t-1}) = N(x_t; √(1-β_t) x_{t-1}, β_t I)`
+`q(x_t | x_0) = N(x_t; √ᾱ_t x_0, (1-ᾱ_t) I)` (closed form!)
+where `ᾱ_t = Π_{s=1}^{t} (1-β_s)`.
+No parameters — just progressively adds noise until x_T ≈ N(0,I).
+
+**Reverse Process (Learned)**
+`p_θ(x_{t-1} | x_t) = N(x_{t-1}; μ_θ(x_t, t), Σ_θ(x_t, t))`
+A neural network (typically U-Net) is trained to predict either the noise ε, the denoised x_0, or the score ∇ log p(x_t).
+
+**DDPM (Denoising Diffusion Probabilistic Models)**
+Ho et al. (2020). The landmark paper establishing modern diffusion models. Simple noise prediction objective: `L = E[||ε - ε_θ(x_t, t)||²]`. T=1000 steps.
+📄 [Paper](https://arxiv.org/abs/2006.11239) 🐙 [Repo](https://github.com/hojonathanho/diffusion)
+
+**DDIM (Denoising Diffusion Implicit Models)**
+Song et al. (2020). Deterministic (or semi-deterministic) sampling that allows large step skips. Enables 10–50 step generation (vs. 1000 in DDPM) with minimal quality loss. Key for practical inference speed.
+📄 [Paper](https://arxiv.org/abs/2010.02502)
+
+**Score-Based Generative Models**
+Song & Ermon (2020). Equivalent view: learn the score function `∇_x log p(x)` via denoising score matching. Generate via Langevin dynamics. Unifies diffusion models and score matching under a continuous-time SDE framework.
+📄 [Score SDE Paper](https://arxiv.org/abs/2011.13456)
+
+**Latent Diffusion Models (LDM)**
+Rombach et al. (2022). Run the diffusion process in the latent space of a pre-trained VQ-VAE encoder rather than in pixel space. Massive compute reduction. Foundation of Stable Diffusion.
+📄 [Paper](https://arxiv.org/abs/2112.10752)
+
+**Classifier-Free Guidance (CFG)**
+Ho & Salimans (2022). Train both conditional `p(x|c)` and unconditional `p(x)` models (by randomly dropping conditions during training). At inference, combine: `ε̃ = ε_uncond + w(ε_cond - ε_uncond)`. Higher w → more condition-adherent, less diverse. Standard in all modern text-to-image models.
+📄 [Paper](https://arxiv.org/abs/2207.12598)
+
+**Stable Diffusion**
+Open-source latent diffusion model by Stability AI. Text encoder: CLIP. Latent space: VQ-VAE. Denoiser: U-Net conditioned on text via cross-attention. Trained on LAION-5B.
+🐙 [Stable Diffusion](https://github.com/CompVis/stable-diffusion)
+🐙 [Diffusers (Hugging Face)](https://github.com/huggingface/diffusers) ⭐
+
+**DALL-E 2 / DALL-E 3**
+OpenAI text-to-image models. DALL-E 2: hierarchical generation via CLIP embeddings. DALL-E 3: tightly integrated with ChatGPT for richer text understanding. Native text rendering improvements.
+
+**Imagen**
+Google's text-to-image diffusion model. Frozen large T5 text encoder (key finding: text encoder quality matters more than image encoder). Cascaded diffusion: generate 64×64 then super-resolve.
+📄 [Paper](https://arxiv.org/abs/2205.11487)
+
+**DiT (Diffusion Transformer)**
+Peebles & Xie (2023). Replaces the U-Net denoiser with a Transformer. Scales better with compute than U-Net. Foundation of Sora's architecture.
+📄 [Paper](https://arxiv.org/abs/2212.09748)
+
+**Flow Matching**
+Lipman et al. (2022). Simpler training objective than DDPM: directly regress vector fields of probability flow ODEs. Faster training and inference. Used in Stable Diffusion 3, Meta Voicebox, and many recent models.
+📄 [Paper](https://arxiv.org/abs/2210.02747)
+
+**Key Diffusion Applications**
+- Text-to-image: DALL-E 3, Stable Diffusion, Midjourney, Imagen
+- Video generation: Sora, Gen-2, Stable Video Diffusion
+- Audio: AudioLDM, Stable Audio, MusicGen
+- 3D: DreamFusion, Zero-1-to-3
+- Protein structure: RFDiffusion
+- Drug discovery: DiffSBDD
+
+---
+
+## Normalizing Flows
+
+**Concept**
+Transforms a simple distribution (e.g., Gaussian) into a complex one via a series of invertible, differentiable transformations. Exact likelihood computation possible via change of variables:
+`log p_X(x) = log p_Z(f⁻¹(x)) + log|det J_{f⁻¹}(x)|`
+
+**Key Requirement**: transformations must be invertible with tractable Jacobian determinant.
+
+**NICE (Non-linear Independent Components Estimation)**
+Dinh et al. (2014). Coupling layers: split x into two halves; one half transformed using a function of the other. Triangular Jacobian → efficient determinant computation.
+
+**RealNVP**
+Dinh et al. (2017). Extended NICE with affine coupling layers and multi-scale architecture. Demonstrated high-quality image generation with exact likelihood.
+📄 [Paper](https://arxiv.org/abs/1605.08803)
+
+**Glow**
+Kingma & Dhariwal (2018). Added 1×1 invertible convolutions for better expressiveness. Enabled photorealistic face generation and smooth latent space interpolation.
+📄 [Paper](https://arxiv.org/abs/1807.03039)
+
+**Neural Autoregressive Flows**
+Coupling the expressiveness of autoregressive models with invertibility. Slow sampling (one dimension at a time) but fast density evaluation.
+
+**Applications of Flows**
+- Exact likelihood estimation (anomaly detection)
+- Variational inference (more expressive posteriors)
+- Latent variable models
+- Molecular conformation generation (Boltzmann generators)
+
+---
+
+## Neural Architecture Search
+
+**Motivation**
+Human-designed architectures are time-consuming and may not be optimal. NAS automates architecture design, potentially discovering better structures for given hardware constraints.
+
+**Search Space**
+The set of architectures that can be constructed. Defines: operation types (conv, attention, pooling), connectivity patterns (skip connections, dense connections), depth, width.
+
+**Search Strategies**
+
+| Strategy | Method | Examples |
+|---|---|---|
+| Reinforcement Learning | Controller generates architectures, RL trains controller | NASNet, MnasNet |
+| Evolutionary | Mutation + selection of population | AmoebaNet, EfficientDet |
+| Gradient-Based (DARTS) | Relax to continuous, optimize with gradient descent | DARTS, PC-DARTS |
+| Predictor-Based | Train a surrogate to predict performance | ENAS, BANANAS |
+
+**DARTS (Differentiable Architecture Search)**
+Liu et al. (2019). Relaxes the discrete architecture choice to a continuous mixture of operations using softmax weights. Jointly optimizes architecture parameters and weight parameters via bi-level optimization.
+📄 [Paper](https://arxiv.org/abs/1806.09055)
+
+**EfficientNet**
+Discovered a base architecture via NAS, then applied compound scaling. Consistently Pareto-optimal on accuracy/FLOPS trade-off.
+
+**Once-for-All (OFA)**
+Cai et al. (2020). Train one large network that contains many sub-networks. Different sub-networks extracted for different hardware targets without retraining.
+📄 [Paper](https://arxiv.org/abs/1908.09791)
+
+---
+
+## Hyperparameter Tuning
+
+**What to Tune (Priority Order)**
+1. Learning rate (most impactful)
+2. Batch size
+3. Model architecture (depth, width)
+4. Regularization strength (weight decay, dropout rate)
+5. Optimizer parameters (β₁, β₂)
+6. Data augmentation parameters
+
+**Grid Search**
+Exhaustive search over a manually specified grid of values. Exponentially expensive. Only practical for ≤ 2-3 hyperparameters with few options each.
+
+**Random Search**
+Sample hyperparameters randomly from defined distributions. Bergstra & Bengio (2012): random search is more efficient than grid search because it explores more of the effective dimensions.
+📄 [Paper](https://www.jmlr.org/papers/v13/bergstra12a.html)
+
+**Bayesian Optimization**
+Build a surrogate model (GP or TPE) of the objective function. Use acquisition function (EI, UCB, PI) to select promising next configurations. Efficient for expensive evaluations (< 1000 trials). Tools: Optuna, HyperOpt, BoTorch.
+
+**Hyperband / ASHA**
+Multi-fidelity optimization: start many configurations, early-stop poor performers, continue with promising ones. Much more efficient than random search for neural networks. ASHA: asynchronous version for parallel workers.
+
+**Population-Based Training (PBT)**
+Jaderberg et al. (2017, DeepMind). Trains a population of models in parallel. Periodically copies weights from better models to worse ones and perturbs their hyperparameters. Jointly optimizes training schedule and hyperparameters.
+
+**Practical Hyperparameter Guidelines**
+- Start with: lr=1e-3 (Adam), lr=0.1 (SGD), batch_size=32 or 256
+- Use log-scale for lr, weight decay: sample uniformly in log space
+- For transformers: lr warmup is critical — use 1000-10000 warmup steps
+- Track validation loss curve shape: fast drop then plateau = good, oscillating = unstable
+- Cyclical LR (CLR): triangular LR cycles, enables finding good lr range efficiently
+
+**Tools for HPO**
+- 🐙 [Optuna](https://github.com/optuna/optuna) — Bayesian + Hyperband, great API ⭐
+- 🐙 [Ray Tune](https://github.com/ray-project/ray/tree/master/python/ray/tune) — distributed HPO
+- 🐙 [W&B Sweeps](https://docs.wandb.ai/guides/sweeps) — integrated with experiment tracking
+- 🐙 [HyperOpt](https://github.com/hyperopt/hyperopt) — TPE algorithm
+- 🐙 [NNI (Microsoft)](https://github.com/microsoft/nni) — comprehensive AutoML toolkit
+
+---
+
+# 💬 NLP and Large Language Models
+
+---
+
+## NLP Fundamentals
+
+**The NLP Pipeline**
+```
+Raw Text
+→ Preprocessing (lowercasing, punctuation, unicode)
+→ Tokenization
+→ [Optional: Stemming/Lemmatization, POS tagging, NER]
+→ Feature Extraction (embeddings, TF-IDF)
+→ Model (classification, generation, QA, etc.)
+→ Post-processing (decoding, filtering)
+```
+
+**Core NLP Tasks**
+
+| Task | Description | Example Models |
+|---|---|---|
+| Text Classification | Assign label(s) to text | BERT, RoBERTa |
+| Named Entity Recognition (NER) | Identify entities (person, org, location) | BERT-CRF, spaCy |
+| Part-of-Speech (POS) Tagging | Assign grammatical role to each word | spaCy, Flair |
+| Dependency Parsing | Parse grammatical structure | spaCy, Stanza |
+| Coreference Resolution | Link pronouns to entities | AllenNLP, SpanBERT |
+| Machine Translation | Translate between languages | M2M-100, NLLB, mBART |
+| Summarization | Compress text to key points | BART, T5, Pegasus |
+| Question Answering | Answer questions from a passage | RoBERTa-SQuAD, UnifiedQA |
+| Text Generation | Generate coherent text | GPT-4, LLaMA |
+| Sentiment Analysis | Classify sentiment | BERT, RoBERTa |
+| Natural Language Inference (NLI) | Entailment / contradiction / neutral | DeBERTa, T5 |
+| Semantic Textual Similarity | Score text similarity | SentenceBERT, SimCSE |
+
+**Challenges in NLP**
+- **Ambiguity**: "I saw the man with the telescope" (who has the telescope?)
+- **Context-dependence**: pronoun resolution, discourse coherence
+- **World knowledge**: understanding implies vast background knowledge
+- **Pragmatics**: what's implied vs. what's said ("Can you pass the salt?")
+- **Low-resource languages**: most languages have minimal training data
+- **Long-tail and OOV**: rare words and domain-specific jargon
+
+---
+
+## Tokenization
+
+**Why Tokenization Matters**
+Vocabulary design directly impacts: model vocabulary size, representation of rare words, compute efficiency, handling of multiple languages.
+
+**Character-Level Tokenization**
+Tokenizes every character individually. Tiny vocabulary (~200 tokens), no OOV problem. Very long sequences for the same text — models must learn to compose characters into words.
+
+**Word-Level Tokenization**
+Split on whitespace and punctuation. Large vocabulary (50k-500k), OOV problem for rare words. Simple but inflexible.
+
+**Subword Tokenization (Modern Standard)**
+Balance between character and word level. Handles OOV by decomposing into subwords. Standard for all modern LLMs.
+
+**Byte Pair Encoding (BPE)**
+1. Start with character-level vocabulary
+2. Iteratively merge the most frequent pair of consecutive tokens
+3. Repeat until vocabulary reaches desired size
+Used in: GPT-2, GPT-3/4, RoBERTa, BART. Deterministic.
+🐙 [tiktoken (OpenAI)](https://github.com/openai/tiktoken)
+
+**WordPiece**
+Similar to BPE but merges based on likelihood improvement rather than raw frequency.
+`score = freq(AB) / (freq(A) × freq(B))`
+Used in: BERT, DistilBERT. Marks sub-tokens with ## prefix.
+
+**SentencePiece**
+Trains tokenizer directly on raw text without pre-tokenization (language-agnostic).
+Supports BPE and Unigram Language Model.
+Used in: T5, LLaMA, Gemini, mT5. Handles any language including those without spaces.
+🐙 [SentencePiece](https://github.com/google/sentencepiece)
+
+**Unigram Language Model Tokenizer**
+Start with a large vocabulary, iteratively remove tokens that least hurt likelihood. Probabilistic — allows the same text to have multiple tokenizations (useful for regularization during training).
+
+**Byte-Level BPE**
+BPE applied at the byte level rather than character level. Handles any Unicode text with a compact 256-byte base vocabulary. Used in GPT-2, RoBERTa, BLOOM. Never produces unknown tokens.
+
+**Tokenization Artifacts and Pitfalls**
+- Numbers: "100" may tokenize differently than "1", "0", "0"
+- Spaces: leading space often part of token ("▁word" in SentencePiece)
+- Case: "Hello" ≠ "hello" in many tokenizers
+- Languages: languages with non-Latin scripts often require more tokens per concept (under-representation)
+- Code: identifiers, indentation, symbols tokenized inconsistently
+
+---
+
+## Word Embeddings
+
+**Word2Vec (Mikolov et al., 2013)**
+Two architectures:
+- **CBOW**: predict center word from context words
+- **Skip-gram**: predict context words from center word
+Skip-gram with negative sampling (SGNS) is most commonly used. Learns syntactic and semantic relationships: `vec(king) - vec(man) + vec(woman) ≈ vec(queen)`.
+📄 [Paper](https://arxiv.org/abs/1301.3781) 🐙 [gensim](https://github.com/RaRe-Technologies/gensim)
+
+**GloVe (Global Vectors)**
+Pennington et al. (2014). Trains on global word-word co-occurrence statistics. Loss function: `Σ f(X_ij)(wᵢᵀw̃_j + bᵢ + b̃_j - log X_ij)²`. Combines count-based and prediction-based approaches.
+📄 [Paper](https://nlp.stanford.edu/pubs/glove.pdf) 🐙 [GloVe](https://github.com/stanfordnlp/GloVe)
+
+**FastText**
+Bojanowski et al. (2017). Extends word2vec by representing each word as a bag of character n-grams. Handles morphologically rich languages, represents OOV words via subword components.
+🐙 [fastText](https://github.com/facebookresearch/fastText)
+
+**ELMo (Embeddings from Language Models)**
+Peters et al. (2018). Contextual embeddings: representation of a word depends on its context (unlike word2vec which produces one vector per word regardless of context). Uses bidirectional LSTM language models.
+📄 [Paper](https://arxiv.org/abs/1802.05365)
+
+**Sentence Embeddings**
+- **Sentence-BERT (SBERT)**: fine-tunes BERT using siamese network on sentence pairs. Enables semantic similarity search.
+  🐙 [Sentence Transformers](https://github.com/UKPLab/sentence-transformers) ⭐
+- **SimCSE**: contrastive learning for sentence embeddings, using dropout as data augmentation.
+- **E5, BGE, GTE**: modern strong embedding models, trained with contrastive learning on large corpora.
+- **OpenAI text-embedding-3**: strong proprietary embeddings.
+
+**Properties of Good Embeddings**
+- Similar words have high cosine similarity
+- Analogical reasoning: `a - b + c ≈ d` (king - man + woman ≈ queen)
+- Semantic clustering: related words cluster together
+- Minimal anisotropy: embeddings should use the full vector space, not be concentrated in a small cone
+
+---
+
+## Language Model Architectures
+
+**Statistical Language Models**
+N-gram models: estimate `P(w_t | w_{t-1}, ..., w_{t-n+1})` from corpus counts.
+Smoothing required for unseen n-grams (Laplace, Kneser-Ney).
+Limited to short contexts. Now only used as baselines or in hybrid systems.
+
+**Neural Language Models**
+Bengio et al. (2003): first neural LM — concatenate word embeddings of previous words, feed to MLP. Generalizes better than n-gram models.
+
+**RNN Language Models**
+Process sequence left-to-right, maintain hidden state. Better long-range dependencies than n-grams. Still limited by vanishing gradients. ELMo used bidirectional LSTM LMs for contextual embeddings.
+
+**Transformer Language Models (GPT-style)**
+Decoder-only Transformer with causal (masked) self-attention. Pre-trained on next-token prediction. Scales dramatically with data and compute. The dominant paradigm for generative AI.
+
+**BERT-Style Masked LMs**
+Encoder-only Transformer with bidirectional attention. Pre-trained with MLM (predict masked tokens) and NSP. Strong for understanding tasks, not directly generative. Fine-tuned for downstream tasks.
+
+**Key Transformer LM Papers**
+
+| Year | Model | Org | Params | Key Contribution |
+|---|---|---|---|---|
+| 2018 | GPT | OpenAI | 117M | Generative pre-training, left-to-right |
+| 2018 | BERT | Google | 340M | Bidirectional masked LM |
+| 2019 | GPT-2 | OpenAI | 1.5B | Zero-shot capabilities, BPE, larger scale |
+| 2019 | XLNet | CMU/Google | 340M | Permutation LM, better than BERT |
+| 2019 | RoBERTa | Meta | 355M | Better BERT training recipe, no NSP |
+| 2019 | ALBERT | Google | 18M | Parameter sharing, SOP instead of NSP |
+| 2019 | DistilBERT | HF | 66M | Knowledge distillation of BERT |
+| 2020 | GPT-3 | OpenAI | 175B | Few-shot in-context learning emerges |
+| 2020 | T5 | Google | 11B | Unified text-to-text framework |
+| 2021 | CLIP | OpenAI | — | Vision-language contrastive |
+| 2022 | InstructGPT | OpenAI | 175B | RLHF alignment |
+| 2022 | Chinchilla | DeepMind | 70B | Optimal scaling (more data per param) |
+| 2022 | PaLM | Google | 540B | Chain-of-thought, few-shot mastery |
+| 2023 | LLaMA | Meta | 7-65B | Open weights, efficient training |
+| 2023 | LLaMA 2 | Meta | 7-70B | Open weights + RLHF chat models |
+| 2023 | Mistral 7B | Mistral AI | 7B | Sliding window attention, GQA, strong 7B |
+| 2023 | Mixtral 8×7B | Mistral AI | 46B | Sparse MoE, 2 experts per token |
+| 2024 | LLaMA 3 | Meta | 8-70B | Strong open model, multilingual |
+| 2024 | Gemini 1.5 | Google | — | 1M context window, multimodal |
+| 2024 | Claude 3 | Anthropic | — | 200k context, top-tier reasoning |
+
+---
+
+## Pre-training and Fine-tuning
+
+**Why Pre-training Works**
+Large unlabeled corpora contain vast knowledge. Pre-training learns: word meanings, grammar, world knowledge, common sense, reasoning patterns. Fine-tuning adapts these representations to specific tasks with small labeled datasets.
+
+**Pre-training Objectives**
+
+| Objective | Model Type | Masking | Example Models |
+|---|---|---|---|
+| Causal LM (CLM) | Decoder-only | Left-to-right | GPT, LLaMA |
+| Masked LM (MLM) | Encoder-only | Random 15% | BERT, RoBERTa |
+| Span Corruption | Encoder-Decoder | Random spans | T5, mT5 |
+| Prefix LM | Encoder-Decoder | Prefix visible | PaLM, GLM |
+| Contrastive | Encoder | — | CLIP, ALIGN |
+| Masked Image + Text | Multimodal | Image patches + text | MAE + BERT |
+
+**Full Fine-Tuning**
+Update all model parameters on task-specific data. Most effective but expensive (stores a full copy of model per task). Learning rate typically 1e-5 to 5e-5 for Transformers.
+
+**Parameter-Efficient Fine-Tuning (PEFT)**
+Fine-tune a small fraction of parameters while keeping most of the model frozen.
+
+| Method | Trainable Params | Mechanism |
+|---|---|---|
+| LoRA | < 1% | Low-rank weight updates |
+| QLoRA | < 1% | LoRA on quantized (4-bit) base model |
+| Adapters | ~2-5% | Small MLP modules inserted between layers |
+| Prefix Tuning | ~0.1% | Learned prefix tokens prepended to each layer |
+| Prompt Tuning | ~0.01% | Learned soft prompt tokens at input |
+| IA³ | ~0.01% | Scale activations with learned vectors |
+
+**LoRA in Detail**
+For a weight matrix W ∈ ℝᵈˣᵏ, instead of updating W, add a low-rank decomposition:
+`W' = W + ΔW = W + BA` where B ∈ ℝᵈˣʳ, A ∈ ℝʳˣᵏ, rank r << min(d,k).
+During training, W is frozen, only A and B are updated.
+Reduces trainable parameters from d×k to r×(d+k).
+At inference, merge: `W' = W + BA` — no additional latency.
+📄 [LoRA Paper](https://arxiv.org/abs/2106.09685)
+
+**QLoRA (Quantized LoRA)**
+Dettmers et al. (2023). 4-bit quantized base model + LoRA fine-tuning. Enables fine-tuning 65B+ parameter models on a single GPU. Uses NF4 (Normal Float 4) quantization and double quantization.
+📄 [Paper](https://arxiv.org/abs/2305.14314)
+
+**Instruction Fine-Tuning (IFT)**
+Fine-tuning on (instruction, response) pairs to make models follow natural language instructions. Key datasets: FLAN (chain-of-thought + instructions across 1800 tasks), OpenAssistant, Alpaca (GPT-4 distilled), LIMA (only 1000 high-quality examples).
+
+**Catastrophic Forgetting in Fine-Tuning**
+Fine-tuning can overwrite pre-trained knowledge. Mitigations:
+- Lower learning rate
+- PEFT (LoRA, adapters)
+- Continual pre-training with replay
+- Elastic Weight Consolidation (EWC)
+
+---
+
+## Prompt Engineering
+
+**Zero-Shot Prompting**
+Direct task statement without examples:
+`"Classify the sentiment of this review: 'The food was amazing!' Answer: Positive or Negative."`
+Works well for common tasks on large models.
+
+**Few-Shot Prompting**
+Provide k examples in the prompt:
+```
+Sentence: "The movie was terrible." → Sentiment: Negative
+Sentence: "I loved every minute." → Sentiment: Positive
+Sentence: "It was okay I guess." → Sentiment:
+```
+Dramatically improves performance on novel or specific tasks. Example quality matters more than quantity.
+
+**Chain-of-Thought (CoT)**
+Prompt the model to reason step-by-step before giving the final answer.
+`"Let's think step by step."`
+Wei et al. (2022): CoT dramatically improves performance on math and reasoning tasks. Only emerges at ~100B+ parameters. 📄 [Paper](https://arxiv.org/abs/2201.11903)
+
+**Zero-Shot CoT**
+Just add: `"Let's think step by step."` — no examples needed. Kojimaet al. (2022). Simpler but slightly less powerful than few-shot CoT.
+
+**Self-Consistency**
+Sample multiple CoT reasoning paths, take majority vote for the final answer. Wang et al. (2022). Improves accuracy by ~5-10% on math/reasoning benchmarks.
+
+**Tree of Thoughts (ToT)**
+Yao et al. (2023). Explore multiple reasoning paths simultaneously, backtrack from dead ends, use search algorithms (BFS, DFS) over a tree of thoughts. Strong on complex reasoning tasks.
+📄 [Paper](https://arxiv.org/abs/2305.10601)
+
+**ReAct (Reasoning + Acting)**
+Interleave reasoning traces with action calls to tools (search, calculator, code execution). Foundation of modern AI agents.
+📄 [Paper](https://arxiv.org/abs/2210.03629)
+
+**Retrieval-Augmented Prompting**
+Provide retrieved relevant documents as context before the question. Reduces hallucination and extends the effective knowledge horizon beyond pre-training data. → See [Retrieval-Augmented Generation](#retrieval-augmented-generation)
+
+**Prompt Design Best Practices**
+- Be specific and explicit about the task
+- Use delimiters (""", ###, <tags>) to structure the prompt
+- Specify output format (JSON, bullet points, length)
+- Provide role context: "You are an expert in..."
+- For classification: provide label definitions and examples
+- For generation: provide style, tone, and audience information
+- For reasoning: explicitly request step-by-step thinking
+
+**System Prompts**
+In instruction-tuned models, a system prompt sets the model's persona, capabilities, and constraints. Processed before user messages. Critical for: constraining behavior, setting tone, providing context.
+
+**Prompt Injection**
+A security vulnerability where malicious text in the input overrides the intended system prompt. Mitigation: input sanitization, delimiters, separate processing pipelines, constitutional constraints.
+
+**Soft Prompts (Prompt Tuning)**
+Learnable continuous vectors prepended to the input at the embedding level. Trained by gradient descent while the model is frozen. More expressive than discrete prompts. Lester et al. (2021).
+
+**Prompt Engineering Resources**
+- 🎓 [Anthropic Prompt Engineering Guide](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview)
+- 🎓 [OpenAI Prompt Engineering Guide](https://platform.openai.com/docs/guides/prompt-engineering)
+- 🐙 [Awesome Prompt Engineering](https://github.com/promptslab/Awesome-Prompt-Engineering)
+- 📰 [Lilian Weng: Prompt Engineering](https://lilianweng.github.io/posts/2023-03-15-prompt-engineering/)
+
+---
+
+## RLHF and Alignment
+
+**The Alignment Problem**
+How do we ensure AI systems reliably do what humans actually want? Challenges:
+- **Value specification**: hard to fully specify human values mathematically
+- **Reward hacking**: models optimize the metric, not the underlying goal
+- **Goal misgeneralization**: model learns spurious correlations that fail out-of-distribution
+- **Scalable oversight**: how to supervise systems smarter than humans?
+
+**RLHF Pipeline (InstructGPT, ChatGPT)**
+1. **Supervised Fine-Tuning (SFT)**: fine-tune base LLM on high-quality demonstrations
+2. **Reward Model Training**: collect human preference data (pairs of responses rated A vs B), train a reward model to predict human preferences
+3. **PPO Optimization**: fine-tune the SFT model using PPO to maximize reward model score, with KL penalty to prevent the model from deviating too far from SFT
+📄 [InstructGPT Paper](https://arxiv.org/abs/2203.02155)
+
+**PPO (Proximal Policy Optimization)**
+`L_CLIP(θ) = E[min(r_t(θ)Â_t, clip(r_t(θ), 1-ε, 1+ε)Â_t)]`
+Clips the policy ratio to prevent large updates. Stable and effective for RLHF. The standard RL algorithm for LLM alignment.
+📄 [PPO Paper](https://arxiv.org/abs/1707.06347)
+
+**DPO (Direct Preference Optimization)**
+Rafailov et al. (2023). Bypasses the reward model entirely — directly optimizes a policy from preference data. Equivalent to RLHF under certain conditions but simpler: no RL loop required.
+`L_DPO(θ) = -E[log σ(β log π_θ(y_w|x)/π_ref(y_w|x) - β log π_θ(y_l|x)/π_ref(y_l|x))]`
+Widely adopted for open-source model alignment.
+📄 [Paper](https://arxiv.org/abs/2305.18290)
+
+**Constitutional AI (CAI)**
+Anthropic (2022). Uses a set of principles (a "constitution") to guide model behavior. The model critiques and revises its own outputs using the principles. Reduces reliance on human labelers for harmful content.
+📄 [Paper](https://arxiv.org/abs/2212.08073)
+
+**RLAIF (RL from AI Feedback)**
+Use a strong AI model (e.g., GPT-4) to generate preference labels instead of humans. Scalable but inherits biases of the labeling model. Used in Claude's training.
+
+**Reward Hacking / Goodhart's Law**
+"When a measure becomes a target, it ceases to be a good measure." Models find unexpected ways to maximize reward signals that don't correspond to true human preferences. Example: summarization model that produces very short summaries that score well on reward model but miss key information.
+
+**Scalable Oversight Techniques**
+- **Debate**: two AI agents argue, human judges the debate (easier to verify than generate)
+- **Amplification**: human + AI assistant team to supervise AI systems
+- **Recursive reward modeling**: train reward models on AI-assisted human judgments
+- **Process supervision**: reward individual reasoning steps, not just final answer (Let's Verify Step by Step)
+
+**AI Safety Research Areas**
+- Interpretability and mechanistic understanding
+- Robustness to distribution shift and adversarial inputs
+- Value learning from human behavior
+- Corrigibility and shutdown problem
+- Mesa-optimization and inner alignment
+- Deceptive alignment
+
+---
