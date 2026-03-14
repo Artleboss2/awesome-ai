@@ -941,3 +941,540 @@ A model's ability to handle tasks or classes it has never seen during training. 
 Transforms features to have zero mean and unit variance: `z = (x - μ) / σ`. Standard preprocessing for many ML algorithms. Does not bound the range (unlike min-max normalization). Sensitive to outliers.
 
 ---
+
+---
+
+# 🧮 Mathematics for AI
+
+> Mathematics is the language of machine learning. This section covers the essential mathematical foundations every ML practitioner should know.
+
+---
+
+## Linear Algebra
+
+Linear algebra is the backbone of neural networks — every forward pass is fundamentally a series of matrix multiplications.
+
+### Core Concepts
+
+**Vector**
+An ordered list of numbers: `v = [v₁, v₂, ..., vₙ]`. Represents a point or direction in n-dimensional space. In ML: a data point, a word embedding, an activations vector.
+
+**Matrix**
+A 2D array of numbers: `A ∈ ℝᵐˣⁿ`. Represents a linear transformation from ℝⁿ to ℝᵐ. In ML: weight matrices, covariance matrices, attention matrices.
+
+**Matrix Multiplication**
+`C = AB` where `C[i,j] = Σₖ A[i,k] × B[k,j]`. Not commutative (AB ≠ BA in general). The core operation of every neural network layer: `output = W × input + b`.
+
+**Transpose**
+`Aᵀ[i,j] = A[j,i]`. Flips rows and columns. Key identity: `(AB)ᵀ = BᵀAᵀ`.
+
+**Dot Product**
+`a · b = Σᵢ aᵢbᵢ = ||a|| ||b|| cos(θ)`. Measures alignment between vectors. Foundation of attention scores, cosine similarity, and linear regression prediction.
+
+**Norm**
+Measures the "size" of a vector. L2 norm (Euclidean): `||v||₂ = √(Σvᵢ²)`. L1 norm: `||v||₁ = Σ|vᵢ|`. L∞ norm: `max|vᵢ|`. Used in gradient clipping, regularization, and distance metrics.
+
+**Eigenvalues and Eigenvectors**
+For matrix A: `Av = λv`. Eigenvectors v are directions unchanged by the transformation A; eigenvalues λ are the scaling factors. Fundamental to PCA, spectral clustering, and understanding optimization landscapes.
+
+**Singular Value Decomposition (SVD)**
+`A = UΣVᵀ` decomposes any matrix into rotation × scaling × rotation. Used in PCA, collaborative filtering, dimensionality reduction, LoRA (low-rank approximation). Every matrix has an SVD; not every matrix has an eigendecomposition.
+
+**Principal Component Analysis (PCA)**
+Projects data onto the directions of maximum variance (principal components = eigenvectors of the covariance matrix). Used for dimensionality reduction, visualization, noise reduction. Linear method — cannot capture non-linear structure.
+
+**Rank**
+The number of linearly independent rows (or columns) of a matrix. A rank-k approximation captures the k most important dimensions. LoRA exploits low-rank structure of weight update matrices.
+
+**Positive Definite Matrix**
+A symmetric matrix A is positive definite if `xᵀAx > 0` for all non-zero x. Equivalently: all eigenvalues are positive. Covariance matrices and Hessians at local minima are positive (semi-)definite.
+
+### Resources
+- 🎓 [3Blue1Brown: Essence of Linear Algebra](https://www.3blue1brown.com/topics/linear-algebra) ⭐
+- 🎓 [Gilbert Strang MIT 18.06 Linear Algebra](https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/)
+- 📄 [The Matrix Cookbook](https://www.math.uwaterloo.ca/~hwolkowi/matrixcookbook.pdf)
+
+---
+
+## Calculus and Optimization
+
+**Derivative**
+The instantaneous rate of change of a function: `f'(x) = lim_{h→0} [f(x+h) - f(x)] / h`. In ML: how the loss changes with respect to a parameter.
+
+**Partial Derivative**
+Derivative with respect to one variable while holding others constant: `∂f/∂xᵢ`. The gradient is the vector of all partial derivatives.
+
+**Chain Rule**
+`d/dx [f(g(x))] = f'(g(x)) × g'(x)`. The fundamental rule behind backpropagation. Applied recursively through computational graphs to compute gradients of the loss with respect to all parameters.
+
+**Gradient**
+`∇_θ L = [∂L/∂θ₁, ∂L/∂θ₂, ..., ∂L/∂θₙ]`. Points in the direction of steepest ascent. Gradient descent moves in the opposite direction: `θ ← θ - η∇L`.
+
+**Hessian**
+Matrix of second-order partial derivatives: `H[i,j] = ∂²L / ∂θᵢ∂θⱼ`. Describes the curvature of the loss landscape. Positive definite Hessian at a point = local minimum. Too expensive to compute for large networks (Newton's method requires inverting it).
+
+**Automatic Differentiation (Autograd)**
+Programmatic computation of exact gradients by tracking operations in a computational graph and applying the chain rule. Unlike symbolic differentiation (slow, complex) or numerical differentiation (approximate). Implemented in PyTorch (dynamic graph) and JAX (functional transformations).
+
+**Convexity**
+A function is convex if the line segment between any two points lies above the function: `f(λx + (1-λ)y) ≤ λf(x) + (1-λ)f(y)`. Convex optimization has no local minima (only global). Deep learning loss landscapes are non-convex — but in practice, most local minima are good.
+
+**Saddle Points**
+Points where the gradient is zero but are neither local minima nor maxima. Common in high-dimensional landscapes. SGD with momentum naturally escapes saddle points due to gradient noise.
+
+**Learning Rate Schedules in Detail**
+- **Cosine Annealing**: `lr = lr_min + 0.5(lr_max - lr_min)(1 + cos(πt/T))`
+- **Linear Warmup**: gradually increase lr from 0 to max over first k steps
+- **Step Decay**: multiply lr by γ (e.g., 0.1) every N epochs
+- **ReduceLROnPlateau**: reduce lr when a metric stops improving
+- **1-Cycle Policy**: Smith (2018) — one cycle of warmup then cool-down
+
+### Resources
+- 🎓 [3Blue1Brown: Calculus series](https://www.3blue1brown.com/topics/calculus) ⭐
+- 🎓 [Karpathy: Yes you should understand backprop](https://karpathy.medium.com/yes-you-should-understand-backprop-e2f06eab496b)
+- 📄 [Convex Optimization — Boyd & Vandenberghe (free PDF)](https://web.stanford.edu/~boyd/cvxbook/)
+
+---
+
+## Probability and Statistics
+
+**Random Variable**
+A variable whose value is determined by a random process. Discrete (finite/countable values) or continuous (real-valued). Described by probability mass functions (PMF) or probability density functions (PDF).
+
+**Probability Distributions**
+
+| Distribution | Use in ML |
+|---|---|
+| **Gaussian (Normal)** | Noise models, weight initialization, VAE priors |
+| **Bernoulli** | Binary classification outputs |
+| **Categorical** | Multiclass classification, token sampling |
+| **Uniform** | Random search, random initialization |
+| **Beta** | Bayesian conjugate prior for Bernoulli |
+| **Dirichlet** | Prior over categorical distributions (LDA) |
+| **Laplace** | L1 regularization (corresponds to Laplace prior) |
+| **Poisson** | Count data modeling |
+
+**Bayes' Theorem**
+`P(A|B) = P(B|A) × P(A) / P(B)`. Foundation of Bayesian inference, Naive Bayes classifiers, and generative models. Posterior ∝ Likelihood × Prior.
+
+**Expectation and Variance**
+- `E[X] = Σ x P(x)` (discrete) or `∫ x p(x) dx` (continuous)
+- `Var(X) = E[(X - E[X])²] = E[X²] - E[X]²`
+- `Cov(X,Y) = E[(X-μX)(Y-μY)]`
+
+**Central Limit Theorem**
+The sum of many independent random variables tends toward a Gaussian distribution regardless of the original distribution. Explains why Gaussian noise assumptions are robust and why averaging works.
+
+**Maximum Likelihood Estimation (MLE)**
+`θ_MLE = argmax_θ Σ log P(xᵢ|θ)`. The standard objective for fitting probabilistic models. Minimizing cross-entropy loss is equivalent to MLE for categorical distributions.
+
+**ELBO (Evidence Lower BOund)**
+In variational inference: `log P(x) ≥ E_q[log P(x|z)] - KL(q(z|x) || p(z))`. The VAE training objective maximizes the ELBO — reconstruction quality minus KL divergence from prior. Tight when q matches the true posterior.
+
+**Hypothesis Testing**
+Statistical framework for making decisions from data. p-value: probability of observing results as extreme as observed under the null hypothesis. Common tests: t-test, chi-squared, ANOVA. Often misused in ML evaluation — prefer confidence intervals and effect sizes.
+
+**Monte Carlo Methods**
+Approximating deterministic quantities using random sampling. In ML: MC gradient estimation, Monte Carlo Tree Search (MCTS in AlphaGo), approximate Bayesian inference. Law of large numbers guarantees convergence.
+
+### Resources
+- 🎓 [Probability for Computer Scientists (Stanford CS109)](https://web.stanford.edu/class/cs109/)
+- 📚 [Pattern Recognition and Machine Learning — Bishop (free PDF)](https://www.microsoft.com/en-us/research/uploads/prod/2006/01/Bishop-Pattern-Recognition-and-Machine-Learning-2006.pdf)
+- 🎓 [StatQuest with Josh Starmer (YouTube)](https://www.youtube.com/c/joshstarmer) ⭐
+
+---
+
+## Information Theory
+
+**Entropy**
+`H(X) = -Σ p(x) log p(x)`. Measures average uncertainty. Uniform distribution: maximum entropy. Deterministic distribution: zero entropy. Used in decision trees (information gain), compression, and loss functions.
+
+**Cross-Entropy**
+`H(P, Q) = -Σ P(x) log Q(x)`. Measures the cost of encoding distribution P using code optimized for Q. In ML: the standard classification loss. `H(P,Q) = H(P) + KL(P||Q)`.
+
+**KL Divergence**
+`KL(P||Q) = Σ P(x) log [P(x)/Q(x)]`. Non-symmetric measure of difference between distributions. Always ≥ 0. Zero iff P=Q. Used in VAEs, RL (PPO KL penalty), knowledge distillation.
+
+**Mutual Information**
+`I(X;Y) = KL(P(X,Y) || P(X)P(Y))`. Measures the reduction in uncertainty about X given knowledge of Y. Used in feature selection, representation learning (InfoNCE loss, DIM), and causal discovery.
+
+**Jensen-Shannon Divergence**
+Symmetric, bounded version of KL divergence: `JSD(P||Q) = 0.5 KL(P||M) + 0.5 KL(Q||M)` where M = 0.5(P+Q). Used as the original GAN loss (in theory). Bounded in [0, 1] when using log base 2.
+
+**Bits and Nats**
+Entropy can be measured in bits (log base 2) or nats (natural log). Perplexity = 2^entropy (bits) or e^entropy (nats). Models that compress well have low perplexity.
+
+### Resources
+- 📚 [Elements of Information Theory — Cover & Thomas](http://staff.ustc.edu.cn/~cgong821/Wiley.Interscience.Elements.of.Information.Theory.Jul.2006.eBook-DDU.pdf)
+- 📰 [Visual Information Theory — Colah's Blog](https://colah.github.io/posts/2015-09-Visual-Information/)
+
+---
+
+## Computational Complexity
+
+**Big-O Notation**
+Describes the asymptotic behavior of algorithms as input size grows. Common complexities in ML:
+- `O(1)`: constant — lookup table
+- `O(n)`: linear — scanning a dataset
+- `O(n²)`: quadratic — pairwise similarity, standard self-attention
+- `O(n³)`: cubic — exact Gaussian Process inference, matrix inversion
+- `O(d × n)`: CNN convolution (d = filter size, n = spatial positions)
+
+**Why Self-Attention is O(n²)**
+For a sequence of length n tokens, each token attends to all other tokens: n × n attention matrix. Memory: O(n²). Computation: O(n²d) where d is model dimension. Problem for long documents — motivates sparse attention (Longformer, BigBird) and FlashAttention.
+
+**NP-Hardness in ML**
+Several ML problems are NP-hard in theory: training an optimal neural network, finding the minimum description length representation, solving exact MAP inference in general graphical models. In practice, local optima found by SGD are often good enough.
+
+**Space vs. Time Trade-offs**
+Gradient checkpointing: trade time (recompute) for space (don't store activations). Mixed precision: trade precision for speed. Caching KV attention: trade space for inference speed.
+
+---
+
+## Logic and Symbolic AI
+
+**Propositional Logic**
+Formal system with propositions (true/false), logical connectives (AND, OR, NOT, →, ↔), and inference rules. Foundation of classical AI search and constraint satisfaction.
+
+**First-Order Logic (FOL)**
+Extends propositional logic with variables, quantifiers (∀, ∃), predicates, and functions. Enables reasoning about objects and their relationships. Used in knowledge representation, automated theorem proving, and neuro-symbolic AI.
+
+**Knowledge Representation**
+Encoding facts about the world in a form a computer can reason about. Methods: semantic networks, frames, ontologies (OWL/RDF), knowledge graphs, logic programs (Prolog). Challenge: the frame problem (updating only relevant knowledge after an action).
+
+**Search Algorithms**
+Classical AI relies on search over state spaces. **Uninformed**: BFS, DFS, Dijkstra. **Informed**: A* (uses heuristic estimate to guide search). **Adversarial**: Minimax + Alpha-Beta pruning (chess, Go). **Stochastic**: MCTS (Monte Carlo Tree Search — used in AlphaGo/AlphaZero).
+
+**Expert Systems**
+Early AI systems encoding human expert knowledge as if-then rules. Prominent in the 1980s (MYCIN for medical diagnosis). Brittle — cannot handle cases outside predefined rules. Replaced by statistical/learning approaches.
+
+**Neuro-Symbolic AI**
+Combining neural networks (sub-symbolic pattern recognition) with symbolic reasoning (logical inference, knowledge graphs). Goal: systems with both the perceptual capabilities of NNs and the reasoning/compositionality of symbolic AI. Active research area.
+
+**Constraint Satisfaction Problems (CSP)**
+Problems where variables must be assigned values satisfying a set of constraints. Examples: Sudoku, scheduling, configuration. Solved via backtracking search + constraint propagation. Used in planning and configuration in AI systems.
+
+---
+
+# 🤖 Machine Learning
+
+---
+
+## Core ML Concepts
+
+**The ML Pipeline**
+```
+Raw Data → Data Collection → EDA → Preprocessing → Feature Engineering
+→ Model Selection → Training → Evaluation → Hyperparameter Tuning
+→ Final Evaluation → Deployment → Monitoring
+```
+
+**Types of ML**
+
+| Type | Labels | Goal | Examples |
+|---|---|---|---|
+| Supervised | Yes (input→output) | Predict outputs | Classification, Regression |
+| Unsupervised | No | Find structure | Clustering, Dimensionality Reduction |
+| Semi-supervised | Partial | Leverage unlabeled data | Self-training, Label Propagation |
+| Self-supervised | Generated from data | Learn representations | BERT MLM, SimCLR, MAE |
+| Reinforcement | Reward signal | Maximize reward | Games, Robotics, RLHF |
+
+**The No Free Lunch Theorem**
+No single algorithm is best for all problems. Every algorithm has an inductive bias — assumptions built into it. The best algorithm depends on the specific data distribution and task. Practical implication: always experiment with multiple approaches.
+
+**Inductive Bias**
+The set of assumptions a learning algorithm uses to generalize from training examples to unseen inputs. Examples: CNNs assume translation invariance; RNNs assume sequential dependence; Transformers assume pairwise token interactions. Choosing the right inductive bias for your problem is crucial.
+
+**Generalization Bounds**
+Theoretical guarantees on how well a model trained on a finite dataset will generalize to unseen data. From PAC learning theory: `generalization error ≤ training error + O(√(VC_dimension / n))`. In practice, these bounds are loose — empirical validation is essential.
+
+**Train/Validation/Test Split**
+- **Training set**: used to fit model parameters
+- **Validation set**: used to tune hyperparameters and make model selection decisions
+- **Test set**: used only once for final, unbiased performance estimate
+- Typical splits: 70/15/15 or 80/10/10. For small datasets: use cross-validation.
+
+**Data Preprocessing**
+- **Missing values**: impute (mean, median, KNN) or remove
+- **Categorical encoding**: one-hot, label encoding, target encoding, embeddings
+- **Feature scaling**: standardization (z-score), min-max normalization, robust scaling
+- **Outlier handling**: clip, remove, or use robust models
+- **Class imbalance**: oversampling (SMOTE), undersampling, class weights
+
+**Exploratory Data Analysis (EDA)**
+The process of visualizing and summarizing a dataset to understand its structure before modeling. Key tasks: distribution analysis, correlation matrix, missing value audit, outlier detection, class balance check. Libraries: pandas, matplotlib, seaborn, plotly.
+
+**Leakage Prevention Checklist**
+- ✅ Fit preprocessing (scalers, imputers) on training set only, transform validation/test
+- ✅ Ensure no future information in features for time-series
+- ✅ No shared examples between train and test
+- ✅ Target encoding done inside cross-validation folds
+- ✅ Check for duplicates across splits
+
+---
+
+## Supervised Learning
+
+### Linear Models
+
+**Linear Regression**
+`ŷ = wᵀx + b`. Closed-form solution: `w = (XᵀX)⁻¹Xᵀy` (OLS). Gradient descent solution for large n. Assumes linearity, homoscedasticity, independent errors, no multicollinearity.
+
+**Ridge Regression (L2)**
+`minimize ||Xw - y||² + λ||w||²`. Shrinks coefficients toward zero. Better than OLS when features are correlated. Closed-form: `w = (XᵀX + λI)⁻¹Xᵀy`.
+
+**Lasso Regression (L1)**
+`minimize ||Xw - y||² + λ||w||₁`. Produces sparse solutions — some coefficients are exactly zero. Acts as feature selection. No closed form — requires coordinate descent or proximal gradient methods.
+
+**Elastic Net**
+Combines L1 and L2: `minimize ||Xw - y||² + λ₁||w||₁ + λ₂||w||²`. Best of both: sparsity from L1, handling of correlated features from L2.
+
+**Logistic Regression**
+`P(y=1|x) = σ(wᵀx + b)`. Despite the name, it's a classification model. Outputs calibrated probabilities. Trained by maximizing log-likelihood (equivalent to minimizing cross-entropy). Fast, interpretable, strong baseline.
+
+**Generalized Linear Models (GLMs)**
+Extend linear regression to non-Gaussian outcomes via a link function. Poisson regression for counts, logistic regression for binary, gamma regression for positive continuous. Foundation of classical statistics.
+
+### Decision Trees and Ensembles
+
+**Decision Tree**
+A tree where internal nodes test a feature, branches represent outcomes, and leaves give predictions. Splitting criteria: **Gini impurity** (CART), **Information Gain** (ID3, C4.5), **Variance reduction** (regression). Prone to overfitting — limit depth or prune.
+
+**Random Forest**
+N decision trees on bootstrap samples with random feature subsets. Reduces variance through averaging. Hyperparameters: `n_estimators` (more is better up to diminishing returns), `max_features` (√d for classification, d/3 for regression), `max_depth`.
+
+**Gradient Boosting**
+Sequential ensemble: each tree corrects the residuals of the previous ensemble. Very powerful for tabular data. Implementations:
+- 🐙 [XGBoost](https://github.com/dmlc/xgboost) — regularized, parallel, handles missing values
+- 🐙 [LightGBM](https://github.com/microsoft/LightGBM) — leaf-wise growth, faster on large datasets
+- 🐙 [CatBoost](https://github.com/catboost/catboost) — handles categorical features natively
+
+**AdaBoost**
+The first successful boosting algorithm. Reweights training examples: misclassified examples get higher weights in subsequent rounds. Each weak learner is typically a shallow decision tree (stump).
+
+**Stacking**
+A meta-ensemble where base models' predictions are used as features to train a meta-model (blender). Can combine models of different types (trees + neural nets + SVMs). Requires careful cross-validation to avoid leakage.
+
+### Support Vector Machines
+
+**SVM (Support Vector Machine)**
+Finds the maximum-margin hyperplane separating classes. Support vectors: the training points closest to the decision boundary (and most influential). Dual formulation enables the kernel trick.
+
+**Kernel Trick**
+Computes dot products in a high-dimensional feature space without explicitly mapping to that space: `k(x, x') = φ(x)·φ(x')`. Enables non-linear decision boundaries with a linear classifier in the implicit feature space.
+
+**Common Kernels**
+- **Linear**: `k(x,x') = xᵀx'`
+- **RBF (Gaussian)**: `k(x,x') = exp(-γ||x-x'||²)` — most popular
+- **Polynomial**: `k(x,x') = (xᵀx' + c)^d`
+- **Sigmoid**: `k(x,x') = tanh(αxᵀx' + c)`
+
+**SVR (Support Vector Regression)**
+SVM for regression: finds a function within an ε-tube around the data points, ignoring errors smaller than ε. Robust to outliers.
+
+### k-Nearest Neighbors
+
+**k-NN**
+A non-parametric, instance-based learning algorithm. Prediction for a new point: find k nearest training points (by Euclidean, Manhattan, or Minkowski distance) and take majority vote (classification) or mean (regression). No training phase — all computation at inference. Suffers from the curse of dimensionality.
+
+**Curse of Dimensionality**
+In high-dimensional spaces, data becomes sparse — all points become approximately equidistant from each other. Nearest neighbors lose meaning. Volume of a unit ball shrinks relative to its bounding box. Most ML algorithms degrade with very high dimensionality.
+
+**Approximate Nearest Neighbor (ANN)**
+For large-scale k-NN, exact search is too slow. ANN algorithms trade accuracy for speed: HNSW, LSH (Locality Sensitive Hashing), FAISS (Facebook AI Similarity Search). Essential for dense retrieval and vector databases.
+
+### Naive Bayes
+
+**Naive Bayes Classifier**
+Applies Bayes' theorem with the "naive" assumption that features are conditionally independent given the class: `P(y|x) ∝ P(y) × Π P(xᵢ|y)`. Despite the unrealistic independence assumption, works surprisingly well for text classification.
+
+**Variants**
+- **Gaussian NB**: features follow Gaussian distribution — good for continuous features
+- **Multinomial NB**: for count data (word counts in documents)
+- **Bernoulli NB**: for binary features (word presence/absence)
+
+**Laplace Smoothing**
+Adds a small constant α (usually 1) to all counts to avoid zero probability for unseen feature-class combinations: `P(xᵢ|y) = (count(xᵢ,y) + α) / (count(y) + α × |V|)`.
+
+---
+
+## Unsupervised Learning
+
+### Clustering
+
+**K-Means**
+Initialize k centroids → assign each point to nearest centroid → recompute centroids → repeat until convergence. Objective: minimize within-cluster sum of squares (inertia). Sensitive to initialization — use K-Means++ for better initialization.
+
+**DBSCAN (Density-Based Spatial Clustering)**
+Groups densely connected points; marks low-density points as noise/outliers. Two hyperparameters: `eps` (neighborhood radius), `min_samples` (minimum points to form a core point). Can find clusters of arbitrary shapes. No need to specify k.
+
+**Hierarchical Clustering**
+Builds a tree (dendrogram) of clusters. **Agglomerative** (bottom-up): start with each point as its own cluster, merge closest clusters. **Divisive** (top-down): start with all points, split recursively. Linkage criteria: single, complete, average, Ward.
+
+**Gaussian Mixture Models (GMM)**
+Soft clustering assuming data comes from a mixture of Gaussian distributions. Trained with EM algorithm. Provides probabilistic cluster assignments (unlike hard assignment in K-Means). Can model elliptical clusters.
+
+**Evaluation Metrics for Clustering**
+- **Silhouette score**: measures how similar a point is to its own cluster vs. other clusters. Range: [-1, 1]. Higher is better.
+- **Davies-Bouldin index**: ratio of intra-cluster scatter to inter-cluster distance. Lower is better.
+- **Adjusted Rand Index (ARI)**: for comparing with ground truth labels.
+- **Inertia**: within-cluster sum of squares (K-Means specific).
+
+### Dimensionality Reduction
+
+**PCA (Principal Component Analysis)**
+Linear projection onto directions of maximum variance. Steps: center data → compute covariance matrix → eigendecomposition → project onto top k eigenvectors. Deterministic, fast, interpretable. Cannot capture non-linear structure.
+
+**t-SNE**
+Constructs probability distributions over pairs in high-dim and low-dim spaces, minimizes KL divergence between them. Preserves local neighborhood structure beautifully. Hyperparameter: perplexity (controls neighborhood size, typically 5–50). Stochastic — different runs produce different results.
+
+**UMAP**
+Based on Riemannian geometry and fuzzy topology. Faster than t-SNE, better global structure preservation, deterministic (with fixed seed). Can be used for general dimensionality reduction (not just visualization). 🐙 [Repo](https://github.com/lmcinnes/umap)
+
+**Autoencoders for Dimensionality Reduction**
+Encoder compresses to bottleneck; decoder reconstructs. Non-linear, learned reduction. More flexible than PCA. Bottleneck dimension = reduced dimensionality. → See [Neural Network Fundamentals](#neural-network-fundamentals)
+
+**LDA (Linear Discriminant Analysis)**
+Supervised dimensionality reduction: finds directions maximizing between-class variance relative to within-class variance. Requires class labels. Also used as a classifier.
+
+### Density Estimation
+
+**Kernel Density Estimation (KDE)**
+Non-parametric method for estimating a PDF by placing a kernel (usually Gaussian) at each data point and summing: `f̂(x) = (1/nh) Σ K((x - xᵢ)/h)`. Bandwidth h controls smoothness. Used in anomaly detection and data visualization.
+
+**Latent Dirichlet Allocation (LDA)**
+A probabilistic generative model for text documents. Assumes documents are mixtures of topics, and topics are distributions over words. Inferred via variational EM or collapsed Gibbs sampling. Classic topic modeling algorithm.
+
+---
+
+## Semi-Supervised and Self-Supervised Learning
+
+**Self-Training**
+Train a model on labeled data → use it to label unlabeled data → retrain on combined dataset. Simple but effective. Risk: error propagation (wrong pseudo-labels reinforce themselves).
+
+**Label Propagation**
+Spreads labels from labeled to unlabeled examples through a similarity graph. Label smoothness assumption: connected nodes in the graph should have similar labels. Works well when the graph structure captures the data manifold.
+
+**Consistency Regularization**
+Encourages a model to produce the same prediction for different augmented views of the same unlabeled example. Used in MixMatch, FixMatch, UDA. Key insight: predictions should be robust to realistic perturbations.
+
+**Contrastive Self-Supervised Learning**
+Learn representations by contrasting positive pairs (augmentations of the same image) against negative pairs (different images). Key methods:
+- 🐙 **SimCLR** (Chen et al., 2020): large batch, projection head, NT-Xent loss. [Paper](https://arxiv.org/abs/2002.05709)
+- 🐙 **MoCo** (He et al., 2020): momentum encoder as a memory bank. [Paper](https://arxiv.org/abs/1911.05722)
+- 🐙 **BYOL** (Grill et al., 2020): no negative pairs — uses asymmetric architecture. [Paper](https://arxiv.org/abs/2006.07733)
+- 🐙 **SimSiam** (Chen & He, 2021): no negatives, no momentum, stop-gradient is key. [Paper](https://arxiv.org/abs/2011.10566)
+
+**Masked Autoencoders (MAE)**
+Mask a large fraction (75%) of image patches and reconstruct them from unmasked patches. He et al. (2021). Learns strong visual representations. Vision analog of BERT's MLM. Very compute-efficient because only unmasked tokens are processed by the encoder. 📄 [Paper](https://arxiv.org/abs/2111.06377)
+
+**DINO (Self-DIstillation with NO labels)**
+Self-supervised ViT training using self-distillation with a momentum teacher. Emergent segmentation properties: attention maps align with object boundaries without supervision. 📄 [Paper](https://arxiv.org/abs/2104.14294) 🐙 [Repo](https://github.com/facebookresearch/dino)
+
+---
+
+## Evaluation and Metrics
+
+### Classification Metrics
+
+| Metric | Formula | Use Case |
+|---|---|---|
+| Accuracy | (TP+TN)/(total) | Balanced classes |
+| Precision | TP/(TP+FP) | Low FP cost |
+| Recall | TP/(TP+FN) | Low FN cost |
+| F1 Score | 2×P×R/(P+R) | Imbalanced classes |
+| AUC-ROC | Area under ROC curve | Ranking quality |
+| AUC-PR | Area under PR curve | Highly imbalanced |
+| MCC | Matthews Corr. Coef. | Binary, imbalanced |
+| Log Loss | -Σ y log(p) | Probabilistic predictions |
+| Cohen's Kappa | (Po-Pe)/(1-Pe) | Agreement beyond chance |
+
+### Regression Metrics
+
+| Metric | Formula | Notes |
+|---|---|---|
+| MAE | (1/n)Σ|y-ŷ| | Robust to outliers |
+| MSE | (1/n)Σ(y-ŷ)² | Penalizes large errors |
+| RMSE | √MSE | Same units as y |
+| R² | 1 - SS_res/SS_tot | Variance explained |
+| MAPE | (1/n)Σ|y-ŷ|/y × 100% | Percentage error |
+| Huber Loss | MSE if small, MAE if large | Robust to outliers |
+
+### NLP Metrics
+
+| Metric | Use Case |
+|---|---|
+| BLEU | Machine translation |
+| ROUGE | Summarization |
+| METEOR | Translation (synonym-aware) |
+| BERTScore | Semantic similarity of generated text |
+| Perplexity | Language model quality |
+| MMLU | LLM reasoning/knowledge benchmark |
+| HumanEval | Code generation benchmark |
+
+### Statistical Significance
+Always report confidence intervals, not just point estimates. Use bootstrap resampling or paired t-tests to assess whether differences between models are significant. With large test sets, very small differences can be statistically significant but practically meaningless.
+
+---
+
+## Bias, Variance, and Regularization
+
+**The Decomposition**
+`Total Error = Bias² + Variance + Irreducible Noise`
+
+- **Bias**: error from wrong assumptions in the model. High bias = underfitting.
+- **Variance**: error from sensitivity to small fluctuations in training data. High variance = overfitting.
+- **Irreducible noise**: inherent noise in the data — cannot be eliminated.
+
+**Double Descent**
+An empirically observed phenomenon where test error decreases, increases (classical overfitting), then decreases again as model size grows beyond the interpolation threshold. Challenges the classical bias-variance tradeoff. Observed in neural networks and kernel methods with many parameters. 📄 [Paper: Belkin et al., 2019](https://arxiv.org/abs/1812.11118)
+
+**Regularization Techniques Summary**
+
+| Technique | Mechanism | When to Use |
+|---|---|---|
+| L2 (Weight Decay) | Penalize large weights | Always a safe default |
+| L1 (Lasso) | Sparse weights | When feature selection needed |
+| Dropout | Randomly zero neurons | Dense layers, not BatchNorm layers |
+| Early Stopping | Stop at best validation | When validation curve available |
+| Data Augmentation | More training diversity | Limited data, images/text |
+| Label Smoothing | Softer targets | Classification, prevent overconfidence |
+| Gradient Clipping | Cap gradient norms | RNNs, Transformers |
+| Batch Normalization | Normalize activations | CNNs, MLP |
+| Layer Normalization | Normalize per sample | Transformers |
+
+---
+
+## Feature Engineering
+
+**Numerical Features**
+- Binning/discretization: convert continuous to ordinal categories
+- Log transform: handle right-skewed distributions
+- Polynomial features: capture non-linear interactions
+- Clipping: handle outliers
+- Rank transformation: robust to outliers, creates uniform distribution
+
+**Categorical Features**
+- One-hot encoding: for low cardinality (< ~20 categories)
+- Target encoding: replace category with mean target value (risk: leakage — must do inside CV)
+- Frequency encoding: replace with category frequency
+- Embedding layers: for high cardinality in neural networks
+
+**Temporal Features**
+- Extract: hour, day of week, month, year, quarter
+- Cyclical encoding: sin/cos of time variables to preserve cyclical nature
+- Lag features: previous values
+- Rolling statistics: moving average, standard deviation
+
+**Text Features (Classical)**
+- **Bag of Words (BoW)**: count matrix of word occurrences
+- **TF-IDF**: term frequency × inverse document frequency — down-weights common words
+- **N-grams**: combinations of n consecutive words — captures local context
+
+**Feature Selection Methods**
+- Filter methods: correlation, mutual information, variance threshold (fast, model-agnostic)
+- Wrapper methods: recursive feature elimination with cross-validation (RFE-CV)
+- Embedded methods: L1 regularization, tree feature importance
+- SHAP-based selection: use SHAP values from a trained model
+
+---
