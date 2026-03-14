@@ -2605,3 +2605,660 @@ Use a strong AI model (e.g., GPT-4) to generate preference labels instead of hum
 - Deceptive alignment
 
 ---
+
+---
+
+## Retrieval-Augmented Generation
+
+**Motivation**
+LLMs have fixed knowledge from pre-training. RAG augments generation by retrieving relevant information at inference time, enabling: access to up-to-date information, reduced hallucination, attribution to sources, domain-specific knowledge without fine-tuning.
+
+**RAG Pipeline**
+```
+User Query
+→ Query Encoder (embed query)
+→ Retrieve (ANN search over document store)
+→ Retrieved Documents (top-k chunks)
+→ Augment (prepend documents to LLM prompt)
+→ Generate (LLM conditioned on retrieved context)
+→ Response
+```
+
+**Document Indexing**
+1. Load documents (PDF, web, databases)
+2. Chunk documents (fixed size, semantic, by section)
+3. Embed chunks (embedding model)
+4. Store in vector database (FAISS, Pinecone, Weaviate, Chroma)
+
+**Retrieval Methods**
+
+| Method | Mechanism | Pros | Cons |
+|---|---|---|---|
+| BM25 (sparse) | TF-IDF term matching | Fast, no training, exact term match | No semantic understanding |
+| Dense retrieval | ANN over embeddings | Semantic matching | Requires good embeddings |
+| Hybrid | BM25 + dense, reranked | Best of both | More complex |
+| Multi-vector | ColBERT: token-level matching | High quality | Expensive storage |
+
+**Chunking Strategies**
+- Fixed-size: simple, may break sentences
+- Sentence/paragraph: semantic boundaries
+- Recursive character splitting: tries multiple separators
+- Semantic chunking: split when topic changes (embed and cluster)
+- Small-to-big / parent-child: retrieve small chunks, return larger context
+
+**Re-ranking**
+After initial retrieval, re-rank top-k results with a cross-encoder (slower but more accurate than bi-encoder). Models: Cohere Rerank, BGE Reranker, ms-marco-MiniLM.
+
+**Advanced RAG Techniques**
+
+| Technique | Description |
+|---|---|
+| HyDE (Hypothetical Document Embeddings) | Generate hypothetical answer, embed it, use as query |
+| Query expansion | Generate multiple query variants, retrieve for all |
+| Multi-hop retrieval | Retrieve → answer intermediate question → retrieve again |
+| RAG-Fusion | Multiple queries → multiple retrieval lists → RRF fusion |
+| FLARE | Retrieve only when model is uncertain |
+| Self-RAG | Model decides when to retrieve, critiques retrieved docs |
+| Corrective RAG (CRAG) | Evaluate retrieved docs, discard irrelevant ones |
+
+**Evaluation Metrics for RAG**
+- **Context Recall**: fraction of ground truth answer contained in retrieved docs
+- **Context Precision**: fraction of retrieved docs that are relevant
+- **Answer Faithfulness**: is the answer grounded in the retrieved context?
+- **Answer Relevance**: does the answer address the question?
+- Framework: 🐙 [RAGAS](https://github.com/explodinggradients/ragas)
+
+**RAG Frameworks**
+- 🐙 [LangChain](https://github.com/langchain-ai/langchain) ⭐ — most popular, comprehensive
+- 🐙 [LlamaIndex](https://github.com/run-llama/llama_index) ⭐ — data framework for LLMs
+- 🐙 [Haystack](https://github.com/deepset-ai/haystack) — production-focused pipelines
+
+**Vector Databases**
+
+| Database | Open Source | Cloud | Best For |
+|---|---|---|---|
+| FAISS | ✅ (Meta) | ❌ | In-memory, research |
+| Chroma | ✅ | ✅ | Simple RAG, local dev |
+| Qdrant | ✅ | ✅ | Production, filtering |
+| Weaviate | ✅ | ✅ | Hybrid search |
+| Pinecone | ❌ | ✅ | Managed, scalable |
+| Milvus | ✅ | ✅ | Large scale |
+| pgvector | ✅ | ✅ | PostgreSQL extension |
+
+📄 [RAG Survey Paper](https://arxiv.org/abs/2312.10997)
+
+---
+
+## Agents and Tool Use
+
+**What is an AI Agent?**
+An LLM-based system that can: perceive inputs (text, images, tool outputs), reason about them, plan multi-step actions, execute tools (web search, code, APIs), and iterate based on feedback.
+
+**ReAct Framework**
+Yao et al. (2022). Interleaves reasoning traces and actions:
+```
+Thought: I need to find the current population of France.
+Action: web_search("France population 2024")
+Observation: France has a population of approximately 68 million.
+Thought: I have the information needed.
+Action: Finish("France has ~68 million people")
+```
+📄 [Paper](https://arxiv.org/abs/2210.03629)
+
+**Tool Use in LLMs (Function Calling)**
+Models trained to output structured tool invocations:
+```json
+{
+  "tool": "web_search",
+  "arguments": {"query": "current Bitcoin price"}
+}
+```
+Widely supported: OpenAI Function Calling, Anthropic Tool Use, Gemini Function Calling. Foundation of AI assistants and chatbots with capabilities.
+
+**Common Agent Tools**
+- Web search (Bing API, Google Search, Tavily)
+- Code interpreter / execution sandbox
+- Web browser / page fetching
+- File system operations
+- Database queries
+- API calls (email, calendar, CRM, etc.)
+- Image generation
+- Calculator / Python REPL
+- Memory (vector store of past interactions)
+
+**Memory Types in Agents**
+
+| Memory Type | Where Stored | Lifetime |
+|---|---|---|
+| In-context (short-term) | Context window | Current session |
+| External (long-term) | Vector DB | Persistent |
+| Parametric | Model weights | Permanent (via fine-tuning) |
+| Cache (working memory) | KV cache | Inference session |
+
+**Multi-Agent Systems**
+Multiple agents collaborating:
+- **AutoGen** (Microsoft): conversable agents that chat to complete tasks
+- **CrewAI**: role-based agents with specific responsibilities
+- **LangGraph**: graph-based agent workflows with cycles and state
+
+**Agent Frameworks**
+- 🐙 [LangChain Agents](https://github.com/langchain-ai/langchain) ⭐
+- 🐙 [AutoGen (Microsoft)](https://github.com/microsoft/autogen)
+- 🐙 [CrewAI](https://github.com/joaomdmoura/crewAI)
+- 🐙 [LangGraph](https://github.com/langchain-ai/langgraph)
+- 🐙 [OpenAI Assistants API](https://platform.openai.com/docs/assistants/overview)
+
+**Challenges with Agents**
+- Compounding errors: errors in early steps cascade
+- Tool reliability: real-world tools fail
+- Infinite loops: agents can get stuck
+- Context length: long trajectories exceed context window
+- Latency: multi-hop tool use is slow
+- Safety: agents can take harmful real-world actions
+
+**Agent Benchmarks**
+- WebArena: web navigation tasks
+- SWE-Bench: real GitHub issues (code generation)
+- GAIA: general AI assistant tasks
+- AgentBench: multi-domain agent evaluation
+
+---
+
+## Notable LLMs and Repos
+
+### Proprietary Models
+
+**GPT-4 / GPT-4o (OpenAI)**
+Multimodal (text + images). Exceptional reasoning, coding, instruction following. GPT-4o: faster, supports voice/image natively.
+🌐 [OpenAI Platform](https://platform.openai.com)
+
+**Claude 3 / Claude 3.5 / Claude 4 (Anthropic)**
+Strong reasoning, 200k context window, low hallucination rate. Constitutional AI alignment. Available via API.
+🌐 [Anthropic API](https://www.anthropic.com/api)
+
+**Gemini 1.5 Pro (Google)**
+1M token context window. Natively multimodal (text, image, audio, video). Excellent at long-document tasks.
+🌐 [Google AI Studio](https://aistudio.google.com)
+
+**Mistral Large (Mistral AI)**
+Competitive with GPT-4 class. Fast, efficient. Strong multilingual.
+🌐 [Mistral AI](https://mistral.ai)
+
+### Open-Weight Models
+
+**LLaMA 3 (Meta)**
+8B and 70B parameter models. State-of-the-art open weights. Apache 2.0 or custom license. Foundation for most open-source fine-tuning.
+🐙 [LLaMA 3](https://github.com/meta-llama/llama3)
+
+**Mistral 7B / Mixtral 8×7B**
+- Mistral 7B: outperforms LLaMA 2 13B. Grouped Query Attention (GQA), Sliding Window Attention.
+- Mixtral 8×7B: Sparse MoE — 8 experts, 2 active per token. 46B total, 12B active. Matches GPT-3.5.
+🐙 [Mistral](https://github.com/mistralai/mistral-src)
+
+**Qwen 2.5 (Alibaba)**
+Strong multilingual (especially Chinese), coding, and math capabilities. Available in many sizes.
+🐙 [Qwen](https://github.com/QwenLM/Qwen)
+
+**Phi-3 / Phi-4 (Microsoft)**
+Small but surprisingly powerful models (3.8B-14B params). Trained on high-quality synthetic data. Excellent for on-device deployment.
+🐙 [Phi-3](https://huggingface.co/microsoft/Phi-3-medium-4k-instruct)
+
+**DeepSeek V3 / R1 (DeepSeek)**
+Chinese open-source lab. R1: strong reasoning via RL training (chain-of-thought). Competitive with top proprietary models on benchmarks.
+🐙 [DeepSeek](https://github.com/deepseek-ai/DeepSeek-V3)
+
+**Falcon (TII UAE)**
+Strong early open model. RefinedWeb training data.
+🐙 [Falcon](https://huggingface.co/tiiuae/falcon-40b)
+
+**Code-Specific Models**
+
+| Model | Org | Specialty |
+|---|---|---|
+| CodeLlama | Meta | Code (Python, C++, Java, many more) |
+| Starcoder2 | BigCode | 600+ programming languages |
+| DeepSeek-Coder | DeepSeek | Strong code generation and infilling |
+| Codestral | Mistral | Code completion, 32k context |
+| WizardCoder | WizardLM | Fine-tuned for instruction-based coding |
+
+**Embedding Models**
+
+| Model | Notes |
+|---|---|
+| text-embedding-3-large (OpenAI) | Strong, 3072 dims, Matryoshka embeddings |
+| voyage-large-2 (Voyage AI) | Top retrieval performance |
+| E5-large-v2 (Microsoft) | Strong open-source |
+| BGE-M3 (BAAI) | Multilingual, multi-granularity |
+| nomic-embed-text | Open, context-length 8192 |
+
+**Model Hubs**
+- 🌐 [Hugging Face Hub](https://huggingface.co/models) ⭐ — central repository for open models
+- 🌐 [Ollama](https://ollama.ai) — run LLMs locally
+- 🌐 [LM Studio](https://lmstudio.ai) — local model GUI
+
+---
+
+# 👁️ Computer Vision
+
+---
+
+## CV Fundamentals
+
+**Image Representation**
+Digital images: H × W × C tensor (height, width, channels). Color: RGB (3 channels). Grayscale: 1 channel. Pixel values: uint8 [0, 255] or float32 [0, 1] or [-1, 1] (normalized).
+
+**Basic Image Operations**
+- Convolution: edge detection (Sobel, Laplacian), blurring (Gaussian)
+- Morphological operations: erosion, dilation, opening, closing
+- Histogram equalization: improve contrast
+- Color space conversions: RGB ↔ HSV ↔ LAB ↔ YCbCr
+
+**Image Preprocessing (Deep Learning)**
+- Resize to fixed input dimensions (224×224, 256×256, 512×512)
+- Normalize: subtract ImageNet mean [0.485, 0.456, 0.406], divide by std [0.229, 0.224, 0.225]
+- Data augmentation: random crop, horizontal flip, color jitter, rotation, cutout, mixup, cutmix
+
+**OpenCV**
+The most widely used library for classical CV operations: image I/O, filtering, feature detection, calibration, optical flow.
+🐙 [OpenCV](https://github.com/opencv/opencv) 🐙 [Python bindings](https://github.com/opencv/opencv-python)
+
+**Albumentations**
+Fast, flexible data augmentation library for images. 70+ transforms. Works with segmentation masks and bounding boxes simultaneously.
+🐙 [Albumentations](https://github.com/albumentations-team/albumentations) ⭐
+
+---
+
+## Image Classification
+
+**ImageNet Challenge (ILSVRC)**
+1000-class classification benchmark. Catalyzed deep learning breakthroughs. Top-5 error rate history:
+- 2011: 25.7% (pre-deep learning)
+- 2012: 15.3% (AlexNet) — massive drop
+- 2015: 3.57% (ResNet) — surpasses human (~5%)
+- 2017: 2.25% (Squeeze-Excitation Networks)
+
+**Standard Training Recipe (Modern)**
+- Architecture: ResNet-50 / ViT-B/16 / EfficientNetB4
+- Augmentation: RandAugment, Mixup, CutMix, Random Erasing
+- Regularization: label smoothing, weight decay
+- Optimizer: AdamW or SGD + momentum
+- LR schedule: cosine warmup
+- Training: ~300 epochs
+
+**Transfer Learning for Classification**
+Load pretrained weights (ImageNet) → replace final FC layer → fine-tune:
+- Linear probe: freeze backbone, train only head (fast, baseline)
+- Full fine-tune: update all layers (best performance)
+- Gradual unfreezing: unfreeze layers from top to bottom
+
+---
+
+## Object Detection
+
+**The Two-Stage vs. One-Stage Divide**
+
+**Two-Stage Detectors** (propose regions, then classify)
+- Slower but more accurate on small objects
+- R-CNN → Fast R-CNN → Faster R-CNN → Mask R-CNN
+
+**Faster R-CNN** (Ren et al., 2015)
+Region Proposal Network (RPN) shares convolutional features with detection head. End-to-end trainable. 5 fps. Foundation of many detection systems.
+📄 [Paper](https://arxiv.org/abs/1506.01497)
+
+**One-Stage Detectors** (predict directly from feature map)
+- Faster inference, better for real-time applications
+
+**YOLO (You Only Look Once) Family**
+- YOLOv1 (2016): first real-time detector
+- YOLOv3: multi-scale predictions
+- YOLOv5: PyTorch, easy to use
+- YOLOv8 (Ultralytics): current standard, supports detection/segmentation/pose
+- YOLO-NAS: NAS-designed YOLO
+🐙 [Ultralytics YOLOv8](https://github.com/ultralytics/ultralytics) ⭐
+
+**SSD (Single Shot MultiBox Detector)**
+Liu et al. (2016). Multi-scale feature maps for detecting objects at different sizes. Fast and efficient.
+📄 [Paper](https://arxiv.org/abs/1512.02325)
+
+**RetinaNet + Focal Loss**
+Lin et al. (2017). One-stage detector that matches two-stage accuracy via focal loss. FPN backbone for multi-scale features.
+📄 [Paper](https://arxiv.org/abs/1708.02002)
+
+**DETR (Detection Transformer)**
+Carion et al. (2020). Removes hand-crafted components (NMS, anchor generation). Frames detection as set prediction using bipartite matching loss. Slow to train but elegant.
+📄 [Paper](https://arxiv.org/abs/2005.12872)
+
+**Deformable DETR / DINO-DETR**
+Improves DETR convergence via deformable attention (attends to sparse reference points). State-of-the-art on COCO.
+
+**Key Detection Metrics**
+- **mAP (mean Average Precision)**: average AP across all classes
+- **AP@50**: IoU threshold 0.5
+- **AP@50:95**: average over IoU thresholds 0.5 to 0.95 (COCO metric)
+- **FPS**: frames per second (inference speed)
+
+**COCO Dataset**
+The standard benchmark for detection and segmentation. 118k train images, 80 object categories, 5 annotations per image.
+🌐 [COCO](https://cocodataset.org)
+
+---
+
+## Image Segmentation
+
+**Semantic Segmentation**
+Label every pixel with a class. No distinction between instances.
+
+**U-Net** (Ronneberger, 2015)
+Encoder-decoder with skip connections between corresponding encoder/decoder layers. Designed for biomedical images. Works well with limited data.
+📄 [Paper](https://arxiv.org/abs/1505.04597)
+
+**DeepLab Series**
+Google's semantic segmentation: atrous (dilated) convolutions for large receptive fields, ASPP (Atrous Spatial Pyramid Pooling) for multi-scale context.
+- DeepLabV3+: encoder-decoder with ASPP. State-of-the-art for years.
+📄 [DeepLabV3+ Paper](https://arxiv.org/abs/1802.02611)
+
+**SegFormer**
+Xie et al. (2021). Efficient hierarchical Transformer encoder (Mix Transformer) + lightweight all-MLP decoder. Fast, accurate, no positional encoding needed.
+📄 [Paper](https://arxiv.org/abs/2105.15203)
+
+**Instance Segmentation**
+Label every pixel AND distinguish individual instances.
+
+**Mask R-CNN** (He et al., 2017)
+Extends Faster R-CNN with a mask prediction branch. Predicts binary masks for each detected object. Standard baseline for instance segmentation.
+📄 [Paper](https://arxiv.org/abs/1703.06870)
+
+**Panoptic Segmentation**
+Unified: semantic (stuff: sky, road) + instance (things: cars, people). Single model produces both.
+
+**Segment Anything Model (SAM)**
+Kirillov et al. (2023). Foundation model for image segmentation. Trained on SA-1B (1B+ masks). Accepts point, box, or mask prompts. Generalizes to unseen objects and domains. SAM 2 extends to video.
+📄 [Paper](https://arxiv.org/abs/2304.02643) 🐙 [Repo](https://github.com/facebookresearch/segment-anything)
+
+**Key Segmentation Metrics**
+- **mIoU**: mean Intersection over Union across classes
+- **Pixel accuracy**: fraction of correctly labeled pixels
+- **PQ (Panoptic Quality)**: for panoptic segmentation
+
+---
+
+## Image Generation and Editing
+
+**Text-to-Image Generation (Summary)**
+
+| Model | Organization | Architecture | Notes |
+|---|---|---|---|
+| DALL-E 3 | OpenAI | Diffusion + GPT-4 | Best prompt adherence |
+| Midjourney v6 | Midjourney | Diffusion | Most aesthetic |
+| Stable Diffusion 3 | Stability AI | Diffusion Transformer | Open-source |
+| Imagen 3 | Google | Diffusion | Photorealistic |
+| FLUX.1 | Black Forest Labs | Flow Matching DiT | Open-source SotA |
+
+**Stable Diffusion Ecosystem**
+- 🐙 [AUTOMATIC1111 WebUI](https://github.com/AUTOMATIC1111/stable-diffusion-webui) — most popular UI
+- 🐙 [ComfyUI](https://github.com/comfyanonymous/ComfyUI) — node-based workflow
+- 🐙 [Diffusers](https://github.com/huggingface/diffusers) ⭐ — Hugging Face library
+- 🐙 [InvokeAI](https://github.com/invoke-ai/InvokeAI)
+
+**ControlNet**
+Zhang et al. (2023). Adds spatial conditioning to Stable Diffusion via trainable copies of the encoder. Enables: depth-to-image, canny edge, pose, segmentation map conditioning. Powerful for controlled generation.
+📄 [Paper](https://arxiv.org/abs/2302.05543) 🐙 [Repo](https://github.com/lllyasviel/ControlNet)
+
+**Image Editing with Diffusion**
+- **InstructPix2Pix**: follow edit instructions (e.g., "make it snowy")
+- **SDEdit**: add noise then denoise conditioned on edit prompt
+- **Null-text Inversion**: invert real image into diffusion latent for precise editing
+- **DreamBooth**: fine-tune model on 3-5 photos of a subject for personalized generation
+
+**Image Super-Resolution**
+- ESRGAN / Real-ESRGAN: 4× super-resolution via adversarial training
+- StableSR: diffusion-based super-resolution
+- SwinIR: Swin Transformer for image restoration
+
+---
+
+## Video Understanding
+
+**Video Representation**
+Video = sequence of frames. 3D CNNs process spatiotemporal volumes. Transformers process flattened space-time patches. Key challenge: efficient modeling of temporal information.
+
+**Video Classification**
+- **I3D** (Carreira & Zisserman, 2017): inflate 2D ImageNet weights to 3D. Two-stream (RGB + optical flow).
+- **SlowFast** (Feichtenhofer, 2019): slow pathway (low frame rate, rich spatial) + fast pathway (high frame rate, coarse spatial).
+- **Video Swin Transformer**: 3D shifted windows for efficient video attention.
+
+**Video Object Detection and Tracking**
+- **SORT / DeepSORT**: Kalman filter + ReID embeddings for multi-object tracking
+- **ByteTrack**: use all detections (including low-confidence) for tracking
+
+**Video Generation**
+- **Sora** (OpenAI, 2024): video generation via diffusion on space-time patches (DiT). Up to 1 minute of 1080p video.
+- **Stable Video Diffusion**: open-source image-to-video
+- **CogVideoX**: open-source text-to-video
+
+**Optical Flow**
+Estimation of pixel motion between frames. Classical: Lucas-Kanade, Farneback. Deep: RAFT, FlowNet.
+
+---
+
+## 3D Vision and NeRF
+
+**3D Representations**
+- Point clouds: irregular, direct sensor output (LiDAR)
+- Voxel grids: 3D discrete grid (memory-intensive)
+- Meshes: triangulated surfaces (graphics standard)
+- Implicit surfaces: SDF (Signed Distance Field), occupancy networks
+- NeRF: neural radiance field (view synthesis)
+
+**NeRF (Neural Radiance Fields)**
+Mildenhall et al. (2020). Represent a scene as a continuous function: given (x, y, z, θ, φ) → (RGB, density σ). Render views via differentiable volumetric ray marching. Trained on posed images, renders novel views photo-realistically.
+📄 [Paper](https://arxiv.org/abs/2003.08934) 🐙 [NeRF-pytorch](https://github.com/yenchenlin/nerf-pytorch)
+
+**Instant-NGP (NVIDIA)**
+Müller et al. (2022). Multi-resolution hash encoding makes NeRF training ~1000× faster (seconds vs hours). Foundation of many real-time NeRF systems.
+📄 [Paper](https://arxiv.org/abs/2201.05989) 🐙 [Repo](https://github.com/NVlabs/instant-ngp)
+
+**3D Gaussian Splatting**
+Kerbl et al. (2023). Represent scenes as 3D Gaussians (position, covariance, opacity, color). Real-time rendering via tile-based differentiable rasterization. Faster training and rendering than NeRF.
+📄 [Paper](https://arxiv.org/abs/2308.04079) 🐙 [Repo](https://github.com/graphdeco-inria/gaussian-splatting)
+
+**PointNet / PointNet++**
+Deep learning directly on point clouds. PointNet: per-point MLP + max pooling (permutation invariant). PointNet++: hierarchical with local neighborhood grouping.
+📄 [PointNet Paper](https://arxiv.org/abs/1612.00593)
+
+**3D Object Detection (Autonomous Driving)**
+- PointPillars: efficient 3D object detection from LiDAR
+- CenterPoint: center-based 3D detection
+- BEVFusion: fuse LiDAR and camera in bird's-eye view
+
+---
+
+# 🎮 Deep Reinforcement Learning
+
+---
+
+## RL Fundamentals
+
+**Markov Decision Process (MDP)**
+Tuple (S, A, P, R, γ):
+- S: state space
+- A: action space
+- P(s'|s,a): transition probability
+- R(s,a,s'): reward function
+- γ ∈ [0,1): discount factor
+
+**Key Equations**
+
+Bellman Expectation Equation:
+`V^π(s) = Σ_a π(a|s) Σ_{s'} P(s'|s,a)[R(s,a,s') + γV^π(s')]`
+
+Bellman Optimality Equation:
+`V*(s) = max_a Σ_{s'} P(s'|s,a)[R(s,a,s') + γV*(s')]`
+
+Policy from Q-function:
+`π*(s) = argmax_a Q*(s,a)`
+
+**Policy vs. Value Methods**
+
+| Type | What it Learns | Examples |
+|---|---|---|
+| Value-based | Q(s,a) or V(s), derive policy | DQN, C51, Rainbow |
+| Policy-based | π(a|s) directly | REINFORCE, TRPO |
+| Actor-Critic | Both policy + value | A3C, PPO, SAC |
+| Model-based | World model P(s'|s,a) | Dyna, MuZero, World Models |
+
+**Exploration vs. Exploitation**
+Agent must balance: exploiting known good actions vs. exploring to discover better ones.
+- ε-greedy: take random action with probability ε
+- Boltzmann/Softmax: sample from softmax(Q(s,a)/T)
+- UCB (Upper Confidence Bound): prefer actions with high uncertainty
+- Curiosity-driven: intrinsic reward for novel states (ICM, RND)
+- Noisy Networks: add learnable noise to network weights
+
+**Reward Shaping**
+Modifying the reward function to provide more signal without changing the optimal policy. Potential-based reward shaping: `F(s,a,s') = γΦ(s') - Φ(s)` guarantees policy invariance.
+
+---
+
+## Model-Free RL
+
+### Value-Based Methods
+
+**Q-Learning**
+Off-policy TD learning:
+`Q(s,a) ← Q(s,a) + α[r + γ max_{a'} Q(s',a') - Q(s,a)]`
+Converges to Q* in tabular settings. Model-free, off-policy.
+
+**DQN (Deep Q-Network)**
+Mnih et al. (2014, 2015). Key innovations for stable learning with neural Q-networks:
+1. **Experience Replay**: store transitions in buffer, sample randomly → breaks temporal correlations
+2. **Target Network**: separate network for computing TD targets, updated periodically → stabilizes training
+3. Played 49 Atari games at human level.
+📄 [Nature Paper](https://www.nature.com/articles/nature14236) 🐙 [Repo](https://github.com/google-deepmind/dqn_zoo)
+
+**DQN Improvements**
+- **Double DQN**: use online network to select action, target network to evaluate → reduces overestimation bias
+- **Dueling DQN**: separate streams for V(s) and A(s,a), combined: `Q = V + A - mean(A)` → better generalization
+- **Prioritized Experience Replay (PER)**: sample transitions proportional to TD error → focuses on surprising transitions
+- **Multi-step Returns**: use n-step returns instead of 1-step → faster credit assignment
+- **Distributional RL (C51)**: predict distribution over returns, not just expected value
+- **NoisyNets**: replace ε-greedy with network weight noise for efficient exploration
+- **Rainbow**: combines all of the above → SotA on Atari
+
+**C51 / Distributional RL**
+Bellemare et al. (2017). Model full distribution of returns `Z(s,a)` using categorical distribution over fixed atoms. Better performance than expected value alone.
+📄 [Paper](https://arxiv.org/abs/1707.06887)
+
+### Policy Gradient Methods
+
+**REINFORCE**
+Williams (1992). Monte Carlo policy gradient:
+`∇J(θ) = E_τ[Σ_t ∇ log π_θ(a_t|s_t) G_t]`
+High variance, no bias. Practical: subtract a baseline (value function) to reduce variance.
+
+**TRPO (Trust Region Policy Optimization)**
+Schulman et al. (2015). Constrains policy update size via KL divergence constraint:
+`max E[π_θ(a|s)/π_old(a|s) × A(s,a)] subject to KL(π_old || π_θ) ≤ δ`
+Monotonic improvement guarantees. Computationally expensive (conjugate gradient).
+📄 [Paper](https://arxiv.org/abs/1502.05477)
+
+**PPO (Proximal Policy Optimization)**
+Schulman et al. (2017). Simplifies TRPO with a clipped surrogate objective:
+`L_CLIP = E[min(r_t × A_t, clip(r_t, 1-ε, 1+ε) × A_t)]`
+r_t = π_θ(a_t|s_t) / π_old(a_t|s_t). Simple to implement, widely used.
+The standard RL algorithm for robotics and LLM alignment (RLHF).
+📄 [Paper](https://arxiv.org/abs/1707.06347)
+
+### Actor-Critic Methods
+
+**A3C / A2C**
+Asynchronous / synchronous advantage actor-critic. Multiple workers explore in parallel, update shared model asynchronously (A3C) or synchronously (A2C).
+
+**SAC (Soft Actor-Critic)**
+Haarnoja et al. (2018). Off-policy actor-critic with maximum entropy objective:
+`J(π) = E[Σ_t R(s_t,a_t) + α H(π(·|s_t))]`
+Entropy bonus encourages exploration. More sample-efficient than PPO. Standard for continuous control (robotics).
+📄 [Paper](https://arxiv.org/abs/1801.01290)
+
+**TD3 (Twin Delayed Deep Deterministic)**
+Fujimoto et al. (2018). Addresses overestimation bias in actor-critic:
+- Twin critics: take minimum of two Q estimates
+- Delayed policy updates
+- Target policy smoothing
+
+---
+
+## Model-Based RL
+
+**World Models**
+Ha & Schmidhuber (2018). Train a compressed world model (V: visual encoder, M: memory RNN, C: controller). Train the controller entirely inside the dream (model). Demonstrates imagination-based RL.
+📄 [Paper](https://arxiv.org/abs/1803.10122)
+
+**Dyna Architecture**
+Sutton (1991). Plan using a learned model: use real experience for learning + simulated experience from model for planning. Efficiently combines both.
+
+**MuZero (DeepMind)**
+Schrittwieser et al. (2020). Plans with a learned latent world model without needing a true simulator. Masters chess, shogi, Go, and Atari from pixels. Achieves superhuman performance.
+📄 [Paper](https://www.nature.com/articles/s41586-020-03051-4)
+
+**DreamerV3**
+Hafner et al. (2023). Learns a world model in a discrete latent space, trains purely from imagination. Mastered Minecraft diamond collection from scratch without prior knowledge.
+📄 [Paper](https://arxiv.org/abs/2301.04104)
+
+---
+
+## Multi-Agent RL
+
+**Cooperative MARL**
+Multiple agents share a reward signal and must learn to cooperate. Challenge: credit assignment (who deserves credit?). Methods: QMIX, MADDPG, MAPPO.
+
+**Competitive / Mixed**
+Agents have conflicting objectives. Self-play is key: agents improve by playing against themselves. Used in AlphaGo/Zero, OpenAI Five (Dota 2), Capture The Flag.
+
+**Independent Q-Learning (IQL)**
+Treat each agent independently — simplest approach. Non-stationary from each agent's perspective (other agents are part of the "environment").
+
+**QMIX**
+Rashid et al. (2018). Monotonic mixing of individual Q-values into a joint Q-value. Enables centralized training with decentralized execution (CTDE).
+📄 [Paper](https://arxiv.org/abs/1803.11605)
+
+---
+
+## RL from Human Feedback
+
+(→ Detailed coverage in [RLHF and Alignment](#rlhf-and-alignment) section)
+
+**Key Papers**
+- 📄 [Learning to summarize with human feedback (OpenAI, 2020)](https://arxiv.org/abs/2009.01325)
+- 📄 [InstructGPT (OpenAI, 2022)](https://arxiv.org/abs/2203.02155)
+- 📄 [Constitutional AI (Anthropic, 2022)](https://arxiv.org/abs/2212.08073)
+
+---
+
+## Notable RL Environments and Repos
+
+**Environments**
+
+| Environment | Domain | Notes |
+|---|---|---|
+| OpenAI Gym / Gymnasium | Classic control, Atari | Standard interface |
+| MuJoCo | Continuous control (robotics) | Physics simulation |
+| DMControl | Continuous control | DeepMind, MuJoCo-based |
+| Atari 100K | Discrete control | Sample efficiency benchmark |
+| Brax | Robotics | JAX-based, fast |
+| Isaac Gym/Lab | Robotics | NVIDIA GPU-accelerated |
+| PettingZoo | Multi-agent | 50+ multi-agent envs |
+| MiniGrid | Grid world, sparse rewards | Curriculum learning research |
+| NetHack | Roguelike, complex | Extreme long-horizon tasks |
+| OpenAI Procgen | Procedural generation | Generalization benchmark |
+
+**RL Libraries**
+- 🐙 [Stable Baselines 3](https://github.com/DLR-RM/stable-baselines3) ⭐ — production-quality RL implementations
+- 🐙 [RLlib (Ray)](https://github.com/ray-project/ray/tree/master/rllib) — scalable distributed RL
+- 🐙 [CleanRL](https://github.com/vwxyzjn/cleanrl) — single-file implementations, readable
+- 🐙 [Sample Factory](https://github.com/alex-petrenko/sample-factory) — high-throughput RL
+- 🐙 [Acme (DeepMind)](https://github.com/google-deepmind/acme)
+- 🐙 [TorchRL](https://github.com/pytorch/rl)
+- 🐙 [Gymnasium](https://github.com/Farama-Foundation/Gymnasium) ⭐
+
+---
