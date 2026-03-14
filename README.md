@@ -3950,3 +3950,424 @@ Highly scalable, designed for billion-scale vector search. Multiple index types 
 🐙 [Milvus](https://github.com/milvus-io/milvus)
 
 ---
+
+**Fundamentals**
+- 🎓 [fast.ai — Practical Deep Learning for Coders](https://course.fast.ai/) ⭐ — best starting point, top-down approach
+- 🎓 [CS229 — Machine Learning (Stanford, Andrew Ng)](https://cs229.stanford.edu/) ⭐ — rigorous ML foundations
+- 🎓 [CS231n — CNNs for Visual Recognition (Stanford)](http://cs231n.stanford.edu/) ⭐ — best CV course
+- 🎓 [CS224n — NLP with Deep Learning (Stanford)](http://web.stanford.edu/class/cs224n/) ⭐ — best NLP course
+- 🎓 [CS285 — Deep RL (UC Berkeley)](https://rail.eecs.berkeley.edu/deeprlcourse/) ⭐ — best RL course
+- 🎓 [Deep Learning Specialization (Coursera, Andrew Ng)](https://www.coursera.org/specializations/deep-learning) — beginner-friendly
+- 🎓 [MIT 6.S191 — Introduction to Deep Learning](http://introtodeeplearning.com/)
+- 🎓 [Full Stack Deep Learning](https://fullstackdeeplearning.com/) — MLOps focus ⭐
+- 🎓 [Practical RL (HSE)](https://github.com/yandexdataschool/Practical_RL)
+- 🎓 [Neural Networks: Zero to Hero — Karpathy](https://karpathy.ai/zero-to-hero.html) ⭐ — build from scratch
+- 🎓 [Made With ML](https://madewithml.com/) — MLOps + production ML
+- 🎓 [Hugging Face NLP Course](https://huggingface.co/learn/nlp-course) ⭐ — practical Transformers
+- 🎓 [Weights & Biases Courses](https://www.wandb.courses/) — MLOps, LLMs
+- 🎓 [DeepLearning.AI Short Courses](https://www.deeplearning.ai/short-courses/) — LLMs, diffusion, agents
+
+**Mathematics for ML**
+- 🎓 [3Blue1Brown — Essence of Linear Algebra](https://www.3blue1brown.com/topics/linear-algebra) ⭐
+- 🎓 [3Blue1Brown — Essence of Calculus](https://www.3blue1brown.com/topics/calculus) ⭐
+- 🎓 [3Blue1Brown — Neural Networks](https://www.3blue1brown.com/topics/neural-networks) ⭐
+- 🎓 [Gilbert Strang — MIT 18.06 Linear Algebra](https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/)
+- 🎓 [Mathematics for Machine Learning (book, free PDF)](https://mml-book.github.io/) ⭐
+- 🎓 [Probability Theory — Joe Blitzstein (Harvard Stat 110)](https://projects.iq.harvard.edu/stat110)
+- 🎓 [The Matrix Calculus You Need for Deep Learning](https://explained.ai/matrix-calculus/) ⭐
+
+**Specialized**
+- 🎓 [Stanford CS324 — Large Language Models](https://stanford-cs324.github.io/winter2022/)
+- 🎓 [CMU 11-711 — Advanced NLP](https://phontron.com/class/anlp2024/)
+- 🎓 [Spinning Up in Deep RL — OpenAI](https://spinningup.openai.com/) ⭐ — RL fundamentals with code
+- 🎓 [Distill.pub](https://distill.pub/) ⭐ — beautiful interactive explanations (archived but timeless)
+- 🎓 [The Annotated Transformer](https://nlp.seas.harvard.edu/annotated-transformer/) ⭐ — Transformer line-by-line
+- 🎓 [Illustrated BERT (Jay Alammar)](https://jalammar.github.io/illustrated-bert/) ⭐
+- 🎓 [Illustrated Transformer (Jay Alammar)](https://jalammar.github.io/illustrated-transformer/) ⭐
+- 🎓 [Applied LLMs (Chip Huyen)](https://applied-llms.org/) ⭐ — production LLM systems
+- 🎓 [LLM University (Cohere)](https://docs.cohere.com/docs/llmu)
+- 🎓 [Reinforcement Learning Course (David Silver, DeepMind)](https://www.davidsilver.uk/teaching/) ⭐
+
+**Books (Free Online)**
+- 📚 [Deep Learning — Goodfellow, Bengio, Courville](https://www.deeplearningbook.org/) ⭐
+- 📚 [Pattern Recognition and Machine Learning — Bishop](https://www.microsoft.com/en-us/research/uploads/prod/2006/01/Bishop-Pattern-Recognition-and-Machine-Learning-2006.pdf)
+- 📚 [Dive into Deep Learning (d2l.ai)](https://d2l.ai/) ⭐ — interactive, code-first
+- 📚 [The Elements of Statistical Learning — Hastie, Tibshirani, Friedman](https://hastie.su.domains/ElemStatLearn/)
+- 📚 [An Introduction to Statistical Learning](https://www.statlearning.com/) ⭐ — gentler ESL
+- 📚 [Reinforcement Learning: An Introduction — Sutton & Barto](http://incompleteideas.net/book/the-book-2nd.html) ⭐
+- 📚 [Convex Optimization — Boyd & Vandenberghe](https://web.stanford.edu/~boyd/cvxbook/)
+- 📚 [Information Theory, Inference, and Learning Algorithms — MacKay](https://www.inference.org.uk/itila/book.html)
+- 📚 [Probabilistic Machine Learning — Kevin Murphy](https://probml.github.io/pml-book/) ⭐
+- 📚 [Mathematics for Machine Learning — Deisenroth](https://mml-book.github.io/)
+- 📚 [Understanding Deep Learning — Simon Prince](https://udlbook.github.io/udlbook/) ⭐ — modern, comprehensive
+- 📚 [Build a Large Language Model From Scratch — Raschka](https://github.com/rasbt/LLMs-from-scratch) ⭐
+
+---
+
+## Blogs and Newsletters
+
+**Research Blogs (from Labs)**
+- 📰 [OpenAI Blog](https://openai.com/blog) — GPT, DALL-E, safety research
+- 📰 [Anthropic Blog](https://www.anthropic.com/research) — Claude, interpretability, safety ⭐
+- 📰 [Google DeepMind Blog](https://deepmind.google/discover/blog/) — AlphaGo, AlphaFold, Gemini
+- 📰 [Meta AI Blog](https://ai.meta.com/blog/) — LLaMA, ImageBind, PyTorch
+- 📰 [Microsoft Research Blog](https://www.microsoft.com/en-us/research/blog/)
+- 📰 [Hugging Face Blog](https://huggingface.co/blog) ⭐ — practical ML, open models
+- 📰 [Stability AI Blog](https://stability.ai/news) — Stable Diffusion
+- 📰 [Mistral AI Blog](https://mistral.ai/news/stories)
+
+**Individual Researcher Blogs**
+- 📰 [Lilian Weng — lilianweng.github.io](https://lilianweng.github.io/) ⭐ — deeply technical, comprehensive
+- 📰 [Andrej Karpathy — karpathy.github.io](https://karpathy.github.io/) ⭐ — insightful, accessible
+- 📰 [Sebastian Ruder — ruder.io](https://ruder.io/) — NLP transfer learning
+- 📰 [Jay Alammar — jalammar.github.io](https://jalammar.github.io/) ⭐ — illustrated explanations
+- 📰 [Chip Huyen — huyenchip.com](https://huyenchip.com/blog/) ⭐ — production ML, MLOps
+- 📰 [Sebastian Raschka — sebastianraschka.com](https://sebastianraschka.com/) — practical deep learning
+- 📰 [Colah's Blog — colah.github.io](https://colah.github.io/) ⭐ — beautiful visual explanations
+- 📰 [Ferenc Huszár — inference.vc](https://www.inference.vc/) — probabilistic ML
+- 📰 [Eugene Yan — eugeneyan.com](https://eugeneyan.com/) — applied ML, RecSys
+- 📰 [Ahead of AI (Sebastian Raschka)](https://magazine.sebastianraschka.com/) — newsletter ⭐
+
+**Newsletters**
+- 📰 [The Batch (DeepLearning.AI)](https://www.deeplearning.ai/the-batch/) ⭐ — weekly AI news
+- 📰 [Import AI (Jack Clark)](https://jack-clark.net/) ⭐ — research highlights, policy
+- 📰 [The Gradient](https://thegradient.pub/) — longer-form technical articles
+- 📰 [ML News (Yannic Kilcher)](https://www.youtube.com/@YannicKilcher) — YouTube + newsletter
+- 📰 [Last Week in AI](https://lastweekin.ai/) — curated AI news roundup
+- 📰 [TLDR AI](https://tldr.tech/ai) — daily short summaries
+- 📰 [Ahead of AI](https://magazine.sebastianraschka.com/) — LLMs, research
+- 📰 [Davis Summarizes Papers](https://twitter.com/davisblalock) — quick paper summaries
+- 📰 [AlphaSignal](https://alphasignal.ai/) — top ML papers weekly
+
+**Paper Discovery**
+- 🌐 [ArXiv — cs.AI, cs.LG, cs.CL, cs.CV](https://arxiv.org/) ⭐ — preprint server
+- 🌐 [Papers With Code](https://paperswithcode.com/) ⭐ — papers + code + benchmarks
+- 🌐 [Semantic Scholar](https://www.semanticscholar.org/) — AI-powered paper search
+- 🌐 [Connected Papers](https://www.connectedpapers.com/) — visual paper graph
+- 🌐 [AlphaXiv](https://alphaxiv.org/) — ArXiv with annotations
+- 🌐 [Hugging Face Papers](https://huggingface.co/papers) — daily highlighted papers
+
+**Video Content / YouTube Channels**
+- 📺 [Yannic Kilcher](https://www.youtube.com/@YannicKilcher) ⭐ — paper deep dives
+- 📺 [Two Minute Papers](https://www.youtube.com/@TwoMinutePapers) — accessible paper summaries
+- 📺 [3Blue1Brown](https://www.youtube.com/@3blue1brown) ⭐ — math intuitions
+- 📺 [Andrej Karpathy](https://www.youtube.com/@AndrejKarpathy) ⭐ — building LLMs from scratch
+- 📺 [Lex Fridman](https://www.youtube.com/@lexfridman) — long-form AI interviews
+- 📺 [StatQuest with Josh Starmer](https://www.youtube.com/@statquest) ⭐ — intuitive stats/ML
+- 📺 [Sentdex](https://www.youtube.com/@sentdex) — practical Python/ML
+- 📺 [Sebastian Raschka](https://www.youtube.com/@SebastianRaschka) — LLMs, deep learning
+- 📺 [AI Explained](https://www.youtube.com/@aiexplained-official) — accessible AI news
+
+---
+
+## Conferences and Journals
+
+**Top ML / AI Conferences**
+
+| Conference | Full Name | Focus | Venue |
+|---|---|---|---|
+| **NeurIPS** | Neural Information Processing Systems | General ML/DL | Dec |
+| **ICML** | International Conference on Machine Learning | General ML | Jul |
+| **ICLR** | International Conference on Learning Representations | Deep learning | Apr/May |
+| **AAAI** | Association for the Advancement of AI | General AI | Feb |
+| **IJCAI** | International Joint Conference on AI | General AI | Aug |
+| **UAI** | Uncertainty in Artificial Intelligence | Probabilistic ML | Jul/Aug |
+| **AISTATS** | AI and Statistics | Probabilistic ML | Apr/May |
+
+**Top Vision Conferences**
+
+| Conference | Full Name | Focus |
+|---|---|---|
+| **CVPR** | Computer Vision and Pattern Recognition | Top CV venue |
+| **ICCV** | International Conference on Computer Vision | Top CV (odd years) |
+| **ECCV** | European Conference on Computer Vision | Top CV (even years) |
+
+**Top NLP Conferences**
+
+| Conference | Full Name | Focus |
+|---|---|---|
+| **ACL** | Association for Computational Linguistics | Main NLP venue |
+| **EMNLP** | Empirical Methods in NLP | Empirical NLP |
+| **NAACL** | North American Chapter of ACL | North American NLP |
+| **EACL** | European Chapter of ACL | European NLP |
+| **CoNLL** | Computational Natural Language Learning | NLP learning |
+
+**Top Journals**
+
+| Journal | Publisher | Focus |
+|---|---|---|
+| **Nature** | Nature Publishing | High-impact (AlphaFold, DQN published here) |
+| **Nature Machine Intelligence** | Nature | ML/AI |
+| **Science** | AAAS | High-impact science |
+| **JMLR** | JMLR | Machine learning (free, open access) |
+| **TPAMI** | IEEE | Pattern analysis, CV |
+| **Artificial Intelligence** | Elsevier | General AI |
+| **Transactions of ACL (TACL)** | MIT Press | NLP |
+
+**How to Follow Conference Papers**
+- 🌐 [Proceedings of ML Research (PMLR)](https://proceedings.mlr.press/) — ICML, ICLR, AISTATS
+- 🌐 [NeurIPS Proceedings](https://papers.nips.cc/)
+- 🌐 [ACL Anthology](https://aclanthology.org/) ⭐ — all NLP conference papers
+- 🌐 [OpenReview](https://openreview.net/) — ICLR reviews and papers (public peer review)
+- 🌐 [Papers With Code](https://paperswithcode.com/) ⭐ — conference papers + code
+
+**Conference Deadlines Tracker**
+- 🌐 [aideadlin.es](https://aideadlin.es/) ⭐
+- 🌐 [AI Conference Deadlines](https://jackietseng.github.io/conference_call_for_paper/conferences.html)
+
+---
+
+## Research Labs and Organizations
+
+**Academic Labs**
+
+| Lab | Institution | Known For |
+|---|---|---|
+| **SAIL** | Stanford AI Lab | Foundational research across all AI |
+| **CSAIL** | MIT | Robotics, NLP, vision |
+| **CMU ML** | Carnegie Mellon | NLP (many BERT authors), robotics |
+| **Berkeley AI Research (BAIR)** | UC Berkeley | RL, robotics, vision |
+| **Allen Institute for AI (AI2)** | Independent | NLP (AllenNLP, MMLU), OLMo |
+| **MILA** | Montréal | Deep learning (Bengio group) |
+| **Vector Institute** | Toronto | Canadian AI research |
+| **IDSIA** | Swiss | LSTM (Schmidhuber) |
+| **Oxford Future of Humanity Institute** | Oxford | AI safety |
+| **Leverhulme Centre for the Future of Intelligence** | Cambridge | AI ethics/policy |
+
+**Industry Research Labs**
+
+| Lab | Organization | Known For |
+|---|---|---|
+| **OpenAI** | OpenAI | GPT series, DALL-E, CLIP, Sora |
+| **Anthropic** | Anthropic | Claude, Constitutional AI, interpretability |
+| **Google DeepMind** | Google | AlphaGo, AlphaFold, Gemini, WaveNet |
+| **Meta FAIR** | Meta | LLaMA, PyTorch, DINO, SAM |
+| **Microsoft Research** | Microsoft | Phi, ORCA, ZeRO, LoRA |
+| **NVIDIA Research** | NVIDIA | StyleGAN, Instant-NGP, 3DGS |
+| **Apple ML Research** | Apple | MLX, on-device ML |
+| **Amazon Science** | Amazon | AutoGluon, Alexa AI |
+| **Samsung Research** | Samsung | On-device AI |
+| **Huawei Noah's Ark** | Huawei | PanGu, various CV papers |
+
+**Open Source / Non-Profit AI Organizations**
+
+| Organization | Focus |
+|---|---|
+| **Hugging Face** | Open-source ML hub, models, datasets, spaces |
+| **EleutherAI** | Open-source LLMs (GPT-NeoX, Pile, Pythia) |
+| **LAION** | Open datasets (LAION-5B), open research |
+| **BigCode** | Open code models (StarCoder) |
+| **Together AI** | Open models, efficient inference |
+| **Mistral AI** | Open-weight frontier models |
+| **Stability AI** | Open image/video/audio generation |
+| **Mozilla AI** | Open, trustworthy AI |
+| **Allen Institute for AI (AI2)** | Open NLP research and tools |
+
+**AI Safety Organizations**
+
+| Organization | Focus |
+|---|---|
+| **Anthropic** | AI safety + capabilities (Constitutional AI, interpretability) |
+| **OpenAI Safety Team** | Superalignment, interpretability |
+| **DeepMind Safety** | Specification, robustness, interpretability |
+| **Center for Human-Compatible AI (CHAI)** | Value alignment (Stuart Russell) |
+| **Machine Intelligence Research Institute (MIRI)** | Formal AI safety |
+| **Center for AI Safety (CAIS)** | Reducing catastrophic AI risks |
+| **Future of Life Institute (FLI)** | Existential risk from AI |
+| **Alignment Research Center (ARC)** | Evaluating dangerous capabilities |
+
+---
+
+# ⚖️ AI Ethics and Safety
+
+---
+
+## Fairness and Bias
+
+**Types of Bias in ML**
+
+| Bias Type | Description | Example |
+|---|---|---|
+| Historical bias | Training data reflects past inequalities | Criminal justice recidivism models |
+| Representation bias | Some groups underrepresented in data | Facial recognition worse on dark skin |
+| Measurement bias | Proxy variables measure different things for different groups | Using zip code as income proxy |
+| Aggregation bias | One model for a heterogeneous population | Diabetes model ignoring gender differences |
+| Deployment bias | Model used for different purpose than designed | Using sentiment for hiring |
+| Evaluation bias | Benchmarks don't represent all populations | COMPAS recidivism dataset |
+
+**Fairness Metrics**
+
+| Metric | Definition | Trade-off |
+|---|---|---|
+| Demographic parity | Equal positive prediction rates across groups | May hurt accuracy |
+| Equalized odds | Equal TPR and FPR across groups | Harder to achieve simultaneously |
+| Equal opportunity | Equal TPR across groups | Relaxed equalized odds |
+| Individual fairness | Similar individuals treated similarly | Hard to define similarity |
+| Calibration | Predicted probabilities match true rates | Often in tension with other metrics |
+
+**Impossibility Results**
+Chouldechova (2017) and Kleinberg et al. (2016): when base rates differ between groups, it is mathematically impossible to simultaneously satisfy calibration AND equalized odds. Fairness is inherently multi-dimensional — there is no single perfect metric.
+
+**Bias Mitigation Approaches**
+- **Pre-processing**: reweighting, resampling, data augmentation for underrepresented groups
+- **In-processing**: adversarial debiasing, fairness constraints in loss function
+- **Post-processing**: threshold optimization per group, output calibration
+
+**Tools**
+- 🐙 [Fairlearn (Microsoft)](https://github.com/fairlearn/fairlearn)
+- 🐙 [AI Fairness 360 (IBM)](https://github.com/Trusted-AI/AIF360)
+- 🐙 [What-If Tool (Google)](https://pair-code.github.io/what-if-tool/)
+- 📰 [FAccT Conference Proceedings](https://facctconference.org/)
+
+---
+
+## Interpretability and Explainability
+
+**Intrinsic vs. Post-hoc Interpretability**
+- **Intrinsic**: model is interpretable by design (linear regression, decision trees, rule lists)
+- **Post-hoc**: explain a black-box model after training (LIME, SHAP, attention visualization)
+
+**Local vs. Global Explanations**
+- **Local**: explain a single prediction ("why did this loan get rejected?")
+- **Global**: understand the model's overall behavior ("what features matter most?")
+
+**LIME (Local Interpretable Model-agnostic Explanations)**
+Ribeiro et al. (2016). Perturb the input around a specific example, fit a simple linear model to the perturbations, use that as a local explanation. Model-agnostic, works for text, image, tabular data.
+📄 [Paper](https://arxiv.org/abs/1602.04938) 🐙 [Repo](https://github.com/marcotcr/lime)
+
+**SHAP (SHapley Additive exPlanations)**
+Lundberg & Lee (2017). Game-theoretic approach using Shapley values to attribute each feature's contribution to the prediction. Consistent, locally accurate, satisfies desirable axioms. Fast variants for trees (TreeSHAP).
+📄 [Paper](https://arxiv.org/abs/1705.07874) 🐙 [Repo](https://github.com/shap/shap) ⭐
+
+**Attention Visualization**
+Visualizing attention weights in Transformers to understand what the model "looks at." Caveat: attention ≠ explanation (Jain & Wallace, 2019) — attention weights don't always correspond to feature importance.
+
+**Saliency Maps (Gradients)**
+Compute gradient of output with respect to input pixels. Highlights which pixels most affect the prediction. Variants: vanilla gradients, integrated gradients, Grad-CAM.
+
+**Grad-CAM**
+Selvaraju et al. (2017). Uses gradients of the target class w.r.t. the last convolutional layer to produce a coarse localization map. Visual, intuitive, no architecture changes needed.
+📄 [Paper](https://arxiv.org/abs/1610.02391)
+
+**Mechanistic Interpretability**
+Understand the internal computations of neural networks at the level of circuits and features. Key work: Circuits (Olah et al.), Superposition (Elhage et al.), Monosemanticity (Anthropic). Going beyond "what does it look at" to "how does it compute."
+📰 [Anthropic Interpretability Research](https://www.anthropic.com/research#interpretability)
+📄 [Toy Models of Superposition (Anthropic)](https://transformer-circuits.pub/2022/toy_model/index.html) ⭐
+
+**Probing**
+Train small classifiers on top of frozen model representations to test what information is encoded. Example: probe BERT's hidden states for part-of-speech tags — does BERT encode syntactic structure? Reveals what models "know."
+
+**Tools for Explainability**
+- 🐙 [SHAP](https://github.com/shap/shap) ⭐
+- 🐙 [LIME](https://github.com/marcotcr/lime)
+- 🐙 [Captum (PyTorch)](https://github.com/pytorch/captum)
+- 🐙 [TransformerLens](https://github.com/TransformerLensOrg/TransformerLens) ⭐ — mechanistic interpretability
+- 🐙 [BertViz](https://github.com/jessevig/bertviz) — attention visualization
+
+---
+
+## AI Safety Research
+
+**Key Safety Concerns**
+
+| Concern | Description |
+|---|---|
+| **Misalignment** | Model optimizes a proxy metric, not true human values |
+| **Reward hacking** | Model finds unexpected ways to maximize reward |
+| **Deceptive alignment** | Model appears aligned during training but pursues different goals in deployment |
+| **Goal misgeneralization** | Correct behavior in training distribution, wrong behavior out-of-distribution |
+| **Power-seeking** | Advanced agents may seek resources/influence to pursue goals |
+| **Catastrophic actions** | Actions with large, irreversible negative consequences |
+
+**Technical Safety Research Areas**
+
+**Robustness**
+Ensuring models perform reliably under distribution shift, adversarial inputs, and edge cases. Methods: adversarial training, data augmentation, certified defenses, ensemble methods.
+
+**Uncertainty Quantification**
+Models should know what they don't know. Well-calibrated uncertainty enables safe deployment. Methods: Bayesian NNs, MC Dropout, Deep Ensembles, conformal prediction.
+
+**Scalable Oversight**
+How do humans supervise AI systems that are more capable than humans at specific tasks? Approaches: debate, amplification, recursive reward modeling, process supervision (OpenAI Let's Verify Step by Step).
+📄 [AI Safety via Debate (Irving et al., 2018)](https://arxiv.org/abs/1805.00899)
+📄 [Let's Verify Step by Step (Lightman et al., 2023)](https://arxiv.org/abs/2305.20050)
+
+**Interpretability / Mechanistic Understanding**
+Understanding the internal computations of neural networks to verify they are doing what we want. Anthropic's circuits work, superposition hypothesis, sparse autoencoders for feature extraction.
+🌐 [Transformer Circuits Thread](https://transformer-circuits.pub/) ⭐
+
+**Formal Verification**
+Proving mathematical properties about neural network behavior. Can guarantee no adversarial examples within a ball, or that a control system never enters unsafe states. Tools: α,β-CROWN, Marabou.
+
+**Constitutional AI**
+Anthropic's approach: train models to follow a set of principles by self-critique and revision, reducing reliance on human feedback for safety. 📄 [Paper](https://arxiv.org/abs/2212.08073)
+
+**Key Safety Reading**
+- 📚 [Concrete Problems in AI Safety (Amodei et al., 2016)](https://arxiv.org/abs/1606.06565) ⭐
+- 📚 [Superintelligence — Nick Bostrom](https://www.amazon.com/Superintelligence-Dangers-Strategies-Nick-Bostrom/dp/1501227742) (book)
+- 📚 [Human Compatible — Stuart Russell](https://www.amazon.com/Human-Compatible-Artificial-Intelligence-Problem/dp/0525558616) ⭐ (book)
+- 📰 [AI Alignment Forum](https://www.alignmentforum.org/) ⭐ — key alignment discussion
+- 📰 [LessWrong](https://www.lesswrong.com/) — rationality + AI risk
+- 🐙 [Anthropic Alignment Science](https://www.anthropic.com/research)
+
+---
+
+## Privacy-Preserving ML
+
+**Differential Privacy (DP)**
+A mathematical framework providing formal privacy guarantees. Training with DP-SGD: add calibrated Gaussian noise to gradients. ε-DP: the probability of any output changes by at most eᵉ when any single training example is removed.
+📄 [Deep Learning with DP (Abadi et al., 2016)](https://arxiv.org/abs/1607.00133)
+🐙 [TensorFlow Privacy](https://github.com/tensorflow/privacy)
+🐙 [Opacus (PyTorch DP)](https://github.com/pytorch/opacus)
+
+**Federated Learning**
+Train a model across multiple decentralized devices without sharing raw data. Each device trains locally, only model updates (gradients) are shared and aggregated. Used by Google for keyboard prediction on Android.
+📄 [Communication-Efficient Learning (McMahan et al., 2017)](https://arxiv.org/abs/1602.05629)
+🐙 [Flower (FL framework)](https://github.com/adap/flower)
+🐙 [PySyft](https://github.com/OpenMined/PySyft)
+
+**Secure Multi-Party Computation (SMPC)**
+Multiple parties compute a function on their private inputs without revealing those inputs to each other. Enables private inference: client sends encrypted input, server runs model, returns encrypted output.
+
+**Homomorphic Encryption (HE)**
+Perform computations on encrypted data without decrypting. Result when decrypted equals computation on plaintext. Very slow but provides strongest privacy guarantees. Research phase for ML.
+
+**Machine Unlearning**
+The ability to remove the influence of specific training examples from a trained model, without full retraining. Important for "right to be forgotten" (GDPR). Active research area.
+
+---
+
+## Governance and Policy
+
+**Key Regulatory Frameworks**
+
+| Framework | Region | Status | Key Points |
+|---|---|---|---|
+| **EU AI Act** | European Union | Enacted 2024 | Risk-based regulation, bans some uses |
+| **NIST AI Risk Management Framework** | USA | Published 2023 | Voluntary, comprehensive framework |
+| **Executive Order on AI (Biden)** | USA | 2023 | Safety, security, civil rights |
+| **GDPR** | European Union | Active | Data privacy, impacts AI training |
+| **China AI Regulations** | China | Active | Algorithmic recommendations, generative AI |
+| **UK AI Safety Institute** | UK | Active | Frontier model evaluations |
+
+**Key Policy Issues**
+- Copyright and training data ownership
+- Deepfakes and synthetic media attribution
+- Autonomous weapons and lethal AI
+- AI in high-stakes decisions (hiring, lending, bail, medical)
+- Monopolization of AI capabilities
+- Labor displacement and economic impact
+- AI in elections and disinformation
+
+**AI Ethics Organizations**
+- 🌐 [Partnership on AI](https://partnershiponai.org/) — multi-stakeholder
+- 🌐 [AI Now Institute](https://ainowinstitute.org/) — social implications
+- 🌐 [Algorithm Watch](https://algorithmwatch.org/) — algorithmic accountability
+- 🌐 [Electronic Frontier Foundation](https://www.eff.org/) — digital rights
+- 🌐 [Center for AI Safety](https://www.safe.ai/) — catastrophic risk
+
+**Model Cards and Datasheets**
+- **Model Cards** (Mitchell et al., 2019): standardized documentation for ML models — intended use, limitations, performance across groups.
+- **Datasheets for Datasets** (Gebru et al., 2018): standardized documentation for datasets — motivation, composition, collection process, biases.
+
+---
