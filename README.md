@@ -4371,3 +4371,584 @@ The ability to remove the influence of specific training examples from a trained
 - **Datasheets for Datasets** (Gebru et al., 2018): standardized documentation for datasets — motivation, composition, collection process, biases.
 
 ---
+
+
+---
+
+# 🗂️ Full Alphabetical Index
+
+> Every major term, concept, model, paper, tool, and framework mentioned in this document. Use Ctrl+F / Cmd+F to search.
+
+---
+
+## A
+
+- A3C / A2C → [Actor-Critic Methods](#actor-critic-methods)
+- ADALINE → [Pre-2015 Classics](#pre-2015-classics)
+- AdaBoost → [Decision Trees and Ensembles](#decision-trees-and-ensembles)
+- AdaGrad → [Optimizers](#optimizers)
+- Adam → [Optimizers](#optimizers)
+- AdamW → [Optimizers](#optimizers)
+- Adaptive Moment Estimation → see Adam
+- Adversarial Attack → [Glossary A–F](#glossary-af)
+- Adversarial Training → [Glossary A–F](#glossary-af)
+- Agent (LLM) → [Agents and Tool Use](#agents-and-tool-use)
+- Agent (RL) → [RL Fundamentals](#rl-fundamentals)
+- AI Act (EU) → [Governance and Policy](#governance-and-policy)
+- AI Safety → [AI Safety Research](#ai-safety-research)
+- AI Winter → [Glossary A–F](#glossary-af)
+- Albumentations → [CV Libraries](#cv-libraries)
+- AlexNet → [CNN Architectures Timeline](#cnn-architectures-timeline)
+- Alignment → [RLHF and Alignment](#rlhf-and-alignment)
+- Aleatoric Uncertainty → [Glossary A–F](#glossary-af)
+- ALIGN (Google) → [Vision-Language Models](#vision-language-models)
+- AlphaFold 2 → [2019–2021 Scaling Era](#20192021-scaling-era)
+- AlphaGo / AlphaStar / AlphaZero → [2019–2021 Scaling Era](#20192021-scaling-era)
+- ALBERT → [Language Model Architectures](#language-model-architectures)
+- ALiBi → [Attention and Transformers](#attention-and-transformers)
+- Attention Mechanism → [Attention and Transformers](#attention-and-transformers)
+- Attention Is All You Need → [2015–2018 Breakthroughs](#20152018-breakthroughs)
+- AudioCraft → [Audio and Speech AI](#audio-and-speech-ai)
+- AutoEncoder → [Neural Network Fundamentals](#neural-network-fundamentals)
+- AutoGen → [Agents and Tool Use](#agents-and-tool-use)
+- AutoGluon → [AutoML Tools](#automl-tools)
+- Automatic Differentiation → [Calculus and Optimization](#calculus-and-optimization)
+- AutoML → [Glossary A–F](#glossary-af) | [AutoML Tools](#automl-tools)
+- Autoregressive Model → [Glossary A–F](#glossary-af)
+- AWQ → [Model Serving and Deployment](#model-serving-and-deployment)
+
+---
+
+## B
+
+- Backpropagation → [Glossary A–F](#glossary-af) | [Neural Network Fundamentals](#neural-network-fundamentals)
+- Bagging → [Decision Trees and Ensembles](#decision-trees-and-ensembles)
+- Bahdanau Attention → [Recurrent Neural Networks](#recurrent-neural-networks)
+- BART → [Language Model Architectures](#language-model-architectures)
+- Batch Normalization → [Glossary A–F](#glossary-af) | [2015–2018 Breakthroughs](#20152018-breakthroughs)
+- Batch Size → [Glossary A–F](#glossary-af)
+- Bayesian Inference → [Glossary A–F](#glossary-af) | [Probability and Statistics](#probability-and-statistics)
+- Bayesian Optimization → [Glossary A–F](#glossary-af) | [Hyperparameter Tuning](#hyperparameter-tuning)
+- BentoML → [Model Serving and Deployment](#model-serving-and-deployment)
+- BERT → [Glossary A–F](#glossary-af) | [Language Model Architectures](#language-model-architectures)
+- Beta-VAE → [Variational Autoencoders](#variational-autoencoders)
+- BGE (embeddings) → [Word Embeddings](#word-embeddings)
+- Bias (statistical) → [Glossary A–F](#glossary-af)
+- Bias (societal) → [Fairness and Bias](#fairness-and-bias)
+- Bias-Variance Tradeoff → [Bias, Variance, and Regularization](#bias-variance-and-regularization)
+- BigBird → [Attention and Transformers](#attention-and-transformers)
+- BLIP / BLIP-2 → [Vision-Language Models](#vision-language-models)
+- BM25 → [Retrieval-Augmented Generation](#retrieval-augmented-generation)
+- Bootstrapping → [Glossary A–F](#glossary-af)
+- Bounding Box → [Glossary A–F](#glossary-af)
+- ByteTrack → [Video Understanding](#video-understanding)
+- Byte Pair Encoding (BPE) → [Glossary A–F](#glossary-af) | [Tokenization](#tokenization)
+- BYOL → [Semi-Supervised and Self-Supervised Learning](#semi-supervised-and-self-supervised-learning)
+
+---
+
+## C
+
+- C51 (Distributional RL) → [Model-Free RL](#model-free-rl)
+- CAI (Constitutional AI) → [RLHF and Alignment](#rlhf-and-alignment)
+- CBOW → [Word Embeddings](#word-embeddings)
+- Chain-of-Thought → [Glossary A–F](#glossary-af) | [Prompt Engineering](#prompt-engineering)
+- Checkpoint → [Glossary A–F](#glossary-af)
+- Chinchilla Scaling Laws → [2022–2025 Modern Era](#20222025-modern-era)
+- Chroma → [Vector Databases](#vector-databases)
+- CIFAR-10/100 → [Image Datasets](#image-datasets)
+- CLIP → [Glossary A–F](#glossary-af) | [Vision-Language Models](#vision-language-models)
+- CatBoost → [Decision Trees and Ensembles](#decision-trees-and-ensembles)
+- Catastrophic Forgetting → [Glossary A–F](#glossary-af)
+- Central Limit Theorem → [Probability and Statistics](#probability-and-statistics)
+- Chain Rule → [Calculus and Optimization](#calculus-and-optimization)
+- Class Imbalance → [Core ML Concepts](#core-ml-concepts)
+- Claude (Anthropic) → [Notable LLMs and Repos](#notable-llms-and-repos)
+- Clustering → [Clustering](#clustering)
+- CNN → [Convolutional Neural Networks](#convolutional-neural-networks)
+- COCO Dataset → [Object Detection](#object-detection) | [Multimodal Datasets](#multimodal-datasets)
+- CogVLM → [Vision-Language Models](#vision-language-models)
+- CoT → see Chain-of-Thought
+- Confusion Matrix → [Glossary A–F](#glossary-af)
+- Context Window → [Glossary A–F](#glossary-af)
+- Contrastive Learning → [Glossary A–F](#glossary-af) | [Semi-Supervised and Self-Supervised Learning](#semi-supervised-and-self-supervised-learning)
+- ControlNet → [Image Generation and Editing](#image-generation-and-editing)
+- ConvNeXt → [CNN Architectures Timeline](#cnn-architectures-timeline)
+- Convolution → [Convolutional Neural Networks](#convolutional-neural-networks)
+- Cosine Similarity → [Glossary A–F](#glossary-af)
+- CrewAI → [Agents and Tool Use](#agents-and-tool-use)
+- Cross-Attention → [Attention and Transformers](#attention-and-transformers)
+- Cross-Entropy Loss → [Glossary A–F](#glossary-af) | [Loss Functions](#loss-functions)
+- Cross-Validation → [Glossary A–F](#glossary-af)
+- CTC Loss → [Loss Functions](#loss-functions)
+- Curriculum Learning → [Glossary A–F](#glossary-af)
+- Curse of Dimensionality → [k-Nearest Neighbors](#k-nearest-neighbors)
+
+---
+
+## D
+
+- DALL-E → [Vision-Language Models](#vision-language-models) | [Image Generation and Editing](#image-generation-and-editing)
+- DARTS → [Neural Architecture Search](#neural-architecture-search)
+- Data Augmentation → [Glossary A–F](#glossary-af)
+- Data Leakage → [Glossary A–F](#glossary-af) | [Core ML Concepts](#core-ml-concepts)
+- Data Parallelism → [Distributed Training](#distributed-training)
+- DBSCAN → [Clustering](#clustering)
+- DDPM → [Diffusion Models](#diffusion-models)
+- DDIM → [Diffusion Models](#diffusion-models)
+- DeepSeek R1/V3 → [Notable LLMs and Repos](#notable-llms-and-repos)
+- DeepSpeed → [Distributed Training](#distributed-training)
+- Decision Tree → [Decision Trees and Ensembles](#decision-trees-and-ensembles)
+- DenseNet → [CNN Architectures Timeline](#cnn-architectures-timeline)
+- Dense Retrieval → [Glossary A–F](#glossary-af) | [Retrieval-Augmented Generation](#retrieval-augmented-generation)
+- Depthwise Separable Convolution → [Convolutional Neural Networks](#convolutional-neural-networks)
+- DETR → [Object Detection](#object-detection)
+- Differential Privacy → [Privacy-Preserving ML](#privacy-preserving-ml)
+- Diffusion Models → [Diffusion Models](#diffusion-models)
+- Dimensionality Reduction → [Dimensionality Reduction](#dimensionality-reduction)
+- DiT (Diffusion Transformer) → [Diffusion Models](#diffusion-models)
+- DINO → [Semi-Supervised and Self-Supervised Learning](#semi-supervised-and-self-supervised-learning)
+- Distributional RL → [Model-Free RL](#model-free-rl)
+- DistilBERT → [Language Model Architectures](#language-model-architectures)
+- DPO → [RLHF and Alignment](#rlhf-and-alignment)
+- DQN → [Model-Free RL](#model-free-rl)
+- DreamerV3 → [Model-Based RL](#model-based-rl)
+- Dropout → [Glossary A–F](#glossary-af) | [Bias, Variance, and Regularization](#bias-variance-and-regularization)
+- DVC (Data Version Control) → [Data Versioning and Pipelines](#data-versioning-and-pipelines)
+- Dynamic Computation Graph → [Glossary A–F](#glossary-af)
+
+---
+
+## E
+
+- Early Stopping → [Glossary A–F](#glossary-af)
+- EfficientNet → [CNN Architectures Timeline](#cnn-architectures-timeline) | [Neural Architecture Search](#neural-architecture-search)
+- Eigenvalues / Eigenvectors → [Linear Algebra](#linear-algebra)
+- ELBO → [Variational Autoencoders](#variational-autoencoders) | [Probability and Statistics](#probability-and-statistics)
+- ELMo → [Word Embeddings](#word-embeddings)
+- Embedding → [Glossary A–F](#glossary-af) | [Word Embeddings](#word-embeddings)
+- Emergent Capabilities → [Language Model Architectures](#language-model-architectures)
+- EnCodec → [Audio and Speech AI](#audio-and-speech-ai)
+- Encoder-Decoder → [Glossary A–F](#glossary-af) | [Attention and Transformers](#attention-and-transformers)
+- Ensemble Methods → [Glossary A–F](#glossary-af) | [Decision Trees and Ensembles](#decision-trees-and-ensembles)
+- Entropy → [Glossary A–F](#glossary-af) | [Information Theory](#information-theory)
+- Epistemic Uncertainty → [Glossary A–F](#glossary-af)
+- Equivariance → [Glossary A–F](#glossary-af)
+- ESRGAN → [Image Generation and Editing](#image-generation-and-editing)
+- Evidently AI → [Monitoring and Observability](#monitoring-and-observability)
+- Explainability → [Interpretability and Explainability](#interpretability-and-explainability)
+- Exponential Moving Average → [Glossary A–F](#glossary-af)
+
+---
+
+## F
+
+- F1 Score → [Glossary A–F](#glossary-af) | [Evaluation and Metrics](#evaluation-and-metrics)
+- FAISS → [Vector Databases](#vector-databases)
+- Faster R-CNN → [Object Detection](#object-detection)
+- FastText → [Word Embeddings](#word-embeddings)
+- Feature Engineering → [Feature Engineering](#feature-engineering)
+- Feature Importance → [Glossary A–F](#glossary-af)
+- Feature Map → [Glossary A–F](#glossary-af)
+- Feature Store → [MLOps Concepts](#mlops-concepts)
+- Federated Learning → [Privacy-Preserving ML](#privacy-preserving-ml)
+- Few-Shot Learning → [Glossary A–F](#glossary-af) | [Prompt Engineering](#prompt-engineering)
+- FID (Fréchet Inception Distance) → [Generative Adversarial Networks](#generative-adversarial-networks)
+- Fine-tuning → [Glossary A–F](#glossary-af) | [Pre-training and Fine-tuning](#pre-training-and-fine-tuning)
+- FlashAttention → [Attention and Transformers](#attention-and-transformers)
+- Flamingo → [Vision-Language Models](#vision-language-models)
+- FLUX.1 → [Image Generation and Editing](#image-generation-and-editing) | [2022–2025 Modern Era](#20222025-modern-era)
+- Flow Matching → [Diffusion Models](#diffusion-models)
+- Focal Loss → [Glossary A–F](#glossary-af) | [Loss Functions](#loss-functions)
+- Foundation Model → [Glossary A–F](#glossary-af)
+- FSDP → [Distributed Training](#distributed-training)
+- Function Approximation → [Glossary A–F](#glossary-af)
+
+---
+
+## G
+
+- GANs → [Generative Adversarial Networks](#generative-adversarial-networks)
+- GAT → [Graph Neural Networks](#graph-neural-networks)
+- Gato → [Multimodal Architectures](#multimodal-architectures)
+- Gaussian Mixture Model → [Clustering](#clustering)
+- Gaussian Process → [Glossary G–Z](#glossary-gz)
+- GCN → [Graph Neural Networks](#graph-neural-networks)
+- GDPR → [Governance and Policy](#governance-and-policy)
+- GELU → [Glossary G–Z](#glossary-gz) | [Activation Functions](#activation-functions)
+- Gemini → [Notable LLMs and Repos](#notable-llms-and-repos) | [Vision-Language Models](#vision-language-models)
+- Generative Models → [Glossary G–Z](#glossary-gz)
+- GIN (Graph Isomorphism Network) → [Graph Neural Networks](#graph-neural-networks)
+- GloVe → [Word Embeddings](#word-embeddings)
+- GNN → [Graph Neural Networks](#graph-neural-networks)
+- GoogLeNet / Inception → [CNN Architectures Timeline](#cnn-architectures-timeline)
+- GPT series → [Language Model Architectures](#language-model-architectures) | [Notable LLMs and Repos](#notable-llms-and-repos)
+- Grad-CAM → [Interpretability and Explainability](#interpretability-and-explainability)
+- Gradient → [Glossary G–Z](#glossary-gz) | [Calculus and Optimization](#calculus-and-optimization)
+- Gradient Checkpointing → [Glossary G–Z](#glossary-gz)
+- Gradient Clipping → [Glossary G–Z](#glossary-gz)
+- Gradient Descent → [Glossary G–Z](#glossary-gz) | [Optimizers](#optimizers)
+- GraphSAGE → [Graph Neural Networks](#graph-neural-networks)
+- Great Expectations → [Data Versioning and Pipelines](#data-versioning-and-pipelines)
+- GroupNorm → [Glossary G–Z](#glossary-gz)
+- GRU → [Recurrent Neural Networks](#recurrent-neural-networks)
+
+---
+
+## H
+
+- Hallucination → [Glossary G–Z](#glossary-gz)
+- Haystack → [Retrieval-Augmented Generation](#retrieval-augmented-generation)
+- He Initialization → [Neural Network Fundamentals](#neural-network-fundamentals)
+- Hessian → [Calculus and Optimization](#calculus-and-optimization)
+- Hierarchical Clustering → [Clustering](#clustering)
+- HuBERT → [Audio and Speech AI](#audio-and-speech-ai)
+- Hugging Face → [NLP Libraries](#nlp-libraries) | [Research Labs and Organizations](#research-labs-and-organizations)
+- Hyperband → [Hyperparameter Tuning](#hyperparameter-tuning)
+- Hyperparameter → [Glossary G–Z](#glossary-gz) | [Hyperparameter Tuning](#hyperparameter-tuning)
+- HyDE → [Retrieval-Augmented Generation](#retrieval-augmented-generation)
+
+---
+
+## I
+
+- I3D → [Video Understanding](#video-understanding)
+- ImageNet → [Image Datasets](#image-datasets) | [Image Classification](#image-classification)
+- In-Context Learning → [Glossary G–Z](#glossary-gz) | [Prompt Engineering](#prompt-engineering)
+- Inception / GoogLeNet → [CNN Architectures Timeline](#cnn-architectures-timeline)
+- Information Theory → [Information Theory](#information-theory)
+- Instant-NGP → [3D Vision and NeRF](#3d-vision-and-nerf)
+- Instance Normalization → [Glossary G–Z](#glossary-gz)
+- InstructGPT → [RLHF and Alignment](#rlhf-and-alignment)
+- Interpretability → [Interpretability and Explainability](#interpretability-and-explainability)
+- IoU → [Glossary G–Z](#glossary-gz)
+
+---
+
+## J
+
+- JAX → [Glossary G–Z](#glossary-gz) | [Core Frameworks](#core-frameworks)
+- Jacobian → [Glossary G–Z](#glossary-gz)
+
+---
+
+## K
+
+- KDE → [Density Estimation](#density-estimation)
+- Kernel (CNN) → [Convolutional Neural Networks](#convolutional-neural-networks)
+- Kernel (SVM/GP) → [Support Vector Machines](#support-vector-machines)
+- KL Divergence → [Glossary G–Z](#glossary-gz) | [Information Theory](#information-theory)
+- k-NN → [k-Nearest Neighbors](#k-nearest-neighbors)
+- K-Means → [Clustering](#clustering)
+- Knowledge Distillation → [Glossary A–F](#glossary-af) (under Distillation)
+- Knowledge Graph → [Glossary G–Z](#glossary-gz)
+- Kornia → [CV Libraries](#cv-libraries)
+
+---
+
+## L
+
+- L1/L2 Regularization → [Bias, Variance, and Regularization](#bias-variance-and-regularization)
+- Label Smoothing → [Glossary G–Z](#glossary-gz) | [Loss Functions](#loss-functions)
+- LAMB → [Optimizers](#optimizers)
+- LangChain → [NLP Libraries](#nlp-libraries) | [RAG Frameworks](#rag-frameworks)
+- LangGraph → [Agents and Tool Use](#agents-and-tool-use)
+- Latent Diffusion → [Diffusion Models](#diffusion-models)
+- Latent Space → [Glossary G–Z](#glossary-gz)
+- Layer Normalization → [Glossary G–Z](#glossary-gz) | [Attention and Transformers](#attention-and-transformers)
+- LDA (Latent Dirichlet Allocation) → [Density Estimation](#density-estimation)
+- LDA (Linear Discriminant Analysis) → [Dimensionality Reduction](#dimensionality-reduction)
+- LeakyReLU → [Activation Functions](#activation-functions)
+- Learning Rate → [Glossary G–Z](#glossary-gz) | [Optimizers](#optimizers)
+- LeNet → [CNN Architectures Timeline](#cnn-architectures-timeline)
+- LightGBM → [Decision Trees and Ensembles](#decision-trees-and-ensembles)
+- LIME → [Interpretability and Explainability](#interpretability-and-explainability)
+- Linear Regression → [Linear Models](#linear-models)
+- Lion Optimizer → [Optimizers](#optimizers)
+- LlamaIndex → [NLP Libraries](#nlp-libraries)
+- LLaMA → [Notable LLMs and Repos](#notable-llms-and-repos)
+- LLM → [Glossary G–Z](#glossary-gz) | [Notable LLMs and Repos](#notable-llms-and-repos)
+- LLaVA → [Vision-Language Models](#vision-language-models)
+- Logistic Regression → [Linear Models](#linear-models)
+- Longformer → [Attention and Transformers](#attention-and-transformers)
+- LoRA → [Glossary G–Z](#glossary-gz) | [Pre-training and Fine-tuning](#pre-training-and-fine-tuning)
+- Loss Function → [Glossary G–Z](#glossary-gz) | [Loss Functions](#loss-functions)
+- LSTM → [Glossary G–Z](#glossary-gz) | [Recurrent Neural Networks](#recurrent-neural-networks)
+
+---
+
+## M
+
+- MAE (Masked Autoencoders) → [Semi-Supervised and Self-Supervised Learning](#semi-supervised-and-self-supervised-learning)
+- MAML → [Glossary G–Z](#glossary-gz)
+- Mamba → [2022–2025 Modern Era](#20222025-modern-era)
+- MAP → [Glossary G–Z](#glossary-gz)
+- Mask R-CNN → [Image Segmentation](#image-segmentation)
+- Masked Language Modeling → [Glossary G–Z](#glossary-gz)
+- matplotlib → [Visualization Tools](#visualization-tools)
+- MDP → [RL Fundamentals](#rl-fundamentals)
+- Mechanistic Interpretability → [Interpretability and Explainability](#interpretability-and-explainability)
+- Megatron-LM → [Distributed Training](#distributed-training)
+- Message Passing → [Glossary G–Z](#glossary-gz) | [Graph Neural Networks](#graph-neural-networks)
+- Meta-Learning → [Glossary G–Z](#glossary-gz)
+- Milvus → [Vector Databases](#vector-databases)
+- MiniGPT-4 → [Vision-Language Models](#vision-language-models)
+- Mistral → [Notable LLMs and Repos](#notable-llms-and-repos)
+- Mixed Precision → [Distributed Training](#distributed-training)
+- MLflow → [Experiment Tracking](#experiment-tracking)
+- MLOps → [MLOps Concepts](#mlops-concepts)
+- MLP → [Glossary G–Z](#glossary-gz) | [Neural Network Fundamentals](#neural-network-fundamentals)
+- MobileNet → [CNN Architectures Timeline](#cnn-architectures-timeline)
+- MoCo → [Semi-Supervised and Self-Supervised Learning](#semi-supervised-and-self-supervised-learning)
+- Model Card → [Governance and Policy](#governance-and-policy)
+- Model Parallelism → [Distributed Training](#distributed-training)
+- Momentum → [Glossary G–Z](#glossary-gz) | [Optimizers](#optimizers)
+- MSE → [Loss Functions](#loss-functions)
+- Multi-Head Attention → [Glossary G–Z](#glossary-gz) | [Attention and Transformers](#attention-and-transformers)
+- MuJoCo → [Notable RL Environments and Repos](#notable-rl-environments-and-repos)
+- MusicGen → [Audio and Speech AI](#audio-and-speech-ai)
+- MuZero → [Model-Based RL](#model-based-rl)
+- Mixtral → [Notable LLMs and Repos](#notable-llms-and-repos)
+
+---
+
+## N
+
+- Naive Bayes → [Naive Bayes](#naive-bayes)
+- NAS → [Neural Architecture Search](#neural-architecture-search)
+- NeRF → [3D Vision and NeRF](#3d-vision-and-nerf)
+- Neural ODE → [Glossary G–Z](#glossary-gz)
+- NMS → [Glossary G–Z](#glossary-gz)
+- Normalizing Flows → [Normalizing Flows](#normalizing-flows)
+- NumPy → [Data Processing](#data-processing)
+
+---
+
+## O
+
+- Object Detection → [Object Detection](#object-detection)
+- ONNX → [Model Serving and Deployment](#model-serving-and-deployment)
+- OpenCV → [CV Libraries](#cv-libraries)
+- Optuna → [Hyperparameter Tuning](#hyperparameter-tuning) | [AutoML Tools](#automl-tools)
+- Out-of-Distribution → [Glossary G–Z](#glossary-gz)
+- Overfitting → [Glossary G–Z](#glossary-gz) | [Bias, Variance, and Regularization](#bias-variance-and-regularization)
+
+---
+
+## P
+
+- PCA → [Linear Algebra](#linear-algebra) | [Dimensionality Reduction](#dimensionality-reduction)
+- pandas → [Data Processing](#data-processing)
+- Panoptic Segmentation → [Image Segmentation](#image-segmentation)
+- PEFT → [Pre-training and Fine-tuning](#pre-training-and-fine-tuning)
+- Perplexity → [Glossary G–Z](#glossary-gz)
+- Phi-3/4 (Microsoft) → [Notable LLMs and Repos](#notable-llms-and-repos)
+- pgvector → [Vector Databases](#vector-databases)
+- PointNet → [3D Vision and NeRF](#3d-vision-and-nerf)
+- Polars → [Data Processing](#data-processing)
+- Pooling → [Glossary G–Z](#glossary-gz) | [Convolutional Neural Networks](#convolutional-neural-networks)
+- PPO → [Policy Gradient Methods](#policy-gradient-methods) | [RLHF and Alignment](#rlhf-and-alignment)
+- Precision → [Glossary G–Z](#glossary-gz)
+- Prefix Tuning → [Pre-training and Fine-tuning](#pre-training-and-fine-tuning)
+- Pre-training → [Glossary G–Z](#glossary-gz) | [Pre-training and Fine-tuning](#pre-training-and-fine-tuning)
+- Prior → [Glossary G–Z](#glossary-gz)
+- Prompt Engineering → [Prompt Engineering](#prompt-engineering)
+- Prompt Injection → [Prompt Engineering](#prompt-engineering)
+- Pruning → [Glossary G–Z](#glossary-gz) | [Model Serving and Deployment](#model-serving-and-deployment)
+- PyTorch → [Core Frameworks](#core-frameworks)
+- PyTorch Lightning → [Core Frameworks](#core-frameworks)
+
+---
+
+## Q
+
+- Q-Learning → [Glossary G–Z](#glossary-gz) | [Model-Free RL](#model-free-rl)
+- QKV → [Glossary G–Z](#glossary-gz) | [Attention and Transformers](#attention-and-transformers)
+- QLoRA → [Pre-training and Fine-tuning](#pre-training-and-fine-tuning)
+- Qdrant → [Vector Databases](#vector-databases)
+- Qwen → [Notable LLMs and Repos](#notable-llms-and-repos)
+- Quantization → [Glossary G–Z](#glossary-gz) | [Model Serving and Deployment](#model-serving-and-deployment)
+- QMIX → [Multi-Agent RL](#multi-agent-rl)
+
+---
+
+## R
+
+- RAG → [Retrieval-Augmented Generation](#retrieval-augmented-generation)
+- RAGAS → [Retrieval-Augmented Generation](#retrieval-augmented-generation)
+- Rainbow DQN → [Model-Free RL](#model-free-rl)
+- Random Forest → [Glossary G–Z](#glossary-gz) | [Decision Trees and Ensembles](#decision-trees-and-ensembles)
+- Ray / Ray Tune → [Data Processing](#data-processing) | [Hyperparameter Tuning](#hyperparameter-tuning)
+- ReAct → [Agents and Tool Use](#agents-and-tool-use)
+- Recall → [Glossary G–Z](#glossary-gz) | [Evaluation and Metrics](#evaluation-and-metrics)
+- Receptive Field → [Glossary G–Z](#glossary-gz) | [Convolutional Neural Networks](#convolutional-neural-networks)
+- Rectified Linear Unit → see ReLU
+- Recurrent Neural Network → [Recurrent Neural Networks](#recurrent-neural-networks)
+- Regularization → [Bias, Variance, and Regularization](#bias-variance-and-regularization)
+- REINFORCE → [Policy Gradient Methods](#policy-gradient-methods)
+- ReLU → [Activation Functions](#activation-functions)
+- Reparameterization Trick → [Variational Autoencoders](#variational-autoencoders)
+- Representation Learning → [Glossary G–Z](#glossary-gz)
+- ResNet → [Glossary G–Z](#glossary-gz) | [CNN Architectures Timeline](#cnn-architectures-timeline)
+- Retrieval-Augmented Generation → [Retrieval-Augmented Generation](#retrieval-augmented-generation)
+- Reward Function → [Glossary G–Z](#glossary-gz) | [RL Fundamentals](#rl-fundamentals)
+- RLAIF → [RLHF and Alignment](#rlhf-and-alignment)
+- RLHF → [Glossary G–Z](#glossary-gz) | [RLHF and Alignment](#rlhf-and-alignment)
+- RMSNorm → [Glossary G–Z](#glossary-gz)
+- RoBERTa → [Language Model Architectures](#language-model-architectures)
+- ROC Curve / AUC → [Glossary G–Z](#glossary-gz) | [Evaluation and Metrics](#evaluation-and-metrics)
+- RoPE → [Glossary G–Z](#glossary-gz) | [Attention and Transformers](#attention-and-transformers)
+
+---
+
+## S
+
+- SAC → [Model-Free RL](#model-free-rl)
+- SAM (Segment Anything) → [Image Segmentation](#image-segmentation)
+- SBERT (Sentence-BERT) → [Word Embeddings](#word-embeddings)
+- Scaled Dot-Product Attention → [Attention and Transformers](#attention-and-transformers)
+- scikit-learn → [Data Processing](#data-processing)
+- Score-Based Models → [Diffusion Models](#diffusion-models)
+- SegFormer → [Image Segmentation](#image-segmentation)
+- Self-Attention → [Glossary G–Z](#glossary-gz) | [Attention and Transformers](#attention-and-transformers)
+- Self-Consistency → [Prompt Engineering](#prompt-engineering)
+- Self-Supervised Learning → [Semi-Supervised and Self-Supervised Learning](#semi-supervised-and-self-supervised-learning)
+- Semantic Segmentation → [Glossary G–Z](#glossary-gz) | [Image Segmentation](#image-segmentation)
+- Sentence Transformers → [NLP Libraries](#nlp-libraries) | [Word Embeddings](#word-embeddings)
+- SentencePiece → [Tokenization](#tokenization)
+- SHAP → [Interpretability and Explainability](#interpretability-and-explainability)
+- Sigmoid → [Activation Functions](#activation-functions)
+- SimCLR → [Semi-Supervised and Self-Supervised Learning](#semi-supervised-and-self-supervised-learning)
+- SimCSE → [Word Embeddings](#word-embeddings)
+- Skip Connections → [Neural Network Fundamentals](#neural-network-fundamentals)
+- SlowFast → [Video Understanding](#video-understanding)
+- Softmax → [Glossary G–Z](#glossary-gz) | [Activation Functions](#activation-functions)
+- Sophia → [Optimizers](#optimizers) | [2022–2025 Modern Era](#20222025-modern-era)
+- spaCy → [NLP Libraries](#nlp-libraries)
+- Sparse Attention → [Glossary G–Z](#glossary-gz)
+- Speculative Decoding → [Model Serving and Deployment](#model-serving-and-deployment)
+- Stable Baselines 3 → [RL Libraries](#rl-libraries)
+- Stable Diffusion → [Glossary G–Z](#glossary-gz) | [Diffusion Models](#diffusion-models)
+- Stable Video Diffusion → [Video Understanding](#video-understanding)
+- Stacking → [Decision Trees and Ensembles](#decision-trees-and-ensembles)
+- State Space Models (SSM/Mamba) → [2022–2025 Modern Era](#20222025-modern-era)
+- StyleGAN → [Generative Adversarial Networks](#generative-adversarial-networks)
+- SVD → [Linear Algebra](#linear-algebra)
+- SVM → [Support Vector Machines](#support-vector-machines)
+- Swish/SiLU → [Activation Functions](#activation-functions)
+- SwinTransformer → [Attention and Transformers](#attention-and-transformers) | [Image Segmentation](#image-segmentation)
+
+---
+
+## T
+
+- T5 → [Language Model Architectures](#language-model-architectures)
+- Tacotron → [Audio and Speech AI](#audio-and-speech-ai)
+- Teacher Forcing → [Glossary G–Z](#glossary-gz)
+- Temperature → [Glossary G–Z](#glossary-gz)
+- TensorFlow → [Core Frameworks](#core-frameworks)
+- TensorBoard → [Visualization Tools](#visualization-tools)
+- Tensor → [Glossary G–Z](#glossary-gz)
+- TGI (Text Generation Inference) → [Model Serving and Deployment](#model-serving-and-deployment)
+- timm → [CV Libraries](#cv-libraries)
+- Tokenization → [Tokenization](#tokenization)
+- torchvision → [CV Libraries](#cv-libraries)
+- Transfer Learning → [Glossary G–Z](#glossary-gz) | [Pre-training and Fine-tuning](#pre-training-and-fine-tuning)
+- Transformer → [Glossary G–Z](#glossary-gz) | [Attention and Transformers](#attention-and-transformers)
+- TransformerLens → [Interpretability and Explainability](#interpretability-and-explainability)
+- Tree of Thoughts → [Prompt Engineering](#prompt-engineering)
+- Triton Inference Server → [Model Serving and Deployment](#model-serving-and-deployment)
+- TRL (Hugging Face) → [NLP Libraries](#nlp-libraries)
+- TRPO → [Policy Gradient Methods](#policy-gradient-methods)
+- t-SNE → [Glossary G–Z](#glossary-gz) | [Dimensionality Reduction](#dimensionality-reduction)
+
+---
+
+## U
+
+- U-Net → [Glossary G–Z](#glossary-gz) | [Image Segmentation](#image-segmentation) | [Diffusion Models](#diffusion-models)
+- UMAP → [Glossary G–Z](#glossary-gz) | [Dimensionality Reduction](#dimensionality-reduction)
+- Uncertainty Quantification → [AI Safety Research](#ai-safety-research)
+- Underfitting → [Glossary G–Z](#glossary-gz)
+
+---
+
+## V
+
+- VAE → [Glossary G–Z](#glossary-gz) | [Variational Autoencoders](#variational-autoencoders)
+- Validation Set → [Glossary G–Z](#glossary-gz) | [Core ML Concepts](#core-ml-concepts)
+- Value Function → [Glossary G–Z](#glossary-gz) | [RL Fundamentals](#rl-fundamentals)
+- Vanishing Gradient → [Glossary G–Z](#glossary-gz) | [Recurrent Neural Networks](#recurrent-neural-networks)
+- Vector Database → [Vector Databases](#vector-databases)
+- VGGNet → [CNN Architectures Timeline](#cnn-architectures-timeline)
+- Vision Transformer (ViT) → [Glossary G–Z](#glossary-gz) | [Attention and Transformers](#attention-and-transformers)
+- VITS → [Audio and Speech AI](#audio-and-speech-ai)
+- vLLM → [Model Serving and Deployment](#model-serving-and-deployment)
+- VQ-VAE → [Variational Autoencoders](#variational-autoencoders)
+
+---
+
+## W
+
+- W&B (Weights & Biases) → [Experiment Tracking](#experiment-tracking)
+- WaveNet → [Audio and Speech AI](#audio-and-speech-ai)
+- Wav2Vec 2.0 → [Audio and Speech AI](#audio-and-speech-ai)
+- Weaviate → [Vector Databases](#vector-databases)
+- Weight Decay → see L2 Regularization
+- Weight Initialization → [Neural Network Fundamentals](#neural-network-fundamentals)
+- Whisper → [Audio and Speech AI](#audio-and-speech-ai)
+- Word2Vec → [Glossary G–Z](#glossary-gz) | [Word Embeddings](#word-embeddings)
+- WordPiece → [Tokenization](#tokenization)
+- World Models → [Model-Based RL](#model-based-rl)
+
+---
+
+## X
+
+- Xavier/Glorot Init → [Neural Network Fundamentals](#neural-network-fundamentals)
+- XGBoost → [Glossary G–Z](#glossary-gz) | [Decision Trees and Ensembles](#decision-trees-and-ensembles)
+- XLNet → [Language Model Architectures](#language-model-architectures)
+
+---
+
+## Y
+
+- YOLO (all versions) → [Object Detection](#object-detection)
+
+---
+
+## Z
+
+- ZeRO (DeepSpeed) → [Distributed Training](#distributed-training)
+- Zero-Shot Learning → [Glossary G–Z](#glossary-gz) | [Prompt Engineering](#prompt-engineering)
+- Z-Score Normalization → [Glossary G–Z](#glossary-gz)
+- 3D Gaussian Splatting → [3D Vision and NeRF](#3d-vision-and-nerf)
+
+---
+
+---
+
+# 🙌 Final Notes
+
+This document is a living knowledge base. The field of AI moves fast — new architectures, training techniques, and capabilities emerge constantly. Use this as a foundation to build from, not a ceiling.
+
+**The best way to learn AI:**
+1. Understand the math (linear algebra, calculus, probability)
+2. Implement from scratch (follow Karpathy's Zero to Hero)
+3. Read primary sources (ArXiv, not just blog summaries)
+4. Build something real (Kaggle, personal projects, research)
+5. Stay current (Papers With Code, Twitter/X, newsletters)
+
+**Golden resources to bookmark:**
+- 🌐 [ArXiv cs.LG](https://arxiv.org/list/cs.LG/recent)
+- 🌐 [Papers With Code](https://paperswithcode.com/)
+- 🌐 [Hugging Face Hub](https://huggingface.co/)
+- 🎓 [Karpathy Neural Networks: Zero to Hero](https://karpathy.ai/zero-to-hero.html)
+- 📚 [Dive into Deep Learning (d2l.ai)](https://d2l.ai/)
+- 📰 [Lilian Weng's Blog](https://lilianweng.github.io/)
+
+---
+
+*Built with ❤️ in the spirit of the Awesome List community. PRs welcome.*
+
+*Total: ~8000+ lines of pure AI knowledge.*
