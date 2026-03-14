@@ -11,17 +11,17 @@
 
 ---
 
-## 📚 Table of Contents
+## Table of Contents
 
 ### Meta
 - [Legend](#legend)
 - [Contributing](#contributing)
 
-### 🔤 Glossary
+### Glossary
 - [Glossary A–F](#glossary-af)
 - [Glossary G–Z](#glossary-gz)
 
-### 🧮 Foundations
+### Foundations
 - [Mathematics for AI](#mathematics-for-ai)
   - [Linear Algebra](#linear-algebra)
   - [Calculus and Optimization](#calculus-and-optimization)
@@ -30,7 +30,7 @@
 - [Computational Complexity](#computational-complexity)
 - [Logic and Symbolic AI](#logic-and-symbolic-ai)
 
-### 🤖 Machine Learning
+### Machine Learning
 - [Core ML Concepts](#core-ml-concepts)
 - [Supervised Learning](#supervised-learning)
   - [Linear Models](#linear-models)
@@ -48,7 +48,7 @@
 - [Bias, Variance, and Regularization](#bias-variance-and-regularization)
 - [Feature Engineering](#feature-engineering)
 
-### 🧬 Deep Learning
+### Deep Learning
 - [Neural Network Fundamentals](#neural-network-fundamentals)
 - [Activation Functions](#activation-functions)
 - [Loss Functions](#loss-functions)
@@ -64,7 +64,7 @@
 - [Neural Architecture Search](#neural-architecture-search)
 - [Hyperparameter Tuning](#hyperparameter-tuning)
 
-### 💬 NLP and Large Language Models
+### NLP and Large Language Models
 - [NLP Fundamentals](#nlp-fundamentals)
 - [Tokenization](#tokenization)
 - [Word Embeddings](#word-embeddings)
@@ -76,7 +76,7 @@
 - [Agents and Tool Use](#agents-and-tool-use)
 - [Notable LLMs and Repos](#notable-llms-and-repos)
 
-### 👁️ Computer Vision
+### Computer Vision
 - [CV Fundamentals](#cv-fundamentals)
 - [Image Classification](#image-classification)
 - [Object Detection](#object-detection)
@@ -85,7 +85,7 @@
 - [Video Understanding](#video-understanding)
 - [3D Vision and NeRF](#3d-vision-and-nerf)
 
-### 🎮 Deep Reinforcement Learning
+### Deep Reinforcement Learning
 - [RL Fundamentals](#rl-fundamentals)
 - [Model-Free RL](#model-free-rl)
 - [Model-Based RL](#model-based-rl)
@@ -93,12 +93,12 @@
 - [RL from Human Feedback](#rl-from-human-feedback)
 - [Notable RL Environments and Repos](#notable-rl-environments-and-repos)
 
-### 🔀 Multimodal AI
+### Multimodal AI
 - [Vision-Language Models](#vision-language-models)
 - [Audio and Speech AI](#audio-and-speech-ai)
 - [Multimodal Architectures](#multimodal-architectures)
 
-### ⚙️ MLOps and Production AI
+### MLOps and Production AI
 - [MLOps Concepts](#mlops-concepts)
 - [Experiment Tracking](#experiment-tracking)
 - [Model Serving and Deployment](#model-serving-and-deployment)
@@ -106,7 +106,7 @@
 - [Data Versioning and Pipelines](#data-versioning-and-pipelines)
 - [Distributed Training](#distributed-training)
 
-### 🛠️ Frameworks and Libraries
+### Frameworks and Libraries
 - [Core Frameworks](#core-frameworks)
 - [NLP Libraries](#nlp-libraries)
 - [CV Libraries](#cv-libraries)
@@ -116,34 +116,34 @@
 - [AutoML Tools](#automl-tools)
 - [Vector Databases](#vector-databases)
 
-### 📄 Landmark Papers
+### Landmark Papers
 - [Pre-2015 Classics](#pre-2015-classics)
 - [2015–2018 Breakthroughs](#20152018-breakthroughs)
 - [2019–2021 Scaling Era](#20192021-scaling-era)
 - [2022–2025 Modern Era](#20222025-modern-era)
 
-### 📦 Datasets
+### Datasets
 - [Image Datasets](#image-datasets)
 - [NLP Datasets](#nlp-datasets)
 - [Multimodal Datasets](#multimodal-datasets)
 - [RL Environments](#rl-environments)
 - [Benchmarks](#benchmarks)
 
-### 🌐 Communities and Resources
+### Communities and Resources
 - [Online Communities](#online-communities)
 - [Courses and Tutorials](#courses-and-tutorials)
 - [Blogs and Newsletters](#blogs-and-newsletters)
 - [Conferences and Journals](#conferences-and-journals)
 - [Research Labs and Organizations](#research-labs-and-organizations)
 
-### ⚖️ AI Ethics and Safety
+### AI Ethics and Safety
 - [Fairness and Bias](#fairness-and-bias)
 - [Interpretability and Explainability](#interpretability-and-explainability)
 - [AI Safety Research](#ai-safety-research)
 - [Privacy-Preserving ML](#privacy-preserving-ml)
 - [Governance and Policy](#governance-and-policy)
 
-### 🗂️ Index
+### Index
 - [Full Alphabetical Index](#full-alphabetical-index)
 
 ---
@@ -178,7 +178,7 @@ This document follows the Awesome List format. To suggest additions:
 
 ---
 
-# 🔤 Glossary A–F
+#  Glossary A–F
 
 > Definitions are concise and practical. For deep dives, follow the cross-references to the relevant sections.
 
@@ -1476,5 +1476,513 @@ An empirically observed phenomenon where test error decreases, increases (classi
 - Wrapper methods: recursive feature elimination with cross-validation (RFE-CV)
 - Embedded methods: L1 regularization, tree feature importance
 - SHAP-based selection: use SHAP values from a trained model
+
+---
+
+---
+
+# 🧬 Deep Learning
+
+---
+
+## Neural Network Fundamentals
+
+**The Perceptron**
+The simplest neural unit (Rosenblatt, 1958): `output = sign(wᵀx + b)`. Can only learn linearly separable problems. Limitation discovered by Minsky & Papert (1969) — led to the first AI winter.
+
+**Multi-Layer Perceptron (MLP)**
+Stack of layers with non-linear activations. Universal approximation theorem (Hornik, 1989): an MLP with one hidden layer and enough neurons can approximate any continuous function on a compact domain. Doesn't say how many neurons or how to find them.
+
+**Forward Pass**
+```
+Input x
+→ Layer 1: h₁ = activation(W₁x + b₁)
+→ Layer 2: h₂ = activation(W₂h₁ + b₂)
+→ ...
+→ Output: ŷ = W_n × h_{n-1} + b_n
+```
+
+**Backpropagation in Detail**
+1. Forward pass: compute activations at each layer, cache them
+2. Compute loss: `L = loss(ŷ, y)`
+3. Backward pass: compute `∂L/∂W_n`, then propagate backward using chain rule
+4. Update: `W_i ← W_i - η × ∂L/∂W_i`
+
+Key identity: `∂L/∂W_i = ∂L/∂h_i × ∂h_i/∂W_i` (chain rule applied recursively)
+
+**Weight Initialization**
+
+| Method | Formula | For |
+|---|---|---|
+| Xavier/Glorot | `U(-√(6/(nᵢₙ+nₒᵤₜ)), √(6/(nᵢₙ+nₒᵤₜ)))` | Sigmoid, Tanh |
+| He/Kaiming | `N(0, √(2/nᵢₙ))` | ReLU, Leaky ReLU |
+| Orthogonal | Random orthogonal matrix | RNNs |
+| Zero init | 0 | Biases only — never weights |
+
+⚠️ Never initialize all weights to zero — symmetry breaking fails; all neurons learn the same thing.
+
+**Skip / Residual Connections**
+`F(x) + x` — the output of a block is added to its input. Enables gradients to flow directly through the identity shortcut, alleviating vanishing gradients in very deep networks. Introduced in ResNet (He et al., 2015). Now standard in virtually all architectures.
+
+**Depth vs. Width**
+- **Depth** (more layers): learns hierarchical representations, more computationally efficient for complex functions. Harder to train (vanishing gradients, but mitigated by ResNets).
+- **Width** (more neurons per layer): more capacity per layer, easier to optimize, but less efficient parameter usage for hierarchical patterns.
+- EfficientNet (Tan & Le, 2019): compound scaling of depth, width, AND resolution for balanced improvement.
+
+**Universal Approximation Theorem (Extended)**
+Deep networks can approximate functions exponentially more efficiently (in terms of neurons) than shallow networks for many function classes — justifying the pursuit of depth.
+
+**Autoencoder Architecture**
+```
+Input → Encoder → Bottleneck (Latent Space) → Decoder → Reconstruction
+```
+Applications: dimensionality reduction, denoising, anomaly detection (high reconstruction error = anomaly), generative modeling (VAE).
+
+### Resources
+- 🎓 [CS231n: CNNs for Visual Recognition (Stanford)](http://cs231n.stanford.edu/) ⭐
+- 🎓 [fast.ai Practical Deep Learning](https://course.fast.ai/) ⭐
+- 📚 [Deep Learning Book — Goodfellow, Bengio, Courville (free)](https://www.deeplearningbook.org/)
+- 🐙 [micrograd — Karpathy's minimal autograd engine](https://github.com/karpathy/micrograd) ⭐
+
+---
+
+## Activation Functions
+
+| Function | Formula | Range | Properties |
+|---|---|---|---|
+| **Sigmoid** | `1/(1+e⁻ˣ)` | (0,1) | Saturates, vanishing gradient, output not zero-centered |
+| **Tanh** | `(eˣ-e⁻ˣ)/(eˣ+e⁻ˣ)` | (-1,1) | Zero-centered, still saturates |
+| **ReLU** | `max(0,x)` | [0,∞) | No saturation for x>0, dead neurons possible |
+| **Leaky ReLU** | `max(αx,x)` | (-∞,∞) | Prevents dying neurons, α typically 0.01 |
+| **ELU** | `x if x>0, α(eˣ-1) if x≤0` | (-α,∞) | Smooth negative region, mean activations near zero |
+| **GELU** | `x × Φ(x)` | (-0.17,∞) | Smooth, stochastic interpretation, used in Transformers |
+| **Swish** | `x × σ(βx)` | ≈(-0.28,∞) | Google Brain, slightly outperforms ReLU in deep nets |
+| **Mish** | `x × tanh(softplus(x))` | ≈(-0.31,∞) | Self-regularizing, used in YOLOv4 |
+| **Softmax** | `exp(zᵢ)/Σexp(zⱼ)` | (0,1), sums to 1 | Multi-class output layer |
+| **SiLU (Swish-1)** | `x × σ(x)` | Same as Swish β=1 | Used in LLaMA, Mistral |
+| **SwiGLU** | `Swish(xW) ⊙ (xV)` | — | Gated variant, used in PaLM, LLaMA |
+| **GLU (Gated Linear Unit)** | `(xW) ⊙ σ(xV)` | — | Gating mechanism, used in WaveNet, ConvSeq2Seq |
+
+**Choosing an Activation Function**
+- Default for hidden layers: **GELU** (Transformers) or **ReLU** (CNNs/MLPs)
+- Output for binary classification: **Sigmoid**
+- Output for multiclass: **Softmax**
+- Output for regression: **Linear** (no activation)
+- When you see dying ReLU issues: try **Leaky ReLU** or **ELU**
+
+**Dying ReLU Problem**
+A neuron that always outputs 0 (because its incoming weights produce negative pre-activations for all training inputs) receives zero gradient and can never recover. Prevented by: careful initialization, leaky ReLU, batch normalization, smaller learning rates.
+
+---
+
+## Loss Functions
+
+### Classification Losses
+
+**Binary Cross-Entropy (BCE)**
+`L = -[y log(p) + (1-y) log(1-p)]`
+For binary classification. p = sigmoid output. Numerically stable implementation: `BCEWithLogitsLoss` in PyTorch (combines sigmoid + BCE for stability).
+
+**Categorical Cross-Entropy**
+`L = -Σᵢ yᵢ log(pᵢ)`
+For multi-class classification. yᵢ is the one-hot label, pᵢ is the softmax probability.
+
+**Focal Loss**
+`FL = -αₜ(1-pₜ)ᵞ log(pₜ)`
+γ (focus parameter, typically 2) down-weights easy examples. αₜ handles class imbalance. Proposed for RetinaNet object detection. Excellent for highly imbalanced datasets.
+
+**Hinge Loss**
+`L = max(0, 1 - y × ŷ)` (y ∈ {-1, +1})
+Used in SVMs. Penalizes predictions on the wrong side of the margin. Squared hinge loss is smoother.
+
+**Label Smoothing Cross-Entropy**
+Replace one-hot targets with: `y_smooth = (1-ε) × y + ε/K`
+Prevents overconfident predictions. Typically ε = 0.1. Improves calibration and generalization. Standard in image classification (EfficientNet, ViT).
+
+### Regression Losses
+
+**Mean Squared Error (MSE / L2 Loss)**
+`L = (1/n) Σ(yᵢ - ŷᵢ)²`
+Sensitive to outliers. Squared term amplifies large errors. Penalizes outliers heavily.
+
+**Mean Absolute Error (MAE / L1 Loss)**
+`L = (1/n) Σ|yᵢ - ŷᵢ|`
+Robust to outliers. Non-differentiable at 0 (use subgradient or smooth approximation). Better when outliers are expected.
+
+**Huber Loss**
+`L_δ(a) = 0.5a² if |a|≤δ, δ(|a| - 0.5δ) otherwise`
+Combines MSE (small errors) and MAE (large errors). Robust to outliers while remaining differentiable. Common in RL (DQN) and object detection (bounding box regression).
+
+**Log-Cosh Loss**
+`L = Σ log(cosh(ŷᵢ - yᵢ))`
+Approximately MSE for small errors, MAE for large errors. Doubly differentiable everywhere — can use second-order optimization.
+
+### Generative Losses
+
+**Reconstruction Loss (Autoencoders)**
+MSE for continuous data: `||x - x̂||²`
+BCE for binary data: `BCE(x, x̂)`
+Measures how well the decoder reconstructs the input.
+
+**Adversarial Loss (GANs)**
+Original: minimax `min_G max_D [E[log D(x)] + E[log(1-D(G(z)))]]`
+Non-saturating: `min_G -E[log D(G(z))]`
+WGAN: Wasserstein distance — more stable, requires Lipschitz constraint.
+
+**Triplet Loss**
+`L = max(0, ||f(a) - f(p)||² - ||f(a) - f(n)||² + margin)`
+For metric learning: anchor a, positive p, negative n. Pulls positive pairs together, pushes negative pairs apart. Used in face recognition (FaceNet), image retrieval.
+
+**Contrastive Loss (NT-Xent)**
+InfoNCE / NT-Xent (Normalized Temperature Cross-Entropy): for SimCLR and CLIP.
+`L = -log[exp(sim(zᵢ,zⱼ)/τ) / Σ_{k≠i} exp(sim(zᵢ,zₖ)/τ)]`
+Temperature τ controls sharpness of distribution.
+
+### Sequence Losses
+
+**CTC Loss (Connectionist Temporal Classification)**
+For sequence-to-sequence where alignment is unknown (e.g., speech recognition). Sums over all valid alignments. Enables training without frame-level annotations.
+
+**Sequence-to-Sequence Cross-Entropy**
+Standard cross-entropy applied at each output step, summed or averaged over the sequence. Teacher forcing used during training.
+
+---
+
+## Optimizers
+
+**Vanilla SGD**
+`θ ← θ - η × ∇L(θ; xᵢ, yᵢ)`
+Simple but effective with proper tuning. Requires careful learning rate scheduling.
+
+**SGD with Momentum**
+```
+v ← βv - η∇L
+θ ← θ + v
+```
+Typical β = 0.9. Accelerates in consistent gradient directions, dampens oscillations. Combined with learning rate schedules, matches or beats Adam for CNNs.
+
+**AdaGrad**
+Per-parameter adaptive learning rates: `θᵢ ← θᵢ - (η/√(Gᵢᵢ + ε)) × ∇L_i`
+Accumulates squared gradients. Effective for sparse features but learning rate decays to zero (problem for long training).
+
+**RMSprop**
+Exponential moving average of squared gradients: `E[g²]_t = ρE[g²]_{t-1} + (1-ρ)g²_t`
+Fixes AdaGrad's decaying learning rate. Proposed by Hinton in his Coursera course (not a paper!).
+
+**Adam (Adaptive Moment Estimation)**
+Combines momentum (first moment) and RMSprop (second moment):
+```
+m_t = β₁m_{t-1} + (1-β₁)g_t          (first moment)
+v_t = β₂v_{t-1} + (1-β₂)g²_t         (second moment)
+m̂_t = m_t/(1-β₁ᵗ)                    (bias correction)
+v̂_t = v_t/(1-β₂ᵗ)                    (bias correction)
+θ_t = θ_{t-1} - η × m̂_t/(√v̂_t + ε)
+```
+Defaults: β₁=0.9, β₂=0.999, ε=1e-8. Most widely used optimizer. 📄 [Paper: Kingma & Ba, 2014](https://arxiv.org/abs/1412.6980)
+
+**AdamW**
+Adam with decoupled weight decay: weight decay applied directly to parameters, not through the gradient update. Fixes L2 regularization in Adam (which doesn't work correctly). Recommended over Adam for Transformers. 📄 [Paper: Loshchilov & Hutter, 2017](https://arxiv.org/abs/1711.05101)
+
+**LAMB (Layer-wise Adaptive Moments)**
+Extends Adam with layer-wise learning rate scaling. Enables training with very large batch sizes (used to train BERT in 77 minutes). 📄 [Paper](https://arxiv.org/abs/1904.00962)
+
+**Sophia**
+Second-order optimizer using a diagonal Hessian estimate (Hutchinson estimator). ~2× faster than Adam for LLM pre-training. 📄 [Paper: Liu et al., 2023](https://arxiv.org/abs/2305.14342)
+
+**Lion (EvoLved Sign Momentum)**
+Discovered via program search. Uses only the sign of the gradient update. More memory-efficient than Adam (stores only one moving average). 📄 [Paper: Chen et al., 2023](https://arxiv.org/abs/2302.06675)
+
+**Optimizer Selection Guide**
+- CNNs, ResNets: SGD with momentum + cosine LR schedule
+- Transformers (NLP, ViT): AdamW + linear warmup + cosine decay
+- GANs: Adam (separate lr for G and D)
+- Fine-tuning LLMs: AdamW with low lr (1e-5 to 5e-5)
+- Large batch training: LAMB
+
+---
+
+## Convolutional Neural Networks
+
+**Convolution Operation**
+`(f * g)(t) = Σ f(τ) g(t - τ)`
+In 2D (images): `(I * K)(i,j) = Σₘ Σₙ I(i+m, j+n) K(m,n)`
+Each filter slides over the input and computes dot products. Multiple filters → multiple feature maps → depth of next layer = number of filters.
+
+**Key Hyperparameters**
+- **Kernel size**: 3×3 (standard), 5×5, 7×7, 1×1 (channel mixing)
+- **Stride**: step size (stride=2 halves spatial dimensions)
+- **Padding**: SAME (preserve spatial dims), VALID (no padding)
+- **Number of filters**: controls depth of output feature map
+- **Groups**: grouped convolution (separates input channels into groups)
+
+**Output Spatial Dimensions**
+`H_out = floor((H_in + 2×padding - kernel_size) / stride) + 1`
+
+**1×1 Convolution**
+Applies a fully connected layer independently at each spatial position. Used to: change number of channels (increase or decrease), add non-linearity without changing spatial dimensions, in Inception modules and bottleneck blocks.
+
+**Receptive Field Growth**
+Each layer has a local receptive field. After k layers with 3×3 kernels and stride 1: receptive field = 2k+1. Dilated convolutions expand the receptive field exponentially without adding parameters.
+
+**Dilated (Atrous) Convolution**
+Inserts gaps (dilation rate d) between kernel elements. Effective kernel size: `k + (k-1)(d-1)`. Exponentially growing receptive field with fixed parameters. Used in WaveNet, DeepLab, and semantic segmentation.
+
+**Depthwise Separable Convolution (DSC)**
+Factorizes a standard convolution into:
+1. Depthwise: apply one filter per input channel
+2. Pointwise: 1×1 conv to mix channels
+Cost reduction: `1/Nf + 1/Dₖ²` vs. standard convolution (where Nf = num filters, Dₖ = kernel size).
+Used in MobileNet, Xception.
+
+### CNN Architectures Timeline
+
+**LeNet-5** (LeCun, 1998)
+First practical CNN for digit recognition. Established the conv→pool→fc pattern.
+🐙 [Original Paper](http://yann.lecun.com/exdb/publis/pdf/lecun-01a.pdf)
+
+**AlexNet** (Krizhevsky, 2012)
+Won ImageNet 2012 with 15.3% top-5 error (vs 26.2% runner-up). Used: ReLU, Dropout, data augmentation, multi-GPU. Launched the deep learning era.
+📄 [Paper](https://proceedings.neurips.cc/paper/2012/file/c399862d3b9d6b76c8436e924a68c45b-Paper.pdf)
+
+**VGGNet** (Simonyan, 2014)
+Deep, simple architecture using only 3×3 convolutions. VGG-16 and VGG-19. Showed depth matters. Widely used as a feature extractor backbone.
+📄 [Paper](https://arxiv.org/abs/1409.1556)
+
+**GoogLeNet / Inception** (Szegedy, 2014)
+Inception modules: parallel 1×1, 3×3, 5×5 convolutions + max pooling. 22 layers with fewer parameters than AlexNet. Introduced global average pooling instead of FC layers.
+📄 [Paper](https://arxiv.org/abs/1409.4842)
+
+**ResNet** (He, 2015)
+Residual connections: `y = F(x) + x`. Trained networks of 50, 101, 152 layers. Won ImageNet 2015. The most influential CNN architecture.
+📄 [Paper](https://arxiv.org/abs/1512.03385) 🐙 [Torchvision implementation](https://github.com/pytorch/vision)
+
+**DenseNet** (Huang, 2017)
+Each layer connects to all subsequent layers: `xₗ = Hₗ([x₀, x₁, ..., x_{l-1}])`. Maximum gradient flow, feature reuse. More parameter-efficient than ResNet.
+📄 [Paper](https://arxiv.org/abs/1608.06993)
+
+**MobileNetV2** (Sandler, 2018)
+Depthwise separable convolutions + inverted residuals + linear bottlenecks. Designed for mobile/edge devices. Excellent accuracy/efficiency trade-off.
+📄 [Paper](https://arxiv.org/abs/1801.04381)
+
+**EfficientNet** (Tan & Le, 2019)
+Neural Architecture Search to find base architecture, then compound scaling (depth × width × resolution). EfficientNetB7 achieved SotA on ImageNet with 8× fewer parameters than previous best.
+📄 [Paper](https://arxiv.org/abs/1905.11946)
+
+**ConvNeXt** (Liu, 2022)
+A "modernized" ResNet incorporating Transformer design choices: larger kernels (7×7), fewer activations, LayerNorm instead of BatchNorm, inverted bottleneck. Competitive with ViT without self-attention.
+📄 [Paper](https://arxiv.org/abs/2201.03545)
+
+### Pooling Operations
+- **Max Pooling**: take maximum in each region. Preserves most prominent features. Most common.
+- **Average Pooling**: take mean. Smoother, used in classification heads.
+- **Global Average Pooling (GAP)**: average across entire spatial dimension to a vector. Replaces FC layers.
+- **Adaptive Pooling**: output a fixed size regardless of input size. Used in PyTorch for flexible input sizes.
+
+### Normalization in CNNs
+- **BatchNorm**: normalizes over batch dimension and spatial dimensions. Standard for CNNs. Requires reasonably large batches.
+- **GroupNorm**: normalizes within groups of channels. Better for small batches (detection, segmentation).
+- **LayerNorm**: normalizes over all features of one sample. Standard for Transformers.
+- **InstanceNorm**: normalizes per sample per channel. Used in style transfer.
+
+---
+
+## Recurrent Neural Networks
+
+**Vanilla RNN**
+`h_t = tanh(W_h × h_{t-1} + W_x × x_t + b)`
+`y_t = W_y × h_t + b_y`
+Hidden state h_t summarizes all previous inputs. Suffers catastrophically from vanishing gradients for sequences longer than ~20 steps.
+
+**Vanishing Gradient in RNNs**
+Gradient at step t: `∂L/∂h₁ = ∏_{t=2}^{T} ∂h_t/∂h_{t-1}`. If `||∂h_t/∂h_{t-1}|| < 1`, this product → 0 exponentially. Means early inputs have essentially no influence on the loss. LSTM/GRU solve this with gating.
+
+**LSTM (Long Short-Term Memory)**
+Hochreiter & Schmidhuber (1997). Gates:
+```
+f_t = σ(W_f [h_{t-1}, x_t] + b_f)          # forget gate
+i_t = σ(W_i [h_{t-1}, x_t] + b_i)          # input gate
+g_t = tanh(W_g [h_{t-1}, x_t] + b_g)       # candidate cell
+o_t = σ(W_o [h_{t-1}, x_t] + b_o)          # output gate
+c_t = f_t ⊙ c_{t-1} + i_t ⊙ g_t           # cell state update
+h_t = o_t ⊙ tanh(c_t)                       # hidden state
+```
+Cell state c_t is the "long-term memory" — gradients can flow through it unchanged via the forget gate.
+
+**GRU (Gated Recurrent Unit)**
+Cho et al. (2014). Simpler than LSTM (fewer parameters, one fewer gate):
+```
+z_t = σ(W_z [h_{t-1}, x_t])                # update gate
+r_t = σ(W_r [h_{t-1}, x_t])                # reset gate
+h̃_t = tanh(W [r_t ⊙ h_{t-1}, x_t])       # candidate hidden
+h_t = (1-z_t) ⊙ h_{t-1} + z_t ⊙ h̃_t    # new hidden state
+```
+Similar performance to LSTM in practice. Often preferred for efficiency.
+
+**Bidirectional RNN**
+Processes the sequence in both forward and backward directions, concatenating the hidden states. Captures context from both past and future. Used in BERT-like models (but replaced by bidirectional attention in Transformers).
+
+**Deep RNN**
+Stacking multiple RNN layers: output of one layer is input to the next. Learns hierarchical temporal representations. Common in seq2seq models.
+
+**Seq2Seq with Attention**
+Encoder RNN encodes source sequence to context vector. Decoder RNN generates target sequence token by token. Original attention (Bahdanau, 2015): decoder attends to all encoder hidden states at each decoding step, computing a context-weighted average. Breakthrough for long sequences. Foundation of the Transformer.
+📄 [Bahdanau Attention Paper](https://arxiv.org/abs/1409.0473)
+
+**When to Use RNNs vs. Transformers**
+- Transformers are now preferred for most sequence tasks
+- RNNs still relevant for: very long sequences (linear vs quadratic memory), streaming/online inference, edge devices with constrained memory
+- SSMs (Mamba, S4) are a modern alternative combining aspects of both
+
+---
+
+## Attention and Transformers
+
+**Scaled Dot-Product Attention**
+`Attention(Q, K, V) = softmax(QKᵀ/√d_k) V`
+
+- Q (queries), K (keys), V (values): linear projections of input
+- Scaling by `√d_k` prevents vanishing gradients from large dot products
+- Attention weights: each query attends to all keys, producing a weighted sum of values
+- O(n²d) computation, O(n²) memory for sequence length n
+
+**Multi-Head Attention**
+```
+head_i = Attention(QW_i^Q, KW_i^K, VW_i^V)
+MultiHead(Q,K,V) = Concat(head₁, ..., headₕ) W^O
+```
+Each head learns different attention patterns. Typical: h=8 or h=16 heads with d_k = d_model/h. Different heads: local vs. global attention, syntactic vs. semantic, etc.
+
+**Self-Attention vs. Cross-Attention**
+- **Self-attention**: Q, K, V all from the same sequence (encoder or decoder self-attention)
+- **Cross-attention**: Q from decoder, K and V from encoder. Allows decoder to attend to encoder representations.
+
+**The Transformer Architecture (Vaswani et al., 2017)**
+```
+Encoder:
+  Input Embeddings + Positional Encoding
+  → N × (Multi-Head Self-Attention → Add&Norm → Feed-Forward → Add&Norm)
+
+Decoder:
+  Output Embeddings + Positional Encoding
+  → N × (Masked Self-Attention → Add&Norm
+         → Cross-Attention → Add&Norm
+         → Feed-Forward → Add&Norm)
+
+Output: Linear → Softmax
+```
+📄 [Attention Is All You Need](https://arxiv.org/abs/1706.03762) ⭐
+
+**Position Encoding**
+Transformers have no inherent notion of order — position must be injected.
+- **Sinusoidal** (original): `PE(pos, 2i) = sin(pos/10000^(2i/d))`, `PE(pos, 2i+1) = cos(...)`. Deterministic, generalizes to longer sequences.
+- **Learned absolute**: trainable embeddings for each position. Common in BERT, GPT.
+- **Relative position** (Shaw et al.): encode relative distances between positions. Better length generalization.
+- **RoPE** (Su et al., 2021): rotate Q and K vectors based on absolute position. Used in LLaMA, Mistral. Excellent length extrapolation.
+- **ALiBi** (Press et al., 2021): add position-dependent bias to attention scores. Simple, good length extrapolation.
+
+**Feed-Forward Network in Transformer**
+`FFN(x) = max(0, xW₁ + b₁)W₂ + b₂`
+Two linear layers with a non-linearity (ReLU or GELU). Applied independently to each position. Often called the "MLP sublayer." Typically d_ff = 4 × d_model. Contains ~2/3 of all Transformer parameters.
+
+**Layer Norm Placement**
+- **Post-LN** (original): `LayerNorm(x + Sublayer(x))`. Original paper. Unstable at large scale.
+- **Pre-LN**: `x + Sublayer(LayerNorm(x))`. More stable training. Used in GPT-2, GPT-3.
+- **RMSNorm**: simplified LayerNorm (no mean subtraction). Used in LLaMA, T5.
+
+**Encoder-Only Transformers (BERT-style)**
+- Bidirectional self-attention: each token attends to all others
+- Pre-training: Masked Language Modeling + NSP
+- Good for: classification, NER, QA, sentence embeddings
+- Examples: BERT, RoBERTa, DeBERTa, ALBERT
+
+**Decoder-Only Transformers (GPT-style)**
+- Causal (masked) self-attention: each token only attends to previous tokens
+- Pre-training: next token prediction (autoregressive language modeling)
+- Good for: text generation, instruction following, reasoning
+- Examples: GPT-2/3/4, LLaMA, Mistral, Claude, Gemini
+
+**Encoder-Decoder Transformers (T5/BART-style)**
+- Encoder: bidirectional processing of input
+- Decoder: autoregressive generation, cross-attends to encoder
+- Good for: translation, summarization, structured generation
+- Examples: T5, BART, mT5, Flan-T5
+
+**Efficient Attention Mechanisms**
+
+| Method | Complexity | Key Idea |
+|---|---|---|
+| Standard Attention | O(n²) | All pairs |
+| Sparse Attention | O(n√n) | Local + global patterns |
+| Longformer | O(n) | Sliding window + global tokens |
+| BigBird | O(n) | Random + window + global |
+| Linformer | O(n) | Low-rank approximation of attention |
+| Performer | O(n) | Random feature approximation |
+| FlashAttention | O(n²) | Exact, but IO-efficient on GPU |
+| FlashAttention-2 | O(n²) | Better parallelism, 2× faster |
+| FlashAttention-3 | O(n²) | H100 optimized |
+
+🐙 [FlashAttention](https://github.com/Dao-AILab/flash-attention) ⭐
+
+**Vision Transformer (ViT)**
+Split image into 16×16 patches → linearly embed each patch → prepend [CLS] token → standard Transformer encoder. Pre-training on ImageNet-21k or JFT-300M required for good performance (inductive biases of CNNs removed). Strong at scale.
+📄 [Paper: Dosovitskiy et al., 2020](https://arxiv.org/abs/2010.11929)
+
+**Swin Transformer**
+Shifted window attention: restricts self-attention to local windows, shifts windows between layers for cross-window connections. Linear complexity with image size. State-of-the-art on detection/segmentation.
+📄 [Paper](https://arxiv.org/abs/2103.14030) 🐙 [Repo](https://github.com/microsoft/Swin-Transformer)
+
+**Key Transformer Repos**
+- 🐙 [Hugging Face Transformers](https://github.com/huggingface/transformers) ⭐ — unified API for 200+ models
+- 🐙 [nanoGPT — Karpathy](https://github.com/karpathy/nanoGPT) ⭐ — minimal GPT implementation
+- 🐙 [LLaMA — Meta](https://github.com/meta-llama/llama)
+- 🐙 [Mistral](https://github.com/mistralai/mistral-src)
+- 🐙 [GPT-NeoX — EleutherAI](https://github.com/EleutherAI/gpt-neox)
+
+---
+
+## Graph Neural Networks
+
+**Graph Representation**
+A graph G = (V, E) with node features X ∈ ℝ^(|V|×d) and adjacency matrix A ∈ {0,1}^(|V|×|V|). GNNs learn node, edge, or graph-level representations via message passing.
+
+**Message Passing Framework**
+```
+m_v^(k) = AGGREGATE({h_u^(k-1) : u ∈ N(v)})
+h_v^(k) = UPDATE(h_v^(k-1), m_v^(k))
+```
+After K rounds: h_v^(K) summarizes the K-hop neighborhood of v.
+
+**Graph Convolutional Network (GCN)**
+Kipf & Welling (2017): `H^(l+1) = σ(D̂^(-1/2) Â D̂^(-1/2) H^(l) W^(l))`
+Where Â = A + I (self-loops), D̂ is the degree matrix. Symmetric normalization. Simple, effective, widely used.
+📄 [Paper](https://arxiv.org/abs/1609.02907)
+
+**Graph Attention Network (GAT)**
+Uses attention to weight neighbor messages: `h_v = σ(Σ_{u∈N(v)} α_{vu} W h_u)`
+α_{vu} = attention coefficients learned by a small neural network. Allows the model to weight important neighbors more.
+📄 [Paper: Veličković et al., 2018](https://arxiv.org/abs/1710.10903)
+
+**GraphSAGE**
+Hamilton et al. (2017). Inductive learning on graphs (generalizes to unseen nodes). Samples a fixed-size neighborhood and aggregates (mean, LSTM, max).
+📄 [Paper](https://arxiv.org/abs/1706.02216)
+
+**Graph Isomorphism Network (GIN)**
+Xu et al. (2019). Provably most expressive GNN within the Weisfeiler-Leman framework:
+`h_v^(k) = MLP^(k)((1 + ε^(k)) h_v^(k-1) + Σ_{u∈N(v)} h_u^(k-1))`
+📄 [Paper](https://arxiv.org/abs/1810.00826)
+
+**Applications**
+- Molecular property prediction (drug discovery, materials science)
+- Protein structure prediction (AlphaFold uses attention over residue graph)
+- Social network analysis
+- Knowledge graph completion
+- Recommender systems
+- Traffic forecasting
+- Fraud detection
+
+**GNN Libraries**
+-  [PyTorch Geometric (PyG)](https://github.com/pyg-team/pytorch_geometric) ⭐
+-  [DGL (Deep Graph Library)](https://github.com/dmlc/dgl)
+-  [Spektral (Keras/TF)](https://github.com/danielegrattarola/spektral)
 
 ---
