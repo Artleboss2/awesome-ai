@@ -3262,3 +3262,691 @@ Rashid et al. (2018). Monotonic mixing of individual Q-values into a joint Q-val
 - 🐙 [Gymnasium](https://github.com/Farama-Foundation/Gymnasium) ⭐
 
 ---
+
+---
+
+# 🔀 Multimodal AI
+
+---
+
+## Vision-Language Models
+
+**CLIP (Contrastive Language-Image Pretraining)**
+Radford et al. (OpenAI, 2021). Trained on 400M image-text pairs with contrastive learning. Learns a shared embedding space where images and their descriptions are close. Enables zero-shot image classification by comparing image embeddings to text label embeddings.
+📄 [Paper](https://arxiv.org/abs/2103.00020) 🐙 [Repo](https://github.com/openai/CLIP)
+
+**ALIGN (Google)**
+Jia et al. (2021). Similar to CLIP but trained on 1.8B noisy image-text pairs without heavy filtering. Shows scale can compensate for data noise.
+📄 [Paper](https://arxiv.org/abs/2102.05918)
+
+**DALL-E Series (OpenAI)**
+- DALL-E (v1, 2021): VQ-VAE + autoregressive Transformer
+- DALL-E 2 (2022): CLIP + Diffusion via CLIP image embeddings
+- DALL-E 3 (2023): tightly integrated with ChatGPT for richer text understanding, native text rendering
+
+**LLaVA (Large Language and Vision Assistant)**
+Liu et al. (2023). Connect a CLIP visual encoder to an LLM (LLaMA/Vicuna) via a linear projection layer. Visual instruction tuning with GPT-4 generated data.
+📄 [Paper](https://arxiv.org/abs/2304.08485) 🐙 [Repo](https://github.com/haotian-liu/LLaVA)
+
+**GPT-4V / GPT-4o**
+GPT-4 with vision capabilities. Accepts images in the prompt. GPT-4o: natively multimodal (text + image + audio) with low latency.
+
+**Gemini (Google)**
+Natively multimodal from the ground up (not retrofitted). Processes text, images, audio, video in a unified architecture. Gemini 1.5: 1M context, can process 1 hour of video, 1500 pages.
+
+**Claude 3/4 Vision**
+Accepts images in prompts. Strong at: document analysis, chart reading, detailed image description, visual reasoning.
+
+**CogVLM / CogVLM2 (Tsinghua)**
+Open-source strong visual language model. Deep fusion of visual features into the LLM.
+
+**InternVL**
+Strong open-source visual language model family. Competitive with proprietary models.
+
+**Flamingo (DeepMind)**
+Alayrac et al. (2022). Few-shot visual language model. Interleaves cross-attention layers with frozen language model to process arbitrarily interleaved image+text sequences.
+📄 [Paper](https://arxiv.org/abs/2204.14198)
+
+**BLIP / BLIP-2 (Salesforce)**
+- BLIP (2022): bootstrapping vision-language pre-training
+- BLIP-2 (2023): lightweight Q-Former bridges frozen image encoder and frozen LLM. Very parameter-efficient.
+📄 [BLIP-2 Paper](https://arxiv.org/abs/2301.12597) 🐙 [Repo](https://github.com/salesforce/LAVIS)
+
+**MiniGPT-4**
+Connects frozen ViT and Vicuna with a single linear projection layer. Shows that minimal training can produce capable VLMs.
+
+**Image-Text Understanding Tasks**
+- Visual Question Answering (VQA): answer questions about images
+- Image Captioning: generate description of an image
+- Visual Grounding: locate referred objects
+- Chart/Document Understanding: extract structured information
+- OCR in the wild: recognize text in natural images
+
+**Key Vision-Language Benchmarks**
+
+| Benchmark | Task |
+|---|---|
+| VQAv2 | Visual question answering |
+| GQA | Compositional visual reasoning |
+| TextVQA | VQA with text in images |
+| MMBench | Comprehensive multi-modal |
+| MMMU | College-level multi-discipline |
+| ScienceQA | Science questions with images |
+| DocVQA | Document understanding |
+
+---
+
+## Audio and Speech AI
+
+**Speech Recognition (ASR)**
+
+**Whisper (OpenAI)**
+Radford et al. (2022). Encoder-decoder Transformer trained on 680k hours of labeled audio. Multitask: transcription, translation, language identification. Robust to noise and accents.
+📄 [Paper](https://arxiv.org/abs/2212.04356) 🐙 [Repo](https://github.com/openai/whisper) ⭐
+
+**Wav2Vec 2.0 (Meta)**
+Baevski et al. (2020). Self-supervised pre-training on raw audio using contrastive learning in latent space. Fine-tuned with CTC for ASR. Low-resource state-of-the-art.
+📄 [Paper](https://arxiv.org/abs/2006.11477)
+
+**HuBERT (Meta)**
+Hsu et al. (2021). Self-supervised audio representation via masked prediction of discrete cluster assignments. Strong foundation for speech understanding.
+
+**Text-to-Speech (TTS)**
+
+**WaveNet (DeepMind)**
+van den Oord et al. (2016). Autoregressive raw waveform generation using dilated causal convolutions. First high-quality neural TTS. Very slow inference.
+📄 [Paper](https://arxiv.org/abs/1609.03499)
+
+**Tacotron 2**
+Text → mel spectrogram (seq2seq attention model), then mel → waveform (WaveNet/WaveGlow vocoder). Google's production TTS.
+
+**VITS (Variational Inference TTS)**
+Kim et al. (2021). End-to-end TTS combining VAE, normalizing flows, and GAN. High quality, fast inference.
+📄 [Paper](https://arxiv.org/abs/2106.06103)
+
+**XTTS / TorToise / Bark**
+Modern open-source TTS systems with voice cloning, emotional synthesis, and non-verbal sounds.
+
+**ElevenLabs**
+State-of-the-art commercial TTS and voice cloning. Ultra-realistic, multi-language.
+
+**Music Generation**
+
+**AudioCraft (Meta)**
+- **MusicGen**: text-to-music generation via language model over Encodec tokens
+- **AudioGen**: text-to-audio effects
+🐙 [AudioCraft](https://github.com/facebookresearch/audiocraft)
+
+**Stable Audio (Stability AI)**
+Long-form music generation conditioned on text prompts and duration via latent diffusion.
+
+**Suno / Udio**
+Commercial AI music generation — full song generation with lyrics and vocals.
+
+**Key Audio Representations**
+- Raw waveform: time-domain signal, 16kHz or 44.1kHz
+- Mel spectrogram: frequency × time representation, most common for neural models
+- MFCCs: Mel Frequency Cepstral Coefficients, classical ASR features
+- Codec tokens (EnCodec, DAC): neural audio compression to discrete tokens — enables language model training on audio
+
+**EnCodec (Meta)**
+Neural audio codec that compresses audio to discrete tokens at multiple bitrates. Enables treating audio as a token sequence for language models.
+🐙 [EnCodec](https://github.com/facebookresearch/encodec)
+
+---
+
+## Multimodal Architectures
+
+**Unified Sequence Models**
+Treat all modalities as tokens in a single sequence. Early fusion. Examples: Gato (DeepMind), UnifiedIO, 4M.
+
+**Gato (DeepMind)**
+Reed et al. (2022). Single Transformer that plays games, captions images, chats, and controls robot arms — all from the same weights. Different modalities tokenized differently, but same model processes all.
+📄 [Paper](https://arxiv.org/abs/2205.06175)
+
+**Cross-Modal Attention**
+Flamingo-style: frozen language model + cross-attention layers that inject visual features at multiple levels. Efficient — only cross-attention layers are trained for vision tasks.
+
+**Projection-Based Fusion (LLaVA-style)**
+Encode image with frozen CLIP → project to language model's embedding space via MLP → prepend as prefix tokens. Minimal architecture change. Most popular approach for VLMs.
+
+**Late Fusion**
+Encode modalities separately → combine final representations. Simple but limited cross-modal interaction.
+
+**MMIT Benchmarks and Leaderboards**
+- 🌐 [Open VLM Leaderboard (Hugging Face)](https://huggingface.co/spaces/opencompass/open_vlm_leaderboard)
+- 🌐 [LMSYS Chatbot Arena](https://chat.lmsys.org)
+
+---
+
+# ⚙️ MLOps and Production AI
+
+---
+
+## MLOps Concepts
+
+**What is MLOps?**
+The practice of applying DevOps principles to ML systems. Addresses the unique challenges of ML in production: data drift, model degradation, retraining pipelines, reproducibility, and serving.
+
+**MLOps Maturity Levels**
+- **Level 0**: manual, ad-hoc ML training and deployment
+- **Level 1**: automated ML pipeline, CT (continuous training)
+- **Level 2**: full CI/CD for ML pipelines — automated building, testing, deploying pipelines
+
+**Key MLOps Components**
+
+```
+Data Management → Experiment Tracking → Model Registry
+→ CI/CD Pipeline → Model Serving → Monitoring → Feedback Loop → Retrain
+```
+
+**Feature Store**
+A centralized repository for computed features, enabling: feature reuse across teams, online+offline feature access, feature versioning, and preventing train/serve skew. Tools: Feast, Hopsworks, Vertex AI Feature Store.
+
+**ML Metadata Store**
+Tracks artifacts and lineage: which data was used to train which model, what transformations were applied. Essential for debugging and reproducibility.
+
+**CI/CD for ML**
+- CI: test data schemas, model training on sample, unit tests for feature pipelines
+- CD: deploy new model if evaluation exceeds threshold, blue/green deployment, canary releases
+- CT: automatically retrain when data drift detected or on schedule
+
+---
+
+## Experiment Tracking
+
+**Why Track Experiments?**
+ML experiments involve hundreds of runs with different hyperparameters. Tracking: parameters, metrics, artifacts (model weights, plots), code version, environment. Essential for reproducibility and debugging.
+
+**Weights & Biases (W&B)**
+Industry standard for experiment tracking. Features: dashboards, hyperparameter sweeps, artifact versioning, model registry, reports.
+🌐 [wandb.ai](https://wandb.ai) 🐙 [wandb](https://github.com/wandb/wandb) ⭐
+
+**MLflow**
+Open-source platform: tracking, projects, models, registry. Self-hostable. Integrates with most frameworks.
+🐙 [MLflow](https://github.com/mlflow/mlflow) ⭐
+
+**Neptune.ai**
+Collaborative experiment tracking and model registry. Strong metadata management.
+🌐 [neptune.ai](https://neptune.ai)
+
+**Comet ML**
+Experiment tracking + model production monitoring.
+🌐 [comet.ml](https://www.comet.ml)
+
+**DVC (Data Version Control)**
+Git for data and models. Tracks large files in remote storage (S3, GCS), versions experiments, defines ML pipelines as DAGs.
+🐙 [DVC](https://github.com/iterative/dvc) ⭐
+
+**Best Practices for Experiment Tracking**
+- Log everything: hyperparameters, metrics, system info, git commit
+- Use tags/groups to organize runs
+- Log model artifacts with the run that produced them
+- Write descriptive run names (not "run_42")
+- Compare baseline vs. experiment side-by-side
+
+---
+
+## Model Serving and Deployment
+
+**Serving Frameworks**
+
+| Tool | Notes | Best For |
+|---|---|---|
+| TorchServe | PyTorch native, production-ready | PyTorch models |
+| TF Serving | TensorFlow Serving, gRPC + REST | TF models |
+| Triton Inference Server (NVIDIA) | Multi-framework, GPU-optimized | High throughput |
+| BentoML | Framework-agnostic, packaging | Mid-scale |
+| Ray Serve | Scalable, composable | Complex pipelines |
+| vLLM | LLM serving with PagedAttention | LLMs ⭐ |
+| TGI (HF) | Text Generation Inference | LLMs |
+| Ollama | Local LLM serving | Development |
+
+**vLLM**
+Kwon et al. (2023). PagedAttention: manages KV cache like OS virtual memory pages → near-zero KV cache waste, 24× throughput improvement over naive serving.
+📄 [Paper](https://arxiv.org/abs/2309.06180) 🐙 [Repo](https://github.com/vllm-project/vllm) ⭐
+
+**ONNX (Open Neural Network Exchange)**
+Standard format for representing ML models. Export from PyTorch/TF, run with ONNX Runtime (cross-platform, optimized). Key for deployment on diverse hardware.
+🐙 [ONNX](https://github.com/onnx/onnx) 🐙 [ONNX Runtime](https://github.com/microsoft/onnxruntime)
+
+**Model Optimization for Deployment**
+
+| Technique | Effect | Tools |
+|---|---|---|
+| Quantization (INT8) | 4× memory reduction, ~2× speedup | bitsandbytes, TensorRT, GPTQ |
+| Quantization (INT4) | 8× memory reduction | AWQ, GPTQ, llama.cpp |
+| Pruning | Reduces parameters | torch.nn.utils.prune |
+| Knowledge Distillation | Smaller, faster student | Custom training |
+| Flash Attention | 2–4× faster attention | flash-attn library |
+| Speculative Decoding | 2–3× faster LLM inference | Custom/built-in |
+| Continuous Batching | Better GPU utilization for LLMs | vLLM, TGI |
+| KV Cache | Avoids recomputing prefix | Standard in all serving |
+
+**Speculative Decoding**
+Use a small draft model to propose k tokens, verify them in parallel with the large model. Achieves 2-3× speedup with identical outputs (mathematically equivalent to greedy/sampling).
+
+**Batch Inference**
+Group multiple requests together to amortize overhead and improve GPU utilization. Continuous batching (vLLM): dynamically insert new requests into in-progress batches — far more efficient than static batching.
+
+**Edge and Mobile Deployment**
+- llama.cpp: C++ CPU/GPU inference for LLMs, quantized
+- MLC LLM: deploy LLMs on any device (browser, mobile, GPU)
+- ExecuTorch: PyTorch for on-device inference (Apple, Android)
+- CoreML: Apple's framework for iOS/macOS inference
+- TFLite: TensorFlow for mobile and edge
+
+---
+
+## Monitoring and Observability
+
+**Why Monitor?**
+Models in production degrade over time due to: data drift, concept drift, upstream data changes, infrastructure issues. Monitoring catches these before they cause harm.
+
+**Types of Drift**
+
+| Drift Type | Description | Detection |
+|---|---|---|
+| Data drift (covariate) | Input distribution changes | Statistical tests (KS, PSI) |
+| Concept drift | Input-output relationship changes | Track prediction distribution |
+| Label drift | Output distribution changes | Monitor prediction histogram |
+| Feature drift | Individual feature distributions shift | Per-feature statistics |
+
+**Key Metrics to Monitor**
+- Model performance metrics (if labels available): accuracy, AUC
+- Prediction distribution: mean, variance, class balance
+- Input feature statistics: mean, std, nulls per feature
+- Latency: P50, P95, P99 inference time
+- Throughput: requests per second
+- Error rate: HTTP 5xx, model exceptions
+
+**Statistical Tests for Drift**
+- Kolmogorov-Smirnov test: compare distributions
+- Population Stability Index (PSI): common in finance
+- Chi-squared test: for categorical distributions
+- MMD (Maximum Mean Discrepancy): kernel-based, more powerful
+
+**Monitoring Tools**
+
+| Tool | Focus |
+|---|---|
+| Evidently AI | Open-source, beautiful reports |
+| WhyLogs / WhyLabs | Streaming data monitoring |
+| Arize AI | ML observability platform |
+| Fiddler AI | Explainability + monitoring |
+| Grafana + Prometheus | General metrics (latency, throughput) |
+| DataDog | APM + custom ML metrics |
+
+🐙 [Evidently AI](https://github.com/evidentlyai/evidently) ⭐
+🐙 [Alibi Detect](https://github.com/SeldonIO/alibi-detect)
+
+**LLM-Specific Monitoring**
+- Hallucination rate
+- Response length distribution
+- Toxicity/safety violations
+- Groundedness (for RAG)
+- User feedback (thumbs up/down)
+- Latency (TTFT: time to first token, TBT: time between tokens)
+Tools: Langfuse, Langsmith, Arize Phoenix
+
+---
+
+## Data Versioning and Pipelines
+
+**Data Version Control**
+Treat data like code — version it, track lineage, reproduce experiments.
+- 🐙 [DVC](https://github.com/iterative/dvc) — Git for data, remote storage
+- 🐙 [LakeFS](https://github.com/treeverse/lakeFS) — Git-like interface for object storage
+- 🐙 [Pachyderm](https://github.com/pachyderm/pachyderm) — data versioning + pipelines
+
+**Data Pipelines and Orchestration**
+
+| Tool | Type | Notes |
+|---|---|---|
+| Apache Airflow | Workflow orchestrator | DAG-based, widely used |
+| Prefect | Workflow orchestrator | Modern Python, cloud + self-hosted |
+| Metaflow (Netflix) | ML workflow | Excellent Python, AWS integration |
+| ZenML | ML-specific pipelines | Portable across stacks |
+| Kedro | ML project structure | Best practices framework |
+| dbt | SQL transformation | Data warehouses |
+| Apache Spark | Distributed processing | Large-scale data |
+| Apache Kafka | Stream processing | Real-time feature computation |
+
+**Feature Engineering at Scale**
+- Offline features: batch computed, stored in feature store, used for training
+- Online features: computed on-the-fly at inference time (low latency)
+- Feature materialization: pre-compute and cache features for serving
+- Backfilling: compute historical features for training data
+
+**Data Quality**
+
+Key checks to automate:
+- Schema validation (correct types, required fields present)
+- Distribution checks (no unexpected spikes or drops)
+- Completeness (null rates below threshold)
+- Uniqueness (no duplicate rows)
+- Consistency (business rule validation)
+
+Tools: Great Expectations, Soda, Deequ (PySpark)
+🐙 [Great Expectations](https://github.com/great-expectations/great_expectations) ⭐
+
+---
+
+## Distributed Training
+
+**Why Distributed?**
+Large models don't fit on a single GPU. Training on billion-token datasets takes weeks on a single GPU. Distributed training is required for modern deep learning.
+
+**Data Parallelism (DP)**
+Same model on each device, different data. Gradients averaged across devices.
+`PyTorch: torch.nn.DataParallel` (deprecated) or `DistributedDataParallel (DDP)`.
+DDP is faster and preferred — each GPU has identical model copy, all-reduce for gradient synchronization.
+
+**Model Parallelism (MP)**
+Split model across devices. Required when model doesn't fit on one GPU.
+- **Pipeline parallelism**: different layers on different GPUs (Gpipe, PipeDream)
+- **Tensor parallelism**: split individual matrices (Megatron-LM splits attention heads across GPUs)
+
+**3D Parallelism (Megatron + DeepSpeed)**
+Combine data + pipeline + tensor parallelism. Used to train GPT-3, Megatron-Turing NLG (530B params).
+
+**ZeRO (Zero Redundancy Optimizer)**
+DeepSpeed ZeRO partitions optimizer states, gradients, and parameters across data-parallel workers. Dramatically reduces memory per GPU.
+- ZeRO-1: partition optimizer states
+- ZeRO-2: + partition gradients
+- ZeRO-3: + partition parameters (full sharding)
+🐙 [DeepSpeed](https://github.com/microsoft/DeepSpeed) ⭐
+
+**FSDP (Fully Sharded Data Parallel)**
+PyTorch native equivalent to ZeRO-3. Shards model parameters, gradients, and optimizer states across GPUs.
+🌐 [PyTorch FSDP docs](https://pytorch.org/docs/stable/fsdp.html)
+
+**Mixed Precision Training**
+Store weights in FP32, compute in FP16 (or BF16). Dynamic loss scaling to prevent underflow.
+BF16 (brain float): same exponent range as FP32, less precision — preferred over FP16 for training stability.
+`PyTorch: torch.cuda.amp.autocast()`
+
+**Gradient Accumulation**
+Simulate larger batch sizes by accumulating gradients over multiple forward passes before one optimizer step. Useful for limited GPU memory.
+
+**Distributed Training Frameworks**
+
+| Framework | Notes |
+|---|---|
+| PyTorch DDP | Standard PyTorch distributed |
+| DeepSpeed | ZeRO memory optimization, pipeline parallelism |
+| Megatron-LM | Tensor/pipeline parallelism for giant LMs |
+| FSDP | Native PyTorch full sharding |
+| Horovod | Uber's multi-framework distributed training |
+| JAX + pmap/jit | Google, functional, excellent TPU support |
+| Accelerate (HF) | Wrapper for DDP/FSDP/DeepSpeed |
+
+🐙 [Hugging Face Accelerate](https://github.com/huggingface/accelerate) ⭐ — simplifies multi-GPU/TPU training
+
+---
+
+# 🛠️ Frameworks and Libraries
+
+---
+
+## Core Frameworks
+
+**PyTorch**
+Facebook AI Research. Dynamic computation graphs (define-by-run). Pythonic, flexible, dominant in research and increasingly in production. Strong GPU/TPU support.
+🐙 [PyTorch](https://github.com/pytorch/pytorch) ⭐
+Key features: autograd, `nn.Module`, `torch.optim`, DataLoader, `torch.compile` (compiler), CUDA extensions.
+
+```python
+import torch
+import torch.nn as nn
+
+class MLP(nn.Module):
+    def __init__(self, input_dim, hidden_dim, output_dim):
+        super().__init__()
+        self.layers = nn.Sequential(
+            nn.Linear(input_dim, hidden_dim),
+            nn.GELU(),
+            nn.Linear(hidden_dim, output_dim)
+        )
+    
+    def forward(self, x):
+        return self.layers(x)
+
+model = MLP(784, 256, 10)
+optimizer = torch.optim.AdamW(model.parameters(), lr=1e-3)
+criterion = nn.CrossEntropyLoss()
+```
+
+**TensorFlow / Keras**
+Google Brain. Static graph (TF1) and eager mode (TF2). Keras high-level API for rapid prototyping. Strong production ecosystem (TF Serving, TFLite, TF.js). Dominant in industry.
+🐙 [TensorFlow](https://github.com/tensorflow/tensorflow) ⭐
+🐙 [Keras](https://github.com/keras-team/keras)
+
+**JAX**
+Google. NumPy API + composable function transformations: `grad`, `jit`, `vmap`, `pmap`. XLA compilation for hardware acceleration. Excellent for custom gradient computations and research. Growing rapidly in LLM training.
+🐙 [JAX](https://github.com/google/jax) ⭐
+🐙 [Flax](https://github.com/google/flax) — neural networks in JAX
+🐙 [Optax](https://github.com/google-deepmind/optax) — optimizers in JAX
+
+**PyTorch Lightning**
+High-level wrapper for PyTorch. Removes boilerplate, handles multi-GPU training, logging, checkpointing. Code becomes more organized and reproducible.
+🐙 [PyTorch Lightning](https://github.com/Lightning-AI/pytorch-lightning) ⭐
+
+**Hugging Face Transformers**
+Unified API for 200+ pre-trained Transformer models. Handles tokenization, model loading, fine-tuning, inference for NLP, vision, and multimodal models.
+🐙 [Transformers](https://github.com/huggingface/transformers) ⭐
+
+```python
+from transformers import AutoTokenizer, AutoModelForSequenceClassification
+import torch
+
+tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
+model = AutoModelForSequenceClassification.from_pretrained("bert-base-uncased")
+
+inputs = tokenizer("Hello, this is great!", return_tensors="pt")
+outputs = model(**inputs)
+logits = outputs.logits
+```
+
+---
+
+## NLP Libraries
+
+**Hugging Face Ecosystem**
+- 🐙 [Transformers](https://github.com/huggingface/transformers) — models
+- 🐙 [Datasets](https://github.com/huggingface/datasets) — data loading
+- 🐙 [Tokenizers](https://github.com/huggingface/tokenizers) — fast tokenization
+- 🐙 [Diffusers](https://github.com/huggingface/diffusers) — diffusion models
+- 🐙 [PEFT](https://github.com/huggingface/peft) — parameter-efficient fine-tuning
+- 🐙 [TRL](https://github.com/huggingface/trl) — RLHF training
+- 🐙 [Accelerate](https://github.com/huggingface/accelerate) — distributed training
+
+**spaCy**
+Industrial-strength NLP: tokenization, POS tagging, NER, dependency parsing, entity linking. Fast, production-ready. Supports 60+ languages.
+🐙 [spaCy](https://github.com/explosion/spaCy) ⭐
+
+**NLTK (Natural Language Toolkit)**
+Classic Python NLP library. Tokenization, stemming, lemmatization, corpora access. Good for learning and classical NLP.
+🐙 [NLTK](https://github.com/nltk/nltk)
+
+**Gensim**
+Topic modeling and word embeddings: Word2Vec, FastText, Doc2Vec, LDA.
+🐙 [Gensim](https://github.com/RaRe-Technologies/gensim)
+
+**AllenNLP**
+Research-focused NLP framework from AI2. State-of-the-art implementations of NLU models.
+🐙 [AllenNLP](https://github.com/allenai/allennlp)
+
+**LangChain**
+Framework for building LLM-powered applications: chains, agents, RAG pipelines, memory management.
+🐙 [LangChain](https://github.com/langchain-ai/langchain) ⭐
+
+**LlamaIndex**
+Data framework for LLM applications: document ingestion, indexing, querying, RAG.
+🐙 [LlamaIndex](https://github.com/run-llama/llama_index) ⭐
+
+**Sentence Transformers**
+Framework for sentence/text embeddings using BERT-like models. Essential for semantic search and RAG.
+🐙 [Sentence Transformers](https://github.com/UKPLab/sentence-transformers) ⭐
+
+---
+
+## CV Libraries
+
+**torchvision**
+PyTorch vision library: datasets (ImageNet, CIFAR), transforms (augmentation), pre-trained models (ResNet, ViT, EfficientNet).
+🐙 [torchvision](https://github.com/pytorch/vision)
+
+**timm (PyTorch Image Models)**
+Ross Wightman's collection of 700+ image models with pre-trained weights. The go-to library for image classification models.
+🐙 [timm](https://github.com/huggingface/pytorch-image-models) ⭐
+
+**OpenCV**
+Computer vision operations: I/O, filtering, feature detection, optical flow, camera calibration.
+🐙 [OpenCV](https://github.com/opencv/opencv) ⭐
+
+**Albumentations**
+Fast, flexible image augmentation. 70+ transforms, works with bounding boxes and masks.
+🐙 [Albumentations](https://github.com/albumentations-team/albumentations) ⭐
+
+**Detectron2 (Meta)**
+Object detection and segmentation platform: Faster R-CNN, Mask R-CNN, Panoptic FPN.
+🐙 [Detectron2](https://github.com/facebookresearch/detectron2)
+
+**MMDetection (OpenMMLab)**
+Comprehensive detection toolbox: 40+ models, strong benchmarking.
+🐙 [MMDetection](https://github.com/open-mmlab/mmdetection)
+
+**YOLOv8 (Ultralytics)**
+State-of-the-art, easy to use, supports detection/segmentation/classification/pose.
+🐙 [Ultralytics](https://github.com/ultralytics/ultralytics) ⭐
+
+**Kornia**
+Differentiable computer vision for PyTorch: spatial transformations, image processing, augmentation as neural layers.
+🐙 [Kornia](https://github.com/kornia/kornia)
+
+**Hugging Face Transformers (Vision)**
+ViT, Swin, DINO, SAM, CLIP, and more vision models via unified API.
+
+---
+
+## RL Libraries
+
+(→ Covered in [Notable RL Environments and Repos](#notable-rl-environments-and-repos))
+
+Additional tools:
+- 🐙 [OpenAI Gym / Gymnasium](https://github.com/Farama-Foundation/Gymnasium) ⭐
+- 🐙 [Stable Baselines 3](https://github.com/DLR-RM/stable-baselines3) ⭐
+- 🐙 [RLlib](https://github.com/ray-project/ray)
+
+---
+
+## Data Processing
+
+**NumPy**
+Foundation of Python scientific computing. N-dimensional arrays, broadcasting, linear algebra, FFT.
+🐙 [NumPy](https://github.com/numpy/numpy) ⭐
+
+**pandas**
+DataFrames for tabular data. Reading/writing (CSV, Parquet, SQL, Excel), cleaning, merging, groupby, time-series.
+🐙 [pandas](https://github.com/pandas-dev/pandas) ⭐
+
+**Polars**
+Modern DataFrame library in Rust. Faster than pandas for many operations, lazy evaluation, query optimization.
+🐙 [Polars](https://github.com/pola-rs/polars)
+
+**scikit-learn**
+Classical ML library: preprocessing, algorithms, model selection, metrics. Consistent API. Essential for tabular ML.
+🐙 [scikit-learn](https://github.com/scikit-learn/scikit-learn) ⭐
+
+**Apache Spark / PySpark**
+Distributed data processing. MLlib for distributed ML. Standard for big data pipelines.
+🐙 [PySpark](https://github.com/apache/spark)
+
+**Ray**
+Distributed Python framework. Ray Data (distributed preprocessing), Ray Train (distributed training), Ray Serve, Ray Tune.
+🐙 [Ray](https://github.com/ray-project/ray) ⭐
+
+**Dask**
+Parallel computing that scales pandas/NumPy to clusters. Lazy evaluation, familiar API.
+🐙 [Dask](https://github.com/dask/dask)
+
+---
+
+## Visualization Tools
+
+**matplotlib**
+The foundation of Python visualization. Static, highly customizable plots.
+🐙 [matplotlib](https://github.com/matplotlib/matplotlib)
+
+**seaborn**
+Statistical visualization built on matplotlib. Beautiful defaults, built-in statistical summaries.
+🐙 [seaborn](https://github.com/mwaskom/seaborn)
+
+**plotly**
+Interactive plots for web applications. Dash for full dashboards.
+🐙 [plotly](https://github.com/plotly/plotly.py) ⭐
+
+**TensorBoard**
+TensorFlow's visualization tool. Scalars, images, histograms, computation graphs, projector (embedding visualization). Also supported by PyTorch.
+🐙 [TensorBoard](https://github.com/tensorflow/tensorboard)
+
+**Weights & Biases**
+Full experiment tracking with interactive dashboards, model comparison, hyperparameter importance.
+🌐 [wandb.ai](https://wandb.ai) ⭐
+
+---
+
+## AutoML Tools
+
+**AutoGluon**
+Amazon's AutoML: state-of-the-art on tabular, image, text, and multimodal tasks with one `fit()` call.
+🐙 [AutoGluon](https://github.com/awslabs/autogluon) ⭐
+
+**H2O AutoML**
+Automatic model training and ensemble. Strong tabular AutoML.
+🐙 [H2O](https://github.com/h2oai/h2o-3)
+
+**TPOT**
+Tree-based pipeline optimization using genetic algorithms.
+🐙 [TPOT](https://github.com/EpistasisLab/tpot)
+
+**Optuna**
+Hyperparameter optimization framework with Bayesian and TPE samplers.
+🐙 [Optuna](https://github.com/optuna/optuna) ⭐
+
+**Ray Tune**
+Scalable distributed HPO, integrates with all major frameworks.
+🐙 [Ray Tune](https://docs.ray.io/en/latest/tune/index.html)
+
+---
+
+## Vector Databases
+
+(→ See [Vector Databases table](#vector-databases) in the RAG section)
+
+**FAISS (Facebook AI Similarity Search)**
+Efficient similarity search and clustering of dense vectors. CPU and GPU support. Exact and approximate search. The baseline for vector search.
+🐙 [FAISS](https://github.com/facebookresearch/faiss) ⭐
+
+**Qdrant**
+Production-ready vector search engine. Advanced filtering, payload storage, scalar and product quantization.
+🐙 [Qdrant](https://github.com/qdrant/qdrant) ⭐
+
+**Chroma**
+The simplest vector DB for RAG development. In-memory or persistent. Python and JavaScript.
+🐙 [Chroma](https://github.com/chroma-core/chroma)
+
+**Weaviate**
+Vector search + hybrid (BM25 + semantic) + generative search. Schema-based data model.
+🐙 [Weaviate](https://github.com/weaviate/weaviate)
+
+**pgvector**
+Vector similarity search extension for PostgreSQL. Perfect if you already use Postgres.
+🐙 [pgvector](https://github.com/pgvector/pgvector)
+
+**Milvus**
+Highly scalable, designed for billion-scale vector search. Multiple index types (HNSW, IVF, DiskANN).
+🐙 [Milvus](https://github.com/milvus-io/milvus)
+
+---
