@@ -3,7 +3,7 @@
 > A comprehensive, curated repository of Artificial Intelligence knowledge — concepts, algorithms, architectures, tools, papers, repos, datasets, and communities. Built in the spirit of the **Awesome List** tradition.
 
 [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
-![Lines](https://img.shields.io/badge/lines-8000%2B-blue)
+![Lines](https://img.shields.io/badge/lines-4500%2B-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Last Updated](https://img.shields.io/badge/updated-2025-brightgreen)
 
